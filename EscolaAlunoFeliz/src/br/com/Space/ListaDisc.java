@@ -11,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 import br.com.ClassesInternas.Aluno;
 import br.com.ClassesInternas.Curso;
 import br.com.ClassesInternas.Disciplina;
+import br.com.ClassesInternas.Professor;
 import br.com.ClassesInternas.Solicitação;
 import br.com.Conexão.BancoDeDados;
 
@@ -43,7 +44,7 @@ public class ListaDisc extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ListaDisc frame = new ListaDisc(new Aluno("NomeAluno", "cpf", "telefone", "Endereço", "usuario", "senha", new Curso("NomeCurso",8), null));
+					ListaDisc frame = new ListaDisc();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -52,10 +53,7 @@ public class ListaDisc extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
-	public ListaDisc(Aluno aluno) {
+	public ListaDisc() {
 		setType(Type.UTILITY);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -70,7 +68,12 @@ public class ListaDisc extends JFrame {
 		panel_1.setBounds(0, 0, 434, 43);
 		contentPane.add(panel_1);
 		panel_1.setLayout(null);
-
+		
+		JPanel panel = new JPanel();
+		panel.setBounds(296, 2, 135, 40);
+		panel_1.add(panel);
+		panel.setLayout(null);
+		
 		JLabel lblDisciplina = new JLabel("Disciplinas");
 		lblDisciplina.setFont(new Font("Traditional Arabic", Font.PLAIN, 16));
 		lblDisciplina.setHorizontalAlignment(SwingConstants.CENTER);
@@ -79,7 +82,7 @@ public class ListaDisc extends JFrame {
 		
 		JLabel lblFiltro = new JLabel("Filtro");
 		lblFiltro.setHorizontalAlignment(SwingConstants.CENTER);
-		lblFiltro.setBounds(237, 16, 46, 14);
+		lblFiltro.setBounds(111, 16, 46, 14);
 		panel_1.add(lblFiltro);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -89,49 +92,60 @@ public class ListaDisc extends JFrame {
 		DefaultTableModel modelo = new DefaultTableModel();
 		table = new JTable(modelo);
 		scrollPane.setColumnHeaderView(table);
-		
-		JComboBox comboBox_1 = new JComboBox(new Object[]{});
-		comboBox_1.setSelectedIndex(0);
-		comboBox_1.setBounds(280, 13, 67, 20);
-		panel_1.add(comboBox_1);
-		
-		String[] sem = new String[1+aluno.getCurso().getQtdSemestres()];
-		sem[0] = "Semestre";
-		for(int i = 1; i<=aluno.getCurso().getQtdSemestres(); i++){
-			sem[i] = "" + (i) +"º Semestre";
+			
+		ArrayList<Curso> listaCursos = BancoDeDados.getCursos();		
+		String[] cursos = new String[1+listaCursos.size()];
+		cursos[0] = "Curso";
+		int i = 1;
+		for (Curso c : listaCursos) {
+			cursos[i] = c.getNome();
+			i++;
 		}
-		JComboBox comboBox = new JComboBox(sem);
-		comboBox.setSelectedIndex(0);
-		comboBox.addActionListener(new ActionListener() {
+		
+		JComboBox comboBox_1 = new JComboBox(cursos);
+		comboBox_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				for(int i = 1; i<=aluno.getCurso().getQtdSemestres(); i++){
-					if(comboBox.getSelectedItem().equals(sem[i])){
-						DefaultTableModel modelo = new DefaultTableModel();
-						table = new JTable(modelo);
-						scrollPane.setViewportView(table);
+				for (Curso curso : listaCursos) {
+					if( comboBox_1.getSelectedItem().equals(curso.getNome())){
+						panel.removeAll();
 						
-						//TODO retirar a parte de teste e descomentar esta parte
-//						ArrayList<Disciplina> lista = BancoDeDados.getDisciplinas(aluno.getCurso().getNome(),i);
-//						modelo.addColumn("Código");
-//						modelo.addColumn("Nome");
-//						modelo.addColumn("Professor");
-//						for(Disciplina d:lista){
-//							modelo.addRow(new Object[]{d.getCodigo(),d.getNome(),d.getProfessor()});
-//						}
-							///teste
-							modelo.addColumn("Código");
-							modelo.addColumn("Nome");
-							modelo.addColumn("Professor");
-							for(int j = 0; j<20; j++){
-								modelo.addRow(new Object[]{"1234"+i,"Bando De Dados" +i,"José"});
-								modelo.addRow(new Object[]{"2333"+i,"Programas" +i,"Paulo"});
+						String[] sem = new String[1+curso.getQtdSemestres()];
+						sem[0] = "Semestre";
+						for(int i = 1; i<sem.length; i++){
+							sem[i] = "" + (i) +"º Semestre";
+						}
+						JComboBox comboBox = new JComboBox(sem);
+						comboBox.setSelectedIndex(0);
+						comboBox.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								for(int i = 1; i<sem.length; i++){
+									if(comboBox.getSelectedItem().equals(sem[i])){
+										DefaultTableModel modelo = new DefaultTableModel();
+										table = new JTable(modelo);
+										scrollPane.setViewportView(table);
+										
+										ArrayList<Disciplina> lista = BancoDeDados.getDisciplinas(curso.getNome(),i);
+										modelo.addColumn("Código");
+										modelo.addColumn("Nome");
+										modelo.addColumn("Professor");
+										for(Disciplina d:lista){
+											modelo.addRow(new Object[]{d.getCodigo(),d.getNome(),d.getProfessor().getNome()});
+										}
+									}
+								}
 							}
+						});
+						comboBox.setBounds(2, 12, 130, 23);
+						panel.add(comboBox);
+					break;
 					}
 				}
+				
+				
 			}
 		});
-		comboBox.setBounds(357, 13, 67, 20);
-		panel_1.add(comboBox);
-		
+		comboBox_1.setSelectedIndex(0);
+		comboBox_1.setBounds(150, 15, 141, 20);
+		panel_1.add(comboBox_1);
 	}
 }

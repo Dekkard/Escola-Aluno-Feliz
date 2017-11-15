@@ -78,11 +78,6 @@ public class TrancDisc extends JFrame {
 		lblDisciplina.setBounds(10, 11, 91, 25);
 		panel_1.add(lblDisciplina);
 		
-		JLabel lblFiltro = new JLabel("Filtro");
-		lblFiltro.setHorizontalAlignment(SwingConstants.CENTER);
-		lblFiltro.setBounds(301, 16, 46, 14);
-		panel_1.add(lblFiltro);
-		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 54, 414, 169);
 		contentPane.add(scrollPane);
@@ -91,45 +86,26 @@ public class TrancDisc extends JFrame {
 		table = new JTable(modelo);
 		scrollPane.setColumnHeaderView(table);
 		
-		String[] sem = new String[1+aluno.getCurso().getQtdSemestres()];
-		sem[0] = "";
-		for(int i = 1; i<=aluno.getCurso().getQtdSemestres(); i++){
-			sem[i] = "" + (i) +"º Semestre";
-		}
-		JComboBox comboBox = new JComboBox(sem);
-		comboBox.setSelectedIndex(0);
-		comboBox.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				for(int i = 1; i<=aluno.getCurso().getQtdSemestres(); i++){
-					if(comboBox.getSelectedItem().equals(sem[i])){
-						DefaultTableModel modelo = new DefaultTableModel();
-						table = new JTable(modelo);
-						scrollPane.setViewportView(table);
-						
-						//TODO retirar a parte de teste e descomentar esta parte
-//						ArrayList<Disciplina> lista = BancoDeDados.getDisciplinas(aluno.getCurso().getNome(),i);
-//						modelo.addColumn("Código");
-//						modelo.addColumn("Nome");
-//						modelo.addColumn("Professor");
-//						for(Disciplina d:lista){
-//							modelo.addRow(new Object[]{d.getCodigo(),d.getNome(),d.getProfessor()});
-//						}
-							///teste
-							modelo.addColumn("Código");
-							modelo.addColumn("Nome");
-							modelo.addColumn("Professor");
-							for(int j = 0; j<20; j++){
-								modelo.addRow(new Object[]{"1234"+i,"Bando De Dados" +i,"José"});
-								modelo.addRow(new Object[]{"2333"+i,"Programas" +i,"Paulo"});
-							}
-					}
-				}
+		//TODO retirar a parte de teste e descomentar esta parte
+//		ArrayList<Disciplina> lista = BancoDeDados.getDisciplinas(aluno);
+//		modelo.addColumn("Código");
+//		modelo.addColumn("Nome");
+//		modelo.addColumn("Professor");
+//		modelo.addColumn("Semestre");
+//		for(Disciplina d:lista){
+//			modelo.addRow(new Object[]{d.getCodigo(),d.getNome(),d.getProfessor().getNome(),d.getSemestre()});
+//		}
+			///teste
+			modelo.addColumn("Código");
+			modelo.addColumn("Nome");
+			modelo.addColumn("Professor");
+			modelo.addColumn("Semestre");
+			for(int j = 0; j<20; j++){
+				modelo.addRow(new Object[]{"1234"+j,"Bando De Dados" +j,"José",3});
+				modelo.addRow(new Object[]{"2333"+j,"Programas" +j,"Paulo",2});
 			}
-		});
-		comboBox.setBounds(357, 13, 67, 20);
-		panel_1.add(comboBox);
 		
-		JLabel lblDigiteOCdigo = new JLabel("Digite o c\u00F3digo da disciplina em que deseja se cadastrar:");
+		JLabel lblDigiteOCdigo = new JLabel("Digite o c\u00F3digo da disciplina que deseja trancar:");
 		lblDigiteOCdigo.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		lblDigiteOCdigo.setBounds(10, 234, 286, 14);
 		contentPane.add(lblDigiteOCdigo);
@@ -145,7 +121,7 @@ public class TrancDisc extends JFrame {
 				Disciplina d = BancoDeDados.getDisciplina(textField.getText());
 				if(d!=null){
 					JOptionPane.showConfirmDialog(null,
-							BancoDeDados.inserir(new Solicitação(null,"Cadastro",null,aluno,d)),
+							BancoDeDados.inserir(new Solicitação(null,"Trancamento",null,aluno,d)),
 							null,2);
 				}
 				else

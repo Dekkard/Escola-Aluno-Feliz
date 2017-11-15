@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -25,6 +26,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import br.com.ClassesInternas.Aluno;
+import br.com.ClassesInternas.Curso;
 import br.com.ClassesInternas.Professor;
 import br.com.ClassesInternas.Solicitação;
 import br.com.Conexão.BancoDeDados;
@@ -56,8 +58,9 @@ public class SpaceAdm extends JFrame {
 	private JTextField textField_10;
 	private JTextField textField_11;
 	private JTextField textField_12;
-	private JTextField textField_13;
 	private JTextField textField_14;
+	private JComboBox comboBox_1;
+	private JComboBox comboBox_2;
 	private JTable table;
 
 	/**
@@ -187,39 +190,52 @@ public class SpaceAdm extends JFrame {
 		textField_3.setBounds(134, 108, 86, 20);
 		panel_8.add(textField_3);
 		
+		ArrayList<Curso> listaCursos = BancoDeDados.getCursos();		
+		String[] cursos = new String[1+listaCursos.size()];
+		cursos[0] = "Curso";
+		int i = 1;
+		for (Curso c : listaCursos) {
+			cursos[i] = c.getNome();
+			i++;
+		}
+		
+		comboBox_1 = new JComboBox(cursos);
+		comboBox_1.setSelectedIndex(0);
+		comboBox_1.setBounds(134, 133, 86, 20);
+		panel_8.add(comboBox_1);
+		
 		JButton btn1k = new JButton("Ok");
 		btn1k.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Aluno a = new Aluno(
-						textField_1.getText(),
-						textField.getText(),
-						textField_2.getText(),
-						textField_3.getText(),
-						textField_1.getText(),
-						textField_1.getText(),
-						BancoDeDados.getCurso(textField_13.getText()),
-						null
-						);
-				if(BancoDeDados.existeAluno(a.getCpf())==1){
-					int op = JOptionPane.showConfirmDialog(null, "O CPF já está cadastrado. O que deseja fazer?");
-					if (op == 0){
-						BancoDeDados.atualizar(a);
+				if(BancoDeDados.existeCurso((String) comboBox_1.getSelectedItem())){
+					Aluno a = new Aluno(
+							textField_1.getText(),
+							textField.getText(),
+							textField_2.getText(),
+							textField_3.getText(),
+							textField_1.getText(),
+							textField_1.getText(),
+							BancoDeDados.getCurso((String) comboBox_1.getSelectedItem()),
+							null
+							);
+					if(BancoDeDados.existeAluno(a.getCpf())){
+						int op = JOptionPane.showConfirmDialog(null, "O CPF já está cadastrado. O que deseja fazer?");
+						if (op == 0){
+							BancoDeDados.atualizar(a);
+						}
+						else if(op==1){
+							JOptionPane.showConfirmDialog(null, BancoDeDados.excluir(a),"Resultado da exclusão",2);
+						}
 					}
-					else if(op==1){
-						JOptionPane.showConfirmDialog(null, BancoDeDados.excluir(a),"Resultado da exclusão",2);
-					}
+					else
+						JOptionPane.showConfirmDialog(null, BancoDeDados.inserir(a),"Resultado da inserção",2);
 				}
 				else
-					JOptionPane.showConfirmDialog(null, BancoDeDados.inserir(a),"Resultado da inserção",2);
+					JOptionPane.showMessageDialog(null, "Curso inexistente!","Erro",0);
 			}
 		});
 		btn1k.setBounds(229, 148, 53, 23);
 		panel_8.add(btn1k);
-		
-		textField_13 = new JTextField();
-		textField_13.setColumns(10);
-		textField_13.setBounds(134, 133, 86, 20);
-		panel_8.add(textField_13);
 		
 		JLabel lblCurso = new JLabel("Curso");
 		lblCurso.setBounds(43, 136, 68, 14);
@@ -311,7 +327,7 @@ public class SpaceAdm extends JFrame {
 						textField_6.getText(),
 						textField_6.getText()
 						);
-				if(BancoDeDados.existeProfessor(p.getCodigo())==1){
+				if(BancoDeDados.existeProfessor(p.getCodigo())){
 					int op = JOptionPane.showConfirmDialog(null, "O CPF já está cadastrado. O que deseja fazer?");
 					if (op == 0){
 						BancoDeDados.atualizar(p);
@@ -385,6 +401,23 @@ panel_2.add(panel_6);
 		lblNewLabel.setBounds(316, 60, 107, 23);
 		panel_6.add(lblNewLabel);
 		JButton btnNewButton = new JButton("Cadastrar aluno");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(BancoDeDados.existeSolicitacao(textField_14.getText())){
+					Solicitação s = BancoDeDados.getSolicitação(textField_14.getText());
+					if(BancoDeDados.existeMatricula(s)){
+						JOptionPane.showConfirmDialog(null, BancoDeDados.mudarSituacaoMatricula(s, "Em curso"),"Resultado da matricula",2);
+					}
+				
+					//Matricula não existe, deve-se criar uma
+					else{
+						JOptionPane.showConfirmDialog(null, BancoDeDados.matricular(s),"Resultado da matricula",2);
+					}
+				}
+				else
+					JOptionPane.showMessageDialog(null, "Solicitação inexistente!","Erro",0);
+			}
+		});
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 9));
 		btnNewButton.setBounds(316, 111, 105, 23);
 		panel_6.add(btnNewButton);
@@ -460,32 +493,22 @@ panel_2.add(panel_6);
 				table = new JTable(modelo);
 				scrollPane.setViewportView(table);
 				
-				//TODO retirar a parte de teste e descomentar esta parte
-//				ArrayList<Solicitação> lista = BancoDeDados.getSolicitações();
-//				modelo.addColumn("Código");
-//				modelo.addColumn("Tipo");
-//				modelo.addColumn("Data");
-//				modelo.addColumn("CPF Aluno");
-//				modelo.addColumn("código Disciplina");
-//				for(Solicitação s:lista){
-//					modelo.addRow(new Object[]{s.getCodigo(),s.getTipo(),s.getData(),s.getAluno().getCpf(),s.getDisciplina().getCodigo()});
-//				}
-					///teste
-					modelo.addColumn("Código");
-					modelo.addColumn("Tipo");
-					modelo.addColumn("Data");
-					modelo.addColumn("CPF Aluno");
-					modelo.addColumn("código Disciplina");
-					for(int i = 0; i<20; i++){
-						modelo.addRow(new Object[]{"1234","cadastramento","01 de 02 de 2018","1221","1111"});
-						modelo.addRow(new Object[]{"2333","trancamento","01 de 02 de 2018","4444","2222"});
-					}
+				ArrayList<Solicitação> lista = BancoDeDados.getSolicitações();
+				modelo.addColumn("Código");
+				modelo.addColumn("Tipo");
+				modelo.addColumn("Data");
+				modelo.addColumn("CPF Aluno");
+				modelo.addColumn("código Disciplina");
+				for(Solicitação s:lista){
+					modelo.addRow(new Object[]{s.getCodigo(),s.getTipo(),s.getData(),s.getAluno().getCpf(),s.getDisciplina().getCodigo()});
+				}
 			}
 		});
 		
 		JButton button = new JButton("Disciplinas");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				(new ListaDisc()).main(null);
 			}
 		});
 		GridBagConstraints gbc_button = new GridBagConstraints();
@@ -506,7 +529,5 @@ panel_2.add(panel_6);
 		gbc_btnConta.gridx = 0;
 		gbc_btnConta.gridy = 5;
 		panel.add(btnConta, gbc_btnConta);
-		
-		
 	}
 }

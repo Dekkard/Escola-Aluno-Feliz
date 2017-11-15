@@ -86,7 +86,7 @@ public class LoginAluno extends JFrame {
 		JButton btnEntrar = new JButton("Entrar");
 		btnEntrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Aluno aluno = BancoDeDados.getAluno(textField.getText(),passwordField.getText());
+				Aluno aluno = BancoDeDados.loginAluno(textField.getText(),passwordField.getText());
 				if( aluno != null ){
 					SpaceAluno frame = new SpaceAluno(aluno);
 					frame.setVisible(true);

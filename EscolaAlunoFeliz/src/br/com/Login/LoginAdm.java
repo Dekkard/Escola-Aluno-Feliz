@@ -99,7 +99,7 @@ public class LoginAdm extends JFrame {
 		JButton button = new JButton("Entrar");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (BancoDeDados.entrarComoAdm(textField.getText(),passwordField.getText())) {
+				if (BancoDeDados.loginAdm(textField.getText(),passwordField.getText())) {
 					SpaceAdm frame = new SpaceAdm();
 					frame.setVisible(true);
 					dispose();

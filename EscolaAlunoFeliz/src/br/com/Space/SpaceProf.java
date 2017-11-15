@@ -8,6 +8,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,14 +20,27 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
+import br.com.ClassesInternas.Curso;
+import br.com.ClassesInternas.Disciplina;
+import br.com.ClassesInternas.Nota;
 import br.com.ClassesInternas.Professor;
+import br.com.ClassesInternas.Recado;
+import br.com.Conexão.BancoDeDados;
 import br.com.Login.Selection;
+import javax.swing.JTextField;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JComboBox;
 
 @SuppressWarnings("all")
 public class SpaceProf extends JFrame {
 
 	private JPanel contentPane;
+	private JTable table;
+	private JTextField textField_1;
+	private JTextField textField_2;
 
 	/**
 	 * Launch the application.
@@ -35,8 +49,7 @@ public class SpaceProf extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Professor prof = new Professor();
-					SpaceProf frame = new SpaceProf(prof);
+					SpaceProf frame = new SpaceProf(new Professor("Prof 1","cpf","tel","endereço","CodigoProf"));
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -101,111 +114,70 @@ public class SpaceProf extends JFrame {
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		contentPane.add(panel_1, BorderLayout.CENTER);
-		panel_1.setLayout(new BorderLayout(0, 0));
+		panel_1.setLayout(null);
 		
 		JLabel label = new JLabel(" ");
+		label.setBounds(2, 2, 449, 29);
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		label.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		panel_1.add(label, BorderLayout.NORTH);
+		panel_1.add(label);
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		panel_1.add(panel_2, BorderLayout.CENTER);
+		panel_2.setBounds(2, 31, 441, 54);
+		panel_1.add(panel_2);
 		panel_2.setLayout(null);
 		
+		JPanel panel_6 = new JPanel();
+		panel_6.setLayout(null);
+		panel_6.setBounds(0, 0, 441, 54);
+		panel_2.add(panel_6);
+		
 		JPanel panel_3 = new JPanel();
-		panel_3.setBounds(10, 11, 427, 193);
+		panel_3.setLayout(null);
+		panel_3.setBounds(0, 0, 441, 54);
 //		panel_2.add(panel_3);
-		GridBagLayout gbl_panel_3 = new GridBagLayout();
-		gbl_panel_3.columnWidths = new int[]{0, 0, 0};
-		gbl_panel_3.rowHeights = new int[]{0, 0};
-		gbl_panel_3.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		gbl_panel_3.rowWeights = new double[]{0.0, Double.MIN_VALUE};
-		panel_3.setLayout(gbl_panel_3);
 		
-		JLabel lblDisciplina = new JLabel("Disciplina");
-		GridBagConstraints gbc_lblDisciplina = new GridBagConstraints();
-		gbc_lblDisciplina.insets = new Insets(0, 0, 0, 5);
-		gbc_lblDisciplina.gridx = 0;
-		gbc_lblDisciplina.gridy = 0;
-		panel_3.add(lblDisciplina, gbc_lblDisciplina);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(2, 86, 449, 163);
+		panel_1.add(scrollPane);
 		
-		JLabel lblTurma = new JLabel("Turma");
-		GridBagConstraints gbc_lblTurma = new GridBagConstraints();
-		gbc_lblTurma.gridx = 1;
-		gbc_lblTurma.gridy = 0;
-		panel_3.add(lblTurma, gbc_lblTurma);
+		table = new JTable();
+		scrollPane.setColumnHeaderView(table);
 		
 		JPanel panel_4 = new JPanel();
-		panel_4.setBounds(10, 11, 427, 193);
+		panel_4.setBounds(0, 0, 441, 54);
 //		panel_2.add(panel_4);
-		GridBagLayout gbl_panel_4 = new GridBagLayout();
-		gbl_panel_4.columnWidths = new int[]{0, 0, 0};
-		gbl_panel_4.rowHeights = new int[]{0, 0};
-		gbl_panel_4.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		gbl_panel_4.rowWeights = new double[]{0.0, Double.MIN_VALUE};
-		panel_4.setLayout(gbl_panel_4);
-		
-		JLabel lblTurma_1 = new JLabel("Turma");
-		GridBagConstraints gbc_lblTurma_1 = new GridBagConstraints();
-		gbc_lblTurma_1.insets = new Insets(0, 0, 0, 5);
-		gbc_lblTurma_1.gridx = 0;
-		gbc_lblTurma_1.gridy = 0;
-		panel_4.add(lblTurma_1, gbc_lblTurma_1);
-		
-		JLabel lblAo = new JLabel("A\u00E7\u00E3o");
-		GridBagConstraints gbc_lblAo = new GridBagConstraints();
-		gbc_lblAo.gridx = 1;
-		gbc_lblAo.gridy = 0;
-		panel_4.add(lblAo, gbc_lblAo);
+		panel_4.setLayout(null);
+
+		JLabel label_2 = new JLabel("Filtro");
+		label_2.setHorizontalAlignment(SwingConstants.CENTER);
+		label_2.setBounds(80, 15, 46, 14);
+		panel_4.add(label_2);
 		
 		JPanel panel_5 = new JPanel();
-		panel_5.setBounds(10, 11, 427, 193);
+		panel_5.setLayout(null);
+		panel_5.setBounds(0, 0, 441, 54);
 //		panel_2.add(panel_5);
-		GridBagLayout gbl_panel_5 = new GridBagLayout();
-		gbl_panel_5.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_panel_5.rowHeights = new int[]{0, 0, 0};
-		gbl_panel_5.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_panel_5.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		panel_5.setLayout(gbl_panel_5);
 		
-		JLabel lblRecados = new JLabel("Recados");
-		GridBagConstraints gbc_lblRecados = new GridBagConstraints();
-		gbc_lblRecados.insets = new Insets(0, 0, 5, 5);
-		gbc_lblRecados.gridx = 1;
-		gbc_lblRecados.gridy = 0;
-		panel_5.add(lblRecados, gbc_lblRecados);
+		JLabel lblDigiteOCdigo = new JLabel("C\u00F3digo do recado para apagar:");
+		lblDigiteOCdigo.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblDigiteOCdigo.setBounds(180, 2, 158, 14);
+		panel_5.add(lblDigiteOCdigo);
 		
-		JButton btnEscrever = new JButton("Escrever");
-		GridBagConstraints gbc_btnEscrever = new GridBagConstraints();
-		gbc_btnEscrever.insets = new Insets(0, 0, 0, 5);
-		gbc_btnEscrever.gridx = 11;
-		gbc_btnEscrever.gridy = 1;
-		panel_5.add(btnEscrever, gbc_btnEscrever);
+		textField_2 = new JTextField();
+		textField_2.setColumns(10);
+		textField_2.setBounds(340, 0, 89, 17);
+		panel_5.add(textField_2);
 		
-		JPanel panel_6 = new JPanel();
-		panel_6.setBounds(10, 11, 427, 193);
-//		panel_2.add(panel_6);
-		GridBagLayout gbl_panel_6 = new GridBagLayout();
-		gbl_panel_6.columnWidths = new int[]{0, 0, 0};
-		gbl_panel_6.rowHeights = new int[]{0, 0, 0};
-		gbl_panel_6.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		gbl_panel_6.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		panel_6.setLayout(gbl_panel_6);
-		
-		JLabel lblDiasDaSemana = new JLabel("Dias da Semana");
-		GridBagConstraints gbc_lblDiasDaSemana = new GridBagConstraints();
-		gbc_lblDiasDaSemana.insets = new Insets(0, 0, 5, 0);
-		gbc_lblDiasDaSemana.gridx = 1;
-		gbc_lblDiasDaSemana.gridy = 0;
-		panel_6.add(lblDiasDaSemana, gbc_lblDiasDaSemana);
-		
-		JLabel lblHorrio = new JLabel("Hor\u00E1rio");
-		GridBagConstraints gbc_lblHorrio = new GridBagConstraints();
-		gbc_lblHorrio.insets = new Insets(0, 0, 0, 5);
-		gbc_lblHorrio.gridx = 0;
-		gbc_lblHorrio.gridy = 1;
-		panel_6.add(lblHorrio, gbc_lblHorrio);
+		JButton btnEscreverNovo = new JButton("Escrever novo");
+		btnEscreverNovo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO Criar novo panel para criar recado
+			}
+		});
+		btnEscreverNovo.setBounds(10, 19, 115, 23);
+		panel_5.add(btnEscreverNovo);
 		
 		JPanel panel_7 = new JPanel();
 		panel_7.setBounds(10, 11, 427, 193);
@@ -219,6 +191,8 @@ public class SpaceProf extends JFrame {
 		JButton btnInformao = new JButton("Informa\u00E7\u00E3o");
 		btnInformao.setBounds(10, 45, 106, 23);
 		panel_7.add(btnInformao);
+
+		
 		
 		JButton btnDisciplinas = new JButton("Disciplinas");
 		btnDisciplinas.addActionListener(new ActionListener() {
@@ -227,6 +201,28 @@ public class SpaceProf extends JFrame {
 				panel_2.removeAll();
 				panel_2.repaint();
 				panel_2.add(panel_3);
+				
+				DefaultTableModel modelo = new DefaultTableModel();
+				table = new JTable(modelo);
+				scrollPane.setViewportView(table);
+				//TODO retirar a parte de teste e descomentar esta parte
+//				ArrayList<Disciplina> lista = BancoDeDados.getDisciplinas(prof);
+//				modelo.addColumn("Código");
+//				modelo.addColumn("Nome");
+//				modelo.addColumn("Professor");
+//				modelo.addColumn("Semestre");
+//				for(Disciplina d:lista){
+//					modelo.addRow(new Object[]{d.getCodigo(),d.getNome(),d.getProfessor().getNome(),d.getSemestre()});
+//				}
+				///teste
+				modelo.addColumn("Código");
+				modelo.addColumn("Nome");
+				modelo.addColumn("Professor");
+				modelo.addColumn("Semestre");
+				for(int j = 0; j<20; j++){
+					modelo.addRow(new Object[]{"1234"+j,"Bando De Dados" +j,"José",2});
+					modelo.addRow(new Object[]{"2333"+j,"Programas" +j,"Paulo",3});
+				}
 			}
 		});
 		GridBagConstraints gbc_btnDisciplinas = new GridBagConstraints();
@@ -236,21 +232,76 @@ public class SpaceProf extends JFrame {
 		gbc_btnDisciplinas.gridy = 0;
 		panel.add(btnDisciplinas, gbc_btnDisciplinas);
 		
-		JButton btnTurmas = new JButton("Turmas");
-		btnTurmas.addActionListener(new ActionListener() {
+		//TODO retirar a parte de teste e descomentar esta parte
+//		ArrayList<Disciplina> disciplinas = prof.getDisciplinas();
+			//teste
+			ArrayList<Disciplina> disciplinas = new ArrayList<>();
+			disciplinas.add(new Disciplina("123", "Cálculo 1", prof,null, 1));
+			disciplinas.add(new Disciplina("124", "Cálculo 1", prof,null, 1));
+			disciplinas.add(new Disciplina("125", "Bando de dados", prof,null, 2));
+			disciplinas.add(new Disciplina("126", "Cálculo 2", prof,null, 2));
+			disciplinas.add(new Disciplina("127", "Cálculo 3", prof,null, 3));
+			disciplinas.add(new Disciplina("128", "Fiscica 3", prof,null, 3));
+			disciplinas.add(new Disciplina("129", "Fisica 2", prof,null, 2));
+			disciplinas.add(new Disciplina("130", "Fisica 1", prof,null, 1));
+			disciplinas.add(new Disciplina("131", "Fisica 3", prof,null, 3));
+		
+		String[] disc = new String[1+disciplinas.size()];
+		disc[0] = "Disciplinas";
+		int i = 1;
+		for (Disciplina d : disciplinas) {
+			disc[i] = d.getNome();
+			i++;
+		}
+		
+		JButton btnNotas = new JButton("Notas");
+		btnNotas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				label.setText("Turmas");
+				label.setText("Notas");
 				panel_2.removeAll();
 				panel_2.repaint();
 				panel_2.add(panel_4);
+				table = new JTable();
+				scrollPane.setViewportView(table);
+				
+				JComboBox comboBox = new JComboBox(disc);
+				comboBox.setSelectedIndex(0);
+				comboBox.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						for(int i = 1; i<disc.length; i++){
+							if(comboBox.getSelectedItem().equals(disc[i])){
+								DefaultTableModel modelo = new DefaultTableModel();
+								table = new JTable(modelo);
+								scrollPane.setViewportView(table);
+								
+								//TODO retirar a parte de teste e descomentar esta parte
+//								ArrayList<Nota> lista = BancoDeDados.getNotas(disciplinas);
+//								modelo.addColumn("Disciplina");
+//								modelo.addColumn("Nota");
+//								for(Nota n:lista){
+//									modelo.addRow(new Object[]{n.getDisciplina().getNome(),n.getNota()});
+//								}
+									///teste
+									modelo.addColumn("Disciplina");
+									modelo.addColumn("Nota");
+									for(int j = 0; j<20; j++){
+										modelo.addRow(new Object[]{"cs",9.99});
+										modelo.addRow(new Object[]{"modelagem",8.25});
+									}
+							}
+						}
+					}
+				});
+				comboBox.setBounds(148, 15, 141, 20);
+				panel_4.add(comboBox);
 			}
 		});
-		GridBagConstraints gbc_btnTurmas = new GridBagConstraints();
-		gbc_btnTurmas.fill = GridBagConstraints.BOTH;
-		gbc_btnTurmas.insets = new Insets(0, 0, 5, 0);
-		gbc_btnTurmas.gridx = 0;
-		gbc_btnTurmas.gridy = 1;
-		panel.add(btnTurmas, gbc_btnTurmas);
+		GridBagConstraints gbc_btnNotas = new GridBagConstraints();
+		gbc_btnNotas.fill = GridBagConstraints.BOTH;
+		gbc_btnNotas.insets = new Insets(0, 0, 5, 0);
+		gbc_btnNotas.gridx = 0;
+		gbc_btnNotas.gridy = 1;
+		panel.add(btnNotas, gbc_btnNotas);
 		
 		JButton btnRecados = new JButton("Recados");
 		btnRecados.addActionListener(new ActionListener() {
@@ -259,6 +310,28 @@ public class SpaceProf extends JFrame {
 				panel_2.removeAll();
 				panel_2.repaint();
 				panel_2.add(panel_5);
+				
+				DefaultTableModel modelo = new DefaultTableModel();
+				table = new JTable(modelo);
+				scrollPane.setViewportView(table);
+				
+				//TODO retirar a parte de teste e descomentar esta parte
+//				ArrayList<Recado> lista = BancoDeDados.getRecados(prof);
+//				modelo.addColumn("Recado");
+//				modelo.addColumn("Data");
+//				modelo.addColumn("Aluno");
+//				for(Recado c:lista){
+//					modelo.addRow(new Object[]{c.getRecado(),c.getData(),c.getAluno().getNome()});
+//				}
+				
+					///teste
+					modelo.addColumn("Recado");
+					modelo.addColumn("Data");
+					modelo.addColumn("Aluno");
+					for(int i = 0; i<20; i++){
+						modelo.addRow(new Object[]{"Olar","12 do 03 de 2004", "Joãozinho"});
+						modelo.addRow(new Object[]{"Tudo bem","04 do 05 de 1967", "Mariazinha"});
+					}
 			}
 		});
 		GridBagConstraints gbc_btnRecados = new GridBagConstraints();
@@ -268,21 +341,16 @@ public class SpaceProf extends JFrame {
 		gbc_btnRecados.gridy = 2;
 		panel.add(btnRecados, gbc_btnRecados);
 		
-		JButton btnCalendrio = new JButton("Calend\u00E1rio");
-		btnCalendrio.addActionListener(new ActionListener() {
+		JButton btnApagar = new JButton("Apagar");
+		btnApagar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				label.setText("Calendário");
-				panel_2.removeAll();
-				panel_2.repaint();
-				panel_2.add(panel_6);
+				BancoDeDados.excluir(new Recado(textField_2.getText()));
+				table = new JTable();
+				scrollPane.setViewportView(table);
 			}
 		});
-		GridBagConstraints gbc_btnCalendrio = new GridBagConstraints();
-		gbc_btnCalendrio.fill = GridBagConstraints.BOTH;
-		gbc_btnCalendrio.insets = new Insets(0, 0, 5, 0);
-		gbc_btnCalendrio.gridx = 0;
-		gbc_btnCalendrio.gridy = 3;
-		panel.add(btnCalendrio, gbc_btnCalendrio);
+		btnApagar.setBounds(340, 19, 89, 23);
+		panel_5.add(btnApagar);
 		
 		JButton btnConta = new JButton("Conta");
 		btnConta.addActionListener(new ActionListener() {
@@ -298,7 +366,5 @@ public class SpaceProf extends JFrame {
 		gbc_btnConta.gridx = 0;
 		gbc_btnConta.gridy = 5;
 		panel.add(btnConta, gbc_btnConta);
-		
-		
 	}
 }

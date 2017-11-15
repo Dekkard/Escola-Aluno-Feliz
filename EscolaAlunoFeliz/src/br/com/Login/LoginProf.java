@@ -100,7 +100,7 @@ public class LoginProf extends JFrame {
 		JButton button = new JButton("Entrar");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Professor prof = BancoDeDados.getProfessor(textField.getText(),passwordField.getText());
+				Professor prof = BancoDeDados.loginProfessor(textField.getText(),passwordField.getText());
 				if( prof != null ){
 					SpaceProf frame = new SpaceProf(prof);
 					frame.setVisible(true);

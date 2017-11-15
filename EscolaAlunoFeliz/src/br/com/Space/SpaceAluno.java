@@ -121,6 +121,12 @@ public class SpaceAluno extends JFrame {
 		mnDisciplina.add(mntmCadastro);
 		
 		JMenuItem mntmTracamento = new JMenuItem("Tracamento");
+		mntmTracamento.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TrancDisc frame = new TrancDisc(aluno);
+				frame.setVisible(true);
+			}
+		});
 		mnDisciplina.add(mntmTracamento);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -186,19 +192,22 @@ public class SpaceAluno extends JFrame {
 				scrollPane_1.setViewportView(table);
 				
 				//TODO retirar a parte de teste e descomentar esta parte
-//				ArrayList<Disciplina> lista = BancoDeDados.getDisciplinas(aluno);
+//				ArrayList<Disciplina> lista = BancoDeDados.getDisciplinas(aluno.getCurso().getNome(),i);
 //				modelo.addColumn("Código");
+//				modelo.addColumn("Nome");
 //				modelo.addColumn("Professor");
+//				modelo.addColumn("Semestre");
 //				for(Disciplina d:lista){
-//					modelo.addRow(new Object[]{d.getcódigo(),d.getProfessor()});
+//					modelo.addRow(new Object[]{d.getCodigo(),d.getNome(),d.getProfessor().getNome(),d.getSemestre()});
 //				}
 					///teste
 					modelo.addColumn("Código");
 					modelo.addColumn("Nome");
 					modelo.addColumn("Professor");
-					for(int i = 0; i<20; i++){
-						modelo.addRow(new Object[]{"1234","Bando De Dados","José"});
-						modelo.addRow(new Object[]{"2333","Programas","Paulo"});
+					modelo.addColumn("Semestre");
+					for(int j = 0; j<20; j++){
+						modelo.addRow(new Object[]{"1234"+j,"Bando De Dados" +j,"José",2});
+						modelo.addRow(new Object[]{"2333"+j,"Programas" +j,"Paulo",3});
 					}
 			}
 		});
@@ -221,16 +230,18 @@ public class SpaceAluno extends JFrame {
 //				ArrayList<Recado> lista = BancoDeDados.getRecados(aluno);
 //				modelo.addColumn("Recado");
 //				modelo.addColumn("Data");
+//				modelo.addColumn("Professor");
 //				for(Recado c:lista){
-//					modelo.addRow(new Object[]{c.getRecado(),c.getData()});
+//					modelo.addRow(new Object[]{c.getRecado(),c.getData(),c.getProfessor().getNome()});
 //				}
 				
 					///teste
 					modelo.addColumn("Recado");
 					modelo.addColumn("Data");
+					modelo.addColumn("Professor");
 					for(int i = 0; i<20; i++){
-						modelo.addRow(new Object[]{"Olar","12 do 03 de 2004"});
-						modelo.addRow(new Object[]{"Tudo bem","04 do 05 de 1967"});
+						modelo.addRow(new Object[]{"Olar","12 do 03 de 2004", "João"});
+						modelo.addRow(new Object[]{"Tudo bem","04 do 05 de 1967", "Maria"});
 					}
 			}
 		});

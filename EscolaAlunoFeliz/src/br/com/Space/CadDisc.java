@@ -111,16 +111,18 @@ public class CadDisc extends JFrame {
 //						modelo.addColumn("Código");
 //						modelo.addColumn("Nome");
 //						modelo.addColumn("Professor");
+//						modelo.addColumn("Semestre");
 //						for(Disciplina d:lista){
-//							modelo.addRow(new Object[]{d.getCodigo(),d.getNome(),d.getProfessor()});
+//							modelo.addRow(new Object[]{d.getCodigo(),d.getNome(),d.getProfessor().getNome(),d.getSemestre()});
 //						}
 							///teste
 							modelo.addColumn("Código");
 							modelo.addColumn("Nome");
 							modelo.addColumn("Professor");
+							modelo.addColumn("Semestre");
 							for(int j = 0; j<20; j++){
-								modelo.addRow(new Object[]{"1234"+i,"Bando De Dados" +i,"José"});
-								modelo.addRow(new Object[]{"2333"+i,"Programas" +i,"Paulo"});
+								modelo.addRow(new Object[]{"1234"+j,"Bando De Dados" +j,"José",3});
+								modelo.addRow(new Object[]{"2333"+j,"Programas" +j,"Paulo",2});
 							}
 					}
 				}
