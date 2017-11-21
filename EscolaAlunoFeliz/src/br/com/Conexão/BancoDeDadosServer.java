@@ -1,50 +1,39 @@
 package br.com.Conexão;
 
-import java.io.PrintStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 
 import br.com.ClassesInternas.*;
 
-public class BancoDeDados {
-	
-	private static PrintStream saida;
-	private static Scanner entrada;
-
-	public static void setSaida(PrintStream saida) {
-		BancoDeDados.saida = saida;
-	}
-
-	public static void setEntrada(Scanner entrada) {
-		BancoDeDados.entrada = entrada;
-	}
-
-	public static String inserir(Aluno a,String usuario, String senha){
+public class BancoDeDadosServer {
+	public static String inserir(Aluno a){
+		String sql = "insert into aluno(nome,cpf,telefone,endereco,curso_nome,usuario,senha) values (?,?,?,?,?,?,?)";
+		Connection con = ConnectionFactory.getConnection();
+		
 		try{
-			if(BancoDeDadosServer.loginAdm(usuario, senha)){
-				saida.println("2250"); 
-				saida.println(a.getNome());
-				saida.println(a.getCpf());
-				saida.println(a.getTelefone());
-				saida.println(a.getEndereço());
-				saida.println(a.getUsuario());
-				saida.println(a.getSenha());
-				saida.println(a.getCurso().getNome());
-				while(!entrada.hasNextLine());
-				return entrada.nextLine();
+			PreparedStatement pst = con.prepareStatement(sql);
+			pst.setString(1, a.getNome());
+			pst.setString(2, a.getCpf());
+			pst.setString(3, a.getTelefone());
+			pst.setString(4, a.getEndereço());
+			pst.setString(5, a.getCurso().getNome());
+			pst.setString(6, a.getUsuario());
+			pst.setString(7, a.getSenha());
+			int res = pst.executeUpdate();
+			if(res > 0){
+				return "Inserido com sucesso.";
+			}else{
+				return "Erro ao inserir.";
 			}
-			else return "Erro de Login";
-			}
-		catch(NullPointerException e){
-			JOptionPane.showConfirmDialog(null, "Erro na conexão com o servidor", "Erro", 2);
-			System.exit(-1);
-			return "";
+		}catch(SQLException e){
+			return e.getMessage();
+		}finally {
+			ConnectionFactory.close(con);
 		}
 	}
 	
@@ -124,7 +113,7 @@ public class BancoDeDados {
 			PreparedStatement pst = con.prepareStatement(sql);
 			pst.setString(1, p.getCpf());
 			pst.setString(2, p.getNome());
-			pst.setString(3, p.getCodigo());
+			pst.setString(3, p.getTelefone());
 			pst.setString(4, p.getEndereço());
 			pst.setDouble(5, p.getValorHora());
 			pst.setString(6, p.getCodigo());
@@ -371,8 +360,8 @@ public class BancoDeDados {
 				Disciplina d = new Disciplina(
 						rs.getString(1),
 						rs.getString(2),
-						BancoDeDados.getProfessor(rs.getString(3)),
-						BancoDeDados.getCurso(rs.getString(4)),
+						BancoDeDadosServer.getProfessor(rs.getString(3)),
+						BancoDeDadosServer.getCurso(rs.getString(4)),
 						rs.getInt(5)
 						);
 				return d;
@@ -398,8 +387,8 @@ public class BancoDeDados {
 				Disciplina d = new Disciplina(
 						rs.getString(1),
 						rs.getString(2),
-						BancoDeDados.getProfessor(rs.getString(3)),
-						BancoDeDados.getCurso(rs.getString(4)),
+						BancoDeDadosServer.getProfessor(rs.getString(3)),
+						BancoDeDadosServer.getCurso(rs.getString(4)),
 						rs.getInt(5)
 						);
 				disciplinas.add(d);
@@ -431,8 +420,8 @@ public class BancoDeDados {
 				Disciplina d = new Disciplina(
 						rs.getString(1),
 						rs.getString(2),
-						BancoDeDados.getProfessor(rs.getString(3)),
-						BancoDeDados.getCurso(rs.getString(4)),
+						BancoDeDadosServer.getProfessor(rs.getString(3)),
+						BancoDeDadosServer.getCurso(rs.getString(4)),
 						rs.getInt(5)
 						);
 				disciplinas.add(d);
@@ -491,8 +480,8 @@ public class BancoDeDados {
 					rs.getString(3),
 					rs.getString(6),
 					rs.getString(7),
-					BancoDeDados.getCurso(rs.getString(5)),
-					BancoDeDados.getDisciplinas(new Aluno(cpf))
+					BancoDeDadosServer.getCurso(rs.getString(5)),
+					BancoDeDadosServer.getDisciplinas(new Aluno(cpf))
 					);
 				return a;
 			}
@@ -628,51 +617,49 @@ public class BancoDeDados {
 		}
 	}
 
-	public static boolean loginAdm(String usuario, String senha) {
-		try{
-		saida.println("3000"); 
-		saida.println(usuario);
-		saida.println(senha);
-		while(!entrada.hasNextLine());
-		if(entrada.nextLine().equals("true"))
-			return true;
-		else
+	public static Boolean loginAdm(String usuario, String senha) {
+		String sql = "select senha from administrador where usuario = ? ";
+		Connection con = ConnectionFactory.getConnection();
+		try {
+			PreparedStatement pst = con.prepareStatement(sql);
+			pst.setString(1, usuario);
+			ResultSet rs = pst.executeQuery();
+			if(rs.next()){
+				if(senha.equals(rs.getString(1)))
+					return true;
+				else
+					return false;
+			}
+			else
+				return false;
+		} catch (SQLException e) {
 			return false;
-		}
-		catch(NullPointerException e){
-			JOptionPane.showConfirmDialog(null, "Erro na conexão com o servidor", "Erro", 2);
-			System.exit(-1);
-			return false;
+		} finally {
+			ConnectionFactory.close(con);
 		}
 	}
 	
-	
-	public static Professor loginProfessor(String usuario, String senha) {
-		try{
-			saida.println("3001"); 
-			saida.println(usuario);
-			saida.println(senha);
-			while(!entrada.hasNextLine());
-			if(entrada.nextLine().equals("true")){
-				return new Professor(
-						entrada.nextLine(),
-						entrada.nextLine(),
-						entrada.nextLine(),
-						entrada.nextLine(),
-						Double.parseDouble(entrada.nextLine()),
-						entrada.nextLine(),
-						entrada.nextLine(),
-						entrada.nextLine(),
-						entrada.nextLine()
-						);
+
+	public static String[] loginProfessor(String usuario, String senha) {
+		String sql = "select senha,codigo from professor where usuario = ? ";
+		Connection con = ConnectionFactory.getConnection();
+		try {
+			PreparedStatement pst = con.prepareStatement(sql);
+			pst.setString(1, usuario);
+			ResultSet rs = pst.executeQuery();
+			if(rs.next()){
+				if(senha.equals(rs.getString(1)))
+					//TODO Mudar getProfessor para retornar String[], com true como inicial
+					return getProfessor(rs.getString(2)).toAString();
+				else
+					return null;
 			}
 			else
 				return null;
-		}
-		catch(NullPointerException e){
-			JOptionPane.showConfirmDialog(null, "Erro na conexão com o servidor", "Erro", 2);
-			System.exit(-1);
+		} catch (SQLException e) {
 			return null;
+		} finally {
+			ConnectionFactory.close(con);
 		}
 	}
 	

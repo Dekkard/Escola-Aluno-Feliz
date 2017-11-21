@@ -105,25 +105,14 @@ public class CadDisc extends JFrame {
 						DefaultTableModel modelo = new DefaultTableModel();
 						table = new JTable(modelo);
 						scrollPane.setViewportView(table);
-						
-						//TODO retirar a parte de teste e descomentar esta parte
-//						ArrayList<Disciplina> lista = BancoDeDados.getDisciplinas(aluno.getCurso().getNome(),i);
-//						modelo.addColumn("Código");
-//						modelo.addColumn("Nome");
-//						modelo.addColumn("Professor");
-//						modelo.addColumn("Semestre");
-//						for(Disciplina d:lista){
-//							modelo.addRow(new Object[]{d.getCodigo(),d.getNome(),d.getProfessor().getNome(),d.getSemestre()});
-//						}
-							///teste
-							modelo.addColumn("Código");
-							modelo.addColumn("Nome");
-							modelo.addColumn("Professor");
-							modelo.addColumn("Semestre");
-							for(int j = 0; j<20; j++){
-								modelo.addRow(new Object[]{"1234"+j,"Bando De Dados" +j,"José",3});
-								modelo.addRow(new Object[]{"2333"+j,"Programas" +j,"Paulo",2});
-							}
+						ArrayList<Disciplina> lista = BancoDeDados.getDisciplinas(aluno.getCurso().getNome(),i);
+						modelo.addColumn("Código");
+						modelo.addColumn("Nome");
+						modelo.addColumn("Professor");
+						modelo.addColumn("Semestre");
+						for(Disciplina d:lista){
+							modelo.addRow(new Object[]{d.getCodigo(),d.getNome(),d.getProfessor().getNome(),d.getSemestre()});
+						}
 					}
 				}
 			}
@@ -147,7 +136,7 @@ public class CadDisc extends JFrame {
 				Disciplina d = BancoDeDados.getDisciplina(textField.getText());
 				if(d!=null){
 					JOptionPane.showConfirmDialog(null,
-							BancoDeDados.inserir(new Solicitação(null,"Cadastro",null,aluno,d)),
+							BancoDeDados.inserir(new Solicitação("Cadastro",aluno,d)),
 							null,2);
 				}
 				else
@@ -156,7 +145,5 @@ public class CadDisc extends JFrame {
 		});
 		btnNewButton.setBounds(372, 230, 52, 23);
 		contentPane.add(btnNewButton);
-		
-		
 	}
 }

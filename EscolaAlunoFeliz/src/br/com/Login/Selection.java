@@ -4,6 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -14,6 +18,9 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
+
+import br.com.Conexão.BancoDeDados;
+import br.com.ServidorCliente.Cliente;
 @SuppressWarnings("all")
 public class Selection extends JFrame {
 
@@ -21,12 +28,13 @@ public class Selection extends JFrame {
 
 	/**
 	 * Launch the application.
+	 * @throws IOException 
+	 * @throws UnknownHostException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws UnknownHostException, IOException {
 		UIManager.put("OptionPane.cancelButtonText", "Voltar");
 		UIManager.put("OptionPane.noButtonText", "Excluir");
 		UIManager.put("OptionPane.yesButtonText", "Atualizar");
-		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -37,6 +45,7 @@ public class Selection extends JFrame {
 				}
 			}
 		});
+
 	}
 
 	/**
@@ -107,5 +116,6 @@ public class Selection extends JFrame {
 		panel_1.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_1.setBounds(34, 11, 159, 75);
 		panel.add(panel_1);
+		
 	}
 }

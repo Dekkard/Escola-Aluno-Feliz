@@ -190,25 +190,18 @@ public class SpaceAluno extends JFrame {
 				DefaultTableModel modelo = new DefaultTableModel();
 				table = new JTable(modelo);
 				scrollPane_1.setViewportView(table);
-				
-				//TODO retirar a parte de teste e descomentar esta parte
-//				ArrayList<Disciplina> lista = BancoDeDados.getDisciplinas(aluno.getCurso().getNome(),i);
-//				modelo.addColumn("Código");
-//				modelo.addColumn("Nome");
-//				modelo.addColumn("Professor");
-//				modelo.addColumn("Semestre");
-//				for(Disciplina d:lista){
-//					modelo.addRow(new Object[]{d.getCodigo(),d.getNome(),d.getProfessor().getNome(),d.getSemestre()});
-//				}
-					///teste
-					modelo.addColumn("Código");
-					modelo.addColumn("Nome");
-					modelo.addColumn("Professor");
-					modelo.addColumn("Semestre");
-					for(int j = 0; j<20; j++){
-						modelo.addRow(new Object[]{"1234"+j,"Bando De Dados" +j,"José",2});
-						modelo.addRow(new Object[]{"2333"+j,"Programas" +j,"Paulo",3});
+				modelo.addColumn("Código");
+				modelo.addColumn("Nome");
+				modelo.addColumn("Professor");
+				modelo.addColumn("Semestre");
+				modelo.addColumn("Situação");
+				for(int i = aluno.getCurso().getQtdSemestres();	i>0; i--){
+					ArrayList<Disciplina> lista = BancoDeDados.getDisciplinas(aluno.getCurso().getNome(),i);
+					for(Disciplina d:lista){
+						String situacao = BancoDeDados.getSituacao(d.getCodigo(), aluno.getCpf());
+						modelo.addRow(new Object[]{d.getCodigo(),d.getNome(),d.getProfessor().getNome(),d.getSemestre(),situacao});
 					}
+				}
 			}
 		});
 		GridBagConstraints gbc_btnDisciplina = new GridBagConstraints();

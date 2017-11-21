@@ -25,8 +25,6 @@ public class Professor extends Pessoa {
 		this.codigo = codigo;
 	}
 
-
-
 	public ArrayList<Disciplina> getDisciplinas() {
 		return disciplinas;
 	}
@@ -70,5 +68,10 @@ public class Professor extends Pessoa {
 	}
 	public void setCodigo(String codigo) {
 		this.codigo = codigo;
+	}
+
+	public String[] toAString() {
+		String [] as = {"true",getNome(), getCpf(), getTelefone(), getEndereço(), getValorHora()+"", codigo, formacao, usuario, senha};
+		return as;
 	}
 }

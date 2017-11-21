@@ -38,7 +38,7 @@ public class TrancDisc extends JFrame {
 	private JTable table;
 	private JTextField textField;
 	/**
-	 * Launch the application.
+	 * TODO Retirar main
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -86,26 +86,16 @@ public class TrancDisc extends JFrame {
 		table = new JTable(modelo);
 		scrollPane.setColumnHeaderView(table);
 		
-		//TODO retirar a parte de teste e descomentar esta parte
-//		ArrayList<Disciplina> lista = BancoDeDados.getDisciplinas(aluno);
-//		modelo.addColumn("Código");
-//		modelo.addColumn("Nome");
-//		modelo.addColumn("Professor");
-//		modelo.addColumn("Semestre");
-//		for(Disciplina d:lista){
-//			modelo.addRow(new Object[]{d.getCodigo(),d.getNome(),d.getProfessor().getNome(),d.getSemestre()});
-//		}
-			///teste
-			modelo.addColumn("Código");
-			modelo.addColumn("Nome");
-			modelo.addColumn("Professor");
-			modelo.addColumn("Semestre");
-			for(int j = 0; j<20; j++){
-				modelo.addRow(new Object[]{"1234"+j,"Bando De Dados" +j,"José",3});
-				modelo.addRow(new Object[]{"2333"+j,"Programas" +j,"Paulo",2});
-			}
+		ArrayList<Disciplina> lista = BancoDeDados.getDisciplinas(aluno);
+		modelo.addColumn("Código");
+		modelo.addColumn("Nome");
+		modelo.addColumn("Professor");
+		modelo.addColumn("Semestre");
+		for(Disciplina d:lista){
+			modelo.addRow(new Object[]{d.getCodigo(),d.getNome(),d.getProfessor().getNome(),d.getSemestre()});
+		}
 		
-		JLabel lblDigiteOCdigo = new JLabel("Digite o c\u00F3digo da disciplina que deseja trancar:");
+		JLabel lblDigiteOCdigo = new JLabel("Digite o codigo da disciplina que deseja trancar:");
 		lblDigiteOCdigo.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		lblDigiteOCdigo.setBounds(10, 234, 286, 14);
 		contentPane.add(lblDigiteOCdigo);
@@ -121,7 +111,7 @@ public class TrancDisc extends JFrame {
 				Disciplina d = BancoDeDados.getDisciplina(textField.getText());
 				if(d!=null){
 					JOptionPane.showConfirmDialog(null,
-							BancoDeDados.inserir(new Solicitação(null,"Trancamento",null,aluno,d)),
+							BancoDeDados.inserir(new Solicitação("Trancamento",aluno,d)),
 							null,2);
 				}
 				else

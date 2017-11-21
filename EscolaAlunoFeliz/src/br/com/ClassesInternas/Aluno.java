@@ -16,6 +16,7 @@ public class Aluno extends Pessoa{
 		this.disciplinas = disciplinas;
 	}
 
+	//TODO retirar
 	public Aluno(String cpf){
 		super(null,cpf,null,null);
 	};

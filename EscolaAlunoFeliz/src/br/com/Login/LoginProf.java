@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -106,6 +107,8 @@ public class LoginProf extends JFrame {
 					frame.setVisible(true);
 					dispose();
 				}
+				else
+					JOptionPane.showConfirmDialog(null, "Usuário ou Senha incorretos!", "Não foi possível fazer login", 2);
 			}
 		});
 		button.setBounds(67, 181, 89, 23);

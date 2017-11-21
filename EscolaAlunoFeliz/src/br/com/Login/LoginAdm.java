@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -99,11 +100,14 @@ public class LoginAdm extends JFrame {
 		JButton button = new JButton("Entrar");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (BancoDeDados.loginAdm(textField.getText(),passwordField.getText())) {
-					SpaceAdm frame = new SpaceAdm();
+				String usuario = textField.getText(), senha = passwordField.getText(); 
+				if (BancoDeDados.loginAdm(usuario,senha)) {
+					SpaceAdm frame = new SpaceAdm(usuario,senha);
 					frame.setVisible(true);
 					dispose();
 				}
+				else
+					JOptionPane.showConfirmDialog(null, "Usuário ou Senha incorretos!", "Não foi possível fazer login", 2);
 			}
 		});
 		button.setBounds(67, 181, 89, 23);

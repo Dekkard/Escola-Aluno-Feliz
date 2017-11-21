@@ -62,7 +62,8 @@ public class SpaceAdm extends JFrame {
 	private JComboBox comboBox_1;
 	private JComboBox comboBox_2;
 	private JTable table;
-
+	private String usuario;
+	private String senha;
 	/**
 	 * Launch the application.
 	 */
@@ -74,7 +75,7 @@ public class SpaceAdm extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					SpaceAdm frame = new SpaceAdm();
+					SpaceAdm frame = new SpaceAdm("","");
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -86,7 +87,7 @@ public class SpaceAdm extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public SpaceAdm() {
+	public SpaceAdm(String usuario, String senha) {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 554, 345);
@@ -228,7 +229,7 @@ public class SpaceAdm extends JFrame {
 						}
 					}
 					else
-						JOptionPane.showConfirmDialog(null, BancoDeDados.inserir(a),"Resultado da inserção",2);
+						JOptionPane.showConfirmDialog(null, BancoDeDados.inserir(a,usuario,senha),"Resultado da inserção",2);
 				}
 				else
 					JOptionPane.showMessageDialog(null, "Curso inexistente!","Erro",0);
@@ -328,7 +329,7 @@ public class SpaceAdm extends JFrame {
 						textField_6.getText()
 						);
 				if(BancoDeDados.existeProfessor(p.getCodigo())){
-					int op = JOptionPane.showConfirmDialog(null, "O CPF já está cadastrado. O que deseja fazer?");
+					int op = JOptionPane.showConfirmDialog(null, "O código já está cadastrado. O que deseja fazer?");
 					if (op == 0){
 						BancoDeDados.atualizar(p);
 					}
@@ -368,7 +369,7 @@ public class SpaceAdm extends JFrame {
 		
 		JPanel panel_6 = new JPanel();
 		panel_6.setBounds(0, 0, 443, 216);
-panel_2.add(panel_6);
+//		panel_2.add(panel_6);
 		panel_6.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();

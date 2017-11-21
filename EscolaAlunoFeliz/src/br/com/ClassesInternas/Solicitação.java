@@ -1,5 +1,8 @@
 package br.com.ClassesInternas;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Solicitação {
 	private String codigo;
 	private String tipo;
@@ -15,6 +18,15 @@ public class Solicitação {
 		this.disciplina = disciplina;
 	}
 
+	public Solicitação(String tipo, Aluno aluno, Disciplina disciplina) {
+		this.tipo = tipo;
+		this.aluno = aluno;
+		this.disciplina = disciplina;
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		Date data=new Date();
+		this.data = sdf.format(data);
+	}
+	
 	public String getCodigo() {
 		return codigo;
 	}

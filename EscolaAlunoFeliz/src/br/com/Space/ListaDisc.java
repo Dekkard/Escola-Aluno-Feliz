@@ -37,6 +37,7 @@ public class ListaDisc extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
+	private JTextField txtEntrada;
 	/**
 	 * Launch the application.
 	 */
@@ -69,83 +70,98 @@ public class ListaDisc extends JFrame {
 		contentPane.add(panel_1);
 		panel_1.setLayout(null);
 		
-		JPanel panel = new JPanel();
-		panel.setBounds(296, 2, 135, 40);
-		panel_1.add(panel);
-		panel.setLayout(null);
-		
-		JLabel lblDisciplina = new JLabel("Disciplinas");
-		lblDisciplina.setFont(new Font("Traditional Arabic", Font.PLAIN, 16));
-		lblDisciplina.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDisciplina.setBounds(10, 11, 91, 25);
-		panel_1.add(lblDisciplina);
-		
-		JLabel lblFiltro = new JLabel("Filtro");
-		lblFiltro.setHorizontalAlignment(SwingConstants.CENTER);
-		lblFiltro.setBounds(111, 16, 46, 14);
-		panel_1.add(lblFiltro);
-		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 54, 414, 201);
 		contentPane.add(scrollPane);
 		
-		DefaultTableModel modelo = new DefaultTableModel();
-		table = new JTable(modelo);
-		scrollPane.setColumnHeaderView(table);
-			
-		ArrayList<Curso> listaCursos = BancoDeDados.getCursos();		
-		String[] cursos = new String[1+listaCursos.size()];
-		cursos[0] = "Curso";
-		int i = 1;
-		for (Curso c : listaCursos) {
-			cursos[i] = c.getNome();
-			i++;
-		}
+		JPanel panel = new JPanel();
+		panel.setBounds(164, 3, 270, 33);
+		panel_1.add(panel);
+		panel.setLayout(null);
 		
-		JComboBox comboBox_1 = new JComboBox(cursos);
-		comboBox_1.addActionListener(new ActionListener() {
+		JLabel lblFiltro = new JLabel("CPF do aluno: ");
+		lblFiltro.setBounds(0, 14, 108, 14);
+//		panel.add(lblFiltro);
+		lblFiltro.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		txtEntrada = new JTextField();
+		txtEntrada.setBounds(118, 11, 90, 20);
+//		panel.add(txtEntrada);
+		txtEntrada.setColumns(10);
+		
+		JButton btnCPF = new JButton("OK");
+		btnCPF.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		btnCPF.setBounds(210, 10, 50, 23);
+//		panel.add(btnCPF);
+		
+		JLabel lblCodigo = new JLabel("Codigo da disciplina: ");
+		lblCodigo.setBounds(0, 14, 120, 14);
+//		panel.add(lblCodigo);
+		lblCodigo.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		JButton btnCodigo = new JButton("OK");
+		btnCodigo.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		btnCodigo.setBounds(210, 10, 50, 23);
+//		panel.add(btnCodigo);
+		
+		String[] s = {"Buscar Disciplinas","Por aluno", "Por código"};
+		JComboBox comboBox = new JComboBox(s);
+		comboBox.setBounds(10, 3, 147, 33);
+		panel_1.add(comboBox);
+		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				for (Curso curso : listaCursos) {
-					if( comboBox_1.getSelectedItem().equals(curso.getNome())){
-						panel.removeAll();
-						
-						String[] sem = new String[1+curso.getQtdSemestres()];
-						sem[0] = "Semestre";
-						for(int i = 1; i<sem.length; i++){
-							sem[i] = "" + (i) +"º Semestre";
-						}
-						JComboBox comboBox = new JComboBox(sem);
-						comboBox.setSelectedIndex(0);
-						comboBox.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent e) {
-								for(int i = 1; i<sem.length; i++){
-									if(comboBox.getSelectedItem().equals(sem[i])){
-										DefaultTableModel modelo = new DefaultTableModel();
-										table = new JTable(modelo);
-										scrollPane.setViewportView(table);
-										
-										ArrayList<Disciplina> lista = BancoDeDados.getDisciplinas(curso.getNome(),i);
-										modelo.addColumn("Código");
-										modelo.addColumn("Nome");
-										modelo.addColumn("Professor");
-										for(Disciplina d:lista){
-											modelo.addRow(new Object[]{d.getCodigo(),d.getNome(),d.getProfessor().getNome()});
-										}
-									}
-								}
-							}
-						});
-						comboBox.setBounds(2, 12, 130, 23);
-						panel.add(comboBox);
-					break;
+				if(comboBox.getSelectedIndex() == 1){
+					panel.removeAll();
+					panel.add(txtEntrada);
+					panel.add(btnCPF);
+					panel.add(lblFiltro);
+					panel.repaint();
+				}
+				else if(comboBox.getSelectedIndex() == 2){
+					panel.removeAll();
+					panel.add(txtEntrada);
+					panel.add(btnCodigo);
+					panel.add(lblCodigo);
+					panel.repaint();
+				}
+			};
+		});
+		
+		btnCPF.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Aluno a = BancoDeDados.getAluno(txtEntrada.getText());
+				if(a!=null){
+					ArrayList<Disciplina> lista = BancoDeDados.getDisciplinas(a);
+					DefaultTableModel modelo = new DefaultTableModel();
+					table = new JTable(modelo);
+					scrollPane.setViewportView(table);
+					modelo.addColumn("Código");
+					modelo.addColumn("Nome");
+					modelo.addColumn("Professor");
+					for(Disciplina d:lista){
+						modelo.addRow(new Object[]{d.getCodigo(),d.getNome(),d.getProfessor().getNome()});
 					}
 				}
-				
-				
+				else
+					JOptionPane.showConfirmDialog(null, "CPF incorreto!",null,2);
 			}
 		});
-		comboBox_1.setSelectedIndex(0);
-		comboBox_1.setBounds(150, 15, 141, 20);
-		panel_1.add(comboBox_1);
+		
+		btnCodigo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Disciplina d = BancoDeDados.getDisciplina(txtEntrada.getText());
+				if(d!=null){
+					DefaultTableModel modelo = new DefaultTableModel();
+					table = new JTable(modelo);
+					scrollPane.setViewportView(table);
+					modelo.addColumn("Código");
+					modelo.addColumn("Nome");
+					modelo.addColumn("Professor");
+					modelo.addRow(new Object[]{d.getCodigo(),d.getNome(),d.getProfessor().getNome()});
+				}
+				else
+					JOptionPane.showConfirmDialog(null, "Código incorreto!",null,2);
+			}
+		});
 	}
 }
