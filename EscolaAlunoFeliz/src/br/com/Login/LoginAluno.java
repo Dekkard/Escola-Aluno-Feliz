@@ -9,7 +9,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.text.BadLocationException;
 
 import br.com.ClassesInternas.Aluno;
-import br.com.Conexão.BancoDeDados;
+import br.com.Conexao.BancoDeDados;
 import br.com.Space.SpaceAluno;
 
 import javax.swing.border.BevelBorder;
@@ -93,7 +93,7 @@ public class LoginAluno extends JFrame {
 					dispose();
 				}
 				else
-					JOptionPane.showConfirmDialog(null, "Usuário ou Senha incorretos!", "Não foi possível fazer login", 2);
+					JOptionPane.showConfirmDialog(null, "Usuï¿½rio ou Senha incorretos!", "Nï¿½o foi possï¿½vel fazer login", 2);
 			}
 		});
 		btnEntrar.setBounds(67, 181, 89, 23);

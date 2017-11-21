@@ -11,8 +11,8 @@ import javax.swing.table.DefaultTableModel;
 import br.com.ClassesInternas.Aluno;
 import br.com.ClassesInternas.Curso;
 import br.com.ClassesInternas.Disciplina;
-import br.com.ClassesInternas.Solicitação;
-import br.com.Conexão.BancoDeDados;
+import br.com.ClassesInternas.Solicitacao;
+import br.com.Conexao.BancoDeDados;
 
 import javax.swing.border.BevelBorder;
 import javax.swing.JLabel;
@@ -44,7 +44,7 @@ public class TrancDisc extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TrancDisc frame = new TrancDisc(new Aluno("NomeAluno", "cpf", "telefone", "Endereço", "usuario", "senha", new Curso("NomeCurso",8), null));
+					TrancDisc frame = new TrancDisc(new Aluno("NomeAluno", "cpf", "telefone", "Endereï¿½o", "usuario", "senha", new Curso("NomeCurso",8), null));
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -87,7 +87,7 @@ public class TrancDisc extends JFrame {
 		scrollPane.setColumnHeaderView(table);
 		
 		ArrayList<Disciplina> lista = BancoDeDados.getDisciplinas(aluno);
-		modelo.addColumn("Código");
+		modelo.addColumn("Cï¿½digo");
 		modelo.addColumn("Nome");
 		modelo.addColumn("Professor");
 		modelo.addColumn("Semestre");
@@ -111,11 +111,11 @@ public class TrancDisc extends JFrame {
 				Disciplina d = BancoDeDados.getDisciplina(textField.getText());
 				if(d!=null){
 					JOptionPane.showConfirmDialog(null,
-							BancoDeDados.inserir(new Solicitação("Trancamento",aluno,d)),
+							BancoDeDados.inserir(new Solicitacao("Trancamento",aluno,d)),
 							null,2);
 				}
 				else
-					JOptionPane.showConfirmDialog(null, "Código incorreto!",null,2);
+					JOptionPane.showConfirmDialog(null, "Cï¿½digo incorreto!",null,2);
 			}
 		});
 		btnNewButton.setBounds(372, 230, 52, 23);

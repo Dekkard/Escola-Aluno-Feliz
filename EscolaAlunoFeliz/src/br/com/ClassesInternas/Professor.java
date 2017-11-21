@@ -4,15 +4,15 @@ import java.util.ArrayList;
 
 public class Professor extends Pessoa {
 	private Double valorHora;
-	//Codigo professor começa com 970
+	//Codigo professor comeca com 970
 	private String codigo;
 	private String formacao;
 	private String usuario;
 	private String senha;
 	private ArrayList<Disciplina> disciplinas;
 	
-	public Professor(String nome, String cpf, String telefone, String endereço, Double valorHora, String codigo, String formacao, String usuario, String senha){
-		super(nome, cpf, telefone, endereço); 
+	public Professor(String nome, String cpf, String telefone, String endereco, Double valorHora, String codigo, String formacao, String usuario, String senha){
+		super(nome, cpf, telefone, endereco); 
 		this.valorHora = valorHora;
 		this.codigo = codigo;
 		this.formacao = formacao;
@@ -20,8 +20,8 @@ public class Professor extends Pessoa {
 		this.senha = senha;
 	}
 	
-	public Professor(String nome, String cpf, String telefone, String endereço, String codigo) {
-		super(nome, cpf, telefone, endereço);
+	public Professor(String nome, String cpf, String telefone, String endereco, String codigo) {
+		super(nome, cpf, telefone, endereco);
 		this.codigo = codigo;
 	}
 
@@ -71,7 +71,7 @@ public class Professor extends Pessoa {
 	}
 
 	public String[] toAString() {
-		String [] as = {"true",getNome(), getCpf(), getTelefone(), getEndereço(), getValorHora()+"", codigo, formacao, usuario, senha};
+		String [] as = {"true",getNome(), getCpf(), getTelefone(), getEndereco(), getValorHora()+"", codigo, formacao, usuario, senha};
 		return as;
 	}
 }

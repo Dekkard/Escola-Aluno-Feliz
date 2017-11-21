@@ -19,7 +19,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 
 import br.com.ClassesInternas.Aluno;
-import br.com.Conexão.BancoDeDados;
+import br.com.Conexao.BancoDeDados;
 import br.com.Space.SpaceAdm;
 @SuppressWarnings("all")
 public class LoginAdm extends JFrame {
@@ -107,7 +107,7 @@ public class LoginAdm extends JFrame {
 					dispose();
 				}
 				else
-					JOptionPane.showConfirmDialog(null, "Usuário ou Senha incorretos!", "Não foi possível fazer login", 2);
+					JOptionPane.showConfirmDialog(null, "Usuï¿½rio ou Senha incorretos!", "Nï¿½o foi possï¿½vel fazer login", 2);
 			}
 		});
 		button.setBounds(67, 181, 89, 23);

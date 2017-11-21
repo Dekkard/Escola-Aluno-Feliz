@@ -11,8 +11,8 @@ import javax.swing.table.DefaultTableModel;
 import br.com.ClassesInternas.Aluno;
 import br.com.ClassesInternas.Curso;
 import br.com.ClassesInternas.Disciplina;
-import br.com.ClassesInternas.Solicitação;
-import br.com.Conexão.BancoDeDados;
+import br.com.ClassesInternas.Solicitacao;
+import br.com.Conexao.BancoDeDados;
 
 import javax.swing.border.BevelBorder;
 import javax.swing.JLabel;
@@ -44,7 +44,7 @@ public class CadDisc extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CadDisc frame = new CadDisc(new Aluno("NomeAluno", "cpf", "telefone", "Endereço", "usuario", "senha", new Curso("NomeCurso",8), null));
+					CadDisc frame = new CadDisc(new Aluno("NomeAluno", "cpf", "telefone", "Endereï¿½o", "usuario", "senha", new Curso("NomeCurso",8), null));
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -94,7 +94,7 @@ public class CadDisc extends JFrame {
 		String[] sem = new String[1+aluno.getCurso().getQtdSemestres()];
 		sem[0] = "";
 		for(int i = 1; i<=aluno.getCurso().getQtdSemestres(); i++){
-			sem[i] = "" + (i) +"º Semestre";
+			sem[i] = "" + (i) +"ï¿½ Semestre";
 		}
 		JComboBox comboBox = new JComboBox(sem);
 		comboBox.setSelectedIndex(0);
@@ -106,7 +106,7 @@ public class CadDisc extends JFrame {
 						table = new JTable(modelo);
 						scrollPane.setViewportView(table);
 						ArrayList<Disciplina> lista = BancoDeDados.getDisciplinas(aluno.getCurso().getNome(),i);
-						modelo.addColumn("Código");
+						modelo.addColumn("Cï¿½digo");
 						modelo.addColumn("Nome");
 						modelo.addColumn("Professor");
 						modelo.addColumn("Semestre");
@@ -136,11 +136,11 @@ public class CadDisc extends JFrame {
 				Disciplina d = BancoDeDados.getDisciplina(textField.getText());
 				if(d!=null){
 					JOptionPane.showConfirmDialog(null,
-							BancoDeDados.inserir(new Solicitação("Cadastro",aluno,d)),
+							BancoDeDados.inserir(new Solicitacao("Cadastro",aluno,d)),
 							null,2);
 				}
 				else
-					JOptionPane.showConfirmDialog(null, "Código incorreto!",null,2);
+					JOptionPane.showConfirmDialog(null, "Cï¿½digo incorreto!",null,2);
 			}
 		});
 		btnNewButton.setBounds(372, 230, 52, 23);

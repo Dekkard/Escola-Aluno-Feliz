@@ -3,14 +3,14 @@ package br.com.ClassesInternas;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Solicitação {
+public class Solicitacao {
 	private String codigo;
 	private String tipo;
 	private String data;
 	private Aluno aluno;
 	private Disciplina disciplina;
 	
-	public Solicitação(String codigo, String tipo, String data, Aluno aluno, Disciplina disciplina) {
+	public Solicitacao(String codigo, String tipo, String data, Aluno aluno, Disciplina disciplina) {
 		this.codigo = codigo;
 		this.tipo = tipo;
 		this.data = data;
@@ -18,7 +18,7 @@ public class Solicitação {
 		this.disciplina = disciplina;
 	}
 
-	public Solicitação(String tipo, Aluno aluno, Disciplina disciplina) {
+	public Solicitacao(String tipo, Aluno aluno, Disciplina disciplina) {
 		this.tipo = tipo;
 		this.aluno = aluno;
 		this.disciplina = disciplina;

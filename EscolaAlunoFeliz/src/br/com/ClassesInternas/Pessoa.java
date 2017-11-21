@@ -4,14 +4,14 @@ public class Pessoa {
 	private String nome;
 	private String cpf;
 	private String telefone;
-	private String endereço;
+	private String endereco;
 	
-	public Pessoa(String nome, String cpf, String telefone, String endereço) {
+	public Pessoa(String nome, String cpf, String telefone, String endereco) {
 		super();
 		this.nome = nome;
 		this.cpf = cpf;
 		this.telefone = telefone;
-		this.endereço = endereço;
+		this.endereco = endereco;
 	}
 	
 	public Pessoa(){};
@@ -34,11 +34,11 @@ public class Pessoa {
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
-	public String getEndereço() {
-		return endereço;
+	public String getEndereco() {
+		return endereco;
 	}
-	public void setEndereço(String endereço) {
-		this.endereço = endereço;
+	public void setEndereco(String endereco) {
+		this.endereco = endereco;
 	}
 	
 	

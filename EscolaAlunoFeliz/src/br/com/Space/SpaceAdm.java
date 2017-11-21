@@ -28,8 +28,8 @@ import javax.swing.table.DefaultTableModel;
 import br.com.ClassesInternas.Aluno;
 import br.com.ClassesInternas.Curso;
 import br.com.ClassesInternas.Professor;
-import br.com.ClassesInternas.Solicitação;
-import br.com.Conexão.BancoDeDados;
+import br.com.ClassesInternas.Solicitacao;
+import br.com.Conexao.BancoDeDados;
 import br.com.Login.Selection;
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
@@ -220,16 +220,16 @@ public class SpaceAdm extends JFrame {
 							null
 							);
 					if(BancoDeDados.existeAluno(a.getCpf())){
-						int op = JOptionPane.showConfirmDialog(null, "O CPF já está cadastrado. O que deseja fazer?");
+						int op = JOptionPane.showConfirmDialog(null, "O CPF ja esta cadastrado. O que deseja fazer?");
 						if (op == 0){
 							BancoDeDados.atualizar(a);
 						}
 						else if(op==1){
-							JOptionPane.showConfirmDialog(null, BancoDeDados.excluir(a),"Resultado da exclusão",2);
+							JOptionPane.showConfirmDialog(null, BancoDeDados.excluir(a),"Resultado da exclusao",2);
 						}
 					}
 					else
-						JOptionPane.showConfirmDialog(null, BancoDeDados.inserir(a,usuario,senha),"Resultado da inserção",2);
+						JOptionPane.showConfirmDialog(null, BancoDeDados.inserir(a,usuario,senha),"Resultado da insercao",2);
 				}
 				else
 					JOptionPane.showMessageDialog(null, "Curso inexistente!","Erro",0);
@@ -329,16 +329,16 @@ public class SpaceAdm extends JFrame {
 						textField_6.getText()
 						);
 				if(BancoDeDados.existeProfessor(p.getCodigo())){
-					int op = JOptionPane.showConfirmDialog(null, "O código já está cadastrado. O que deseja fazer?");
+					int op = JOptionPane.showConfirmDialog(null, "O codigo ja esta cadastrado. O que deseja fazer?");
 					if (op == 0){
 						BancoDeDados.atualizar(p);
 					}
 					else if(op==1){
-						JOptionPane.showConfirmDialog(null, BancoDeDados.excluir(p),"Resultado da exclusão",2);
+						JOptionPane.showConfirmDialog(null, BancoDeDados.excluir(p),"Resultado da exclusao",2);
 					}
 				}
 				else
-					JOptionPane.showConfirmDialog(null, BancoDeDados.inserir(p),"Resultado da inserção",2);
+					JOptionPane.showConfirmDialog(null, BancoDeDados.inserir(p),"Resultado da insercao",2);
 			}
 		});
 		btnOk.setBounds(229, 166, 53, 23);
@@ -405,18 +405,18 @@ public class SpaceAdm extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(BancoDeDados.existeSolicitacao(textField_14.getText())){
-					Solicitação s = BancoDeDados.getSolicitação(textField_14.getText());
+					Solicitacao s = BancoDeDados.getSolicitacao(textField_14.getText());
 					if(BancoDeDados.existeMatricula(s)){
 						JOptionPane.showConfirmDialog(null, BancoDeDados.mudarSituacaoMatricula(s, "Em curso"),"Resultado da matricula",2);
 					}
 				
-					//Matricula não existe, deve-se criar uma
+					//Matricula nao existe, deve-se criar uma
 					else{
 						JOptionPane.showConfirmDialog(null, BancoDeDados.matricular(s),"Resultado da matricula",2);
 					}
 				}
 				else
-					JOptionPane.showMessageDialog(null, "Solicitação inexistente!","Erro",0);
+					JOptionPane.showMessageDialog(null, "Solicitacao inexistente!","Erro",0);
 			}
 		});
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 9));
@@ -485,7 +485,7 @@ public class SpaceAdm extends JFrame {
 		JButton btnSolicitaes = new JButton("Solicita\u00E7\u00F5es");
 		btnSolicitaes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				label.setText("Solicitações");
+				label.setText("Solicitacoes");
 				panel_2.removeAll();
 				panel_2.repaint();
 				panel_2.add(panel_6);
@@ -494,13 +494,13 @@ public class SpaceAdm extends JFrame {
 				table = new JTable(modelo);
 				scrollPane.setViewportView(table);
 				
-				ArrayList<Solicitação> lista = BancoDeDados.getSolicitações();
-				modelo.addColumn("Código");
+				ArrayList<Solicitacao> lista = BancoDeDados.getSolicitacoes();
+				modelo.addColumn("Codigo");
 				modelo.addColumn("Tipo");
 				modelo.addColumn("Data");
 				modelo.addColumn("CPF Aluno");
-				modelo.addColumn("código Disciplina");
-				for(Solicitação s:lista){
+				modelo.addColumn("codigo Disciplina");
+				for(Solicitacao s:lista){
 					modelo.addRow(new Object[]{s.getCodigo(),s.getTipo(),s.getData(),s.getAluno().getCpf(),s.getDisciplina().getCodigo()});
 				}
 			}

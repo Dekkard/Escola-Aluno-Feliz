@@ -12,8 +12,8 @@ import br.com.ClassesInternas.Aluno;
 import br.com.ClassesInternas.Curso;
 import br.com.ClassesInternas.Disciplina;
 import br.com.ClassesInternas.Professor;
-import br.com.ClassesInternas.Solicitação;
-import br.com.Conexão.BancoDeDados;
+import br.com.ClassesInternas.Solicitacao;
+import br.com.Conexao.BancoDeDados;
 
 import javax.swing.border.BevelBorder;
 import javax.swing.JLabel;
@@ -104,7 +104,7 @@ public class ListaDisc extends JFrame {
 		btnCodigo.setBounds(210, 10, 50, 23);
 //		panel.add(btnCodigo);
 		
-		String[] s = {"Buscar Disciplinas","Por aluno", "Por código"};
+		String[] s = {"Buscar Disciplinas","Por aluno", "Por cï¿½digo"};
 		JComboBox comboBox = new JComboBox(s);
 		comboBox.setBounds(10, 3, 147, 33);
 		panel_1.add(comboBox);
@@ -135,7 +135,7 @@ public class ListaDisc extends JFrame {
 					DefaultTableModel modelo = new DefaultTableModel();
 					table = new JTable(modelo);
 					scrollPane.setViewportView(table);
-					modelo.addColumn("Código");
+					modelo.addColumn("Cï¿½digo");
 					modelo.addColumn("Nome");
 					modelo.addColumn("Professor");
 					for(Disciplina d:lista){
@@ -154,13 +154,13 @@ public class ListaDisc extends JFrame {
 					DefaultTableModel modelo = new DefaultTableModel();
 					table = new JTable(modelo);
 					scrollPane.setViewportView(table);
-					modelo.addColumn("Código");
+					modelo.addColumn("Cï¿½digo");
 					modelo.addColumn("Nome");
 					modelo.addColumn("Professor");
 					modelo.addRow(new Object[]{d.getCodigo(),d.getNome(),d.getProfessor().getNome()});
 				}
 				else
-					JOptionPane.showConfirmDialog(null, "Código incorreto!",null,2);
+					JOptionPane.showConfirmDialog(null, "Cï¿½digo incorreto!",null,2);
 			}
 		});
 	}

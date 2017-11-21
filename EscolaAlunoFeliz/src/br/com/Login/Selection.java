@@ -19,7 +19,7 @@ import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 
-import br.com.Conexão.BancoDeDados;
+import br.com.Conexao.BancoDeDados;
 import br.com.ServidorCliente.Cliente;
 @SuppressWarnings("all")
 public class Selection extends JFrame {

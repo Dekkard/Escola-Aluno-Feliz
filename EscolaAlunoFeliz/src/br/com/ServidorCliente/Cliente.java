@@ -6,7 +6,7 @@ import java.util.*;
 
 import javax.swing.UIManager;
 
-import br.com.Conexão.BancoDeDados;
+import br.com.Conexao.BancoDeDados;
 import br.com.Login.Selection;
 
 public class Cliente {
@@ -34,7 +34,7 @@ public class Cliente {
         System.out.println("O cliente se conectou ao servidor!");
 
         Scanner entrada = new Scanner (cliente.getInputStream()); 
-        // O banco de dados é responsável por mandar os códigos para o servidor.
+        // O banco de dados ï¿½ responsï¿½vel por mandar os cï¿½digos para o servidor.
         BancoDeDados.setEntrada(entrada);
         BancoDeDados.setSaida(new PrintStream(cliente.getOutputStream()));
         

@@ -10,7 +10,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
-import br.com.Conexão.BancoDeDados;
+import br.com.Conexao.BancoDeDados;
 import br.com.Login.Selection;
 import br.com.ClassesInternas.*;
 
@@ -190,11 +190,11 @@ public class SpaceAluno extends JFrame {
 				DefaultTableModel modelo = new DefaultTableModel();
 				table = new JTable(modelo);
 				scrollPane_1.setViewportView(table);
-				modelo.addColumn("Código");
+				modelo.addColumn("Cï¿½digo");
 				modelo.addColumn("Nome");
 				modelo.addColumn("Professor");
 				modelo.addColumn("Semestre");
-				modelo.addColumn("Situação");
+				modelo.addColumn("Situaï¿½ï¿½o");
 				for(int i = aluno.getCurso().getQtdSemestres();	i>0; i--){
 					ArrayList<Disciplina> lista = BancoDeDados.getDisciplinas(aluno.getCurso().getNome(),i);
 					for(Disciplina d:lista){
@@ -233,7 +233,7 @@ public class SpaceAluno extends JFrame {
 					modelo.addColumn("Data");
 					modelo.addColumn("Professor");
 					for(int i = 0; i<20; i++){
-						modelo.addRow(new Object[]{"Olar","12 do 03 de 2004", "João"});
+						modelo.addRow(new Object[]{"Olar","12 do 03 de 2004", "Joï¿½o"});
 						modelo.addRow(new Object[]{"Tudo bem","04 do 05 de 1967", "Maria"});
 					}
 			}
@@ -258,7 +258,7 @@ public class SpaceAluno extends JFrame {
 		JButton btnHistrico = new JButton("Hist\u00F3rico");
 		btnHistrico.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				lblDisciplina.setText("Histórico");
+				lblDisciplina.setText("Histï¿½rico");
 				DefaultTableModel modelo = new DefaultTableModel();
 				table = new JTable(modelo);
 				scrollPane_1.setViewportView(table);

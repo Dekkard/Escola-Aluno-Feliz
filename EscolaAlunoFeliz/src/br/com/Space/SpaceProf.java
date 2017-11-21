@@ -27,7 +27,7 @@ import br.com.ClassesInternas.Disciplina;
 import br.com.ClassesInternas.Nota;
 import br.com.ClassesInternas.Professor;
 import br.com.ClassesInternas.Recado;
-import br.com.Conexão.BancoDeDados;
+import br.com.Conexao.BancoDeDados;
 import br.com.Login.Selection;
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
@@ -49,7 +49,7 @@ public class SpaceProf extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					SpaceProf frame = new SpaceProf(new Professor("Prof 1","cpf","tel","endereço","CodigoProf"));
+					SpaceProf frame = new SpaceProf(new Professor("Prof 1","cpf","tel","endereï¿½o","CodigoProf"));
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -207,7 +207,7 @@ public class SpaceProf extends JFrame {
 				scrollPane.setViewportView(table);
 				//TODO retirar a parte de teste e descomentar esta parte
 //				ArrayList<Disciplina> lista = BancoDeDados.getDisciplinas(prof);
-//				modelo.addColumn("Código");
+//				modelo.addColumn("Cï¿½digo");
 //				modelo.addColumn("Nome");
 //				modelo.addColumn("Professor");
 //				modelo.addColumn("Semestre");
@@ -215,12 +215,12 @@ public class SpaceProf extends JFrame {
 //					modelo.addRow(new Object[]{d.getCodigo(),d.getNome(),d.getProfessor().getNome(),d.getSemestre()});
 //				}
 				///teste
-				modelo.addColumn("Código");
+				modelo.addColumn("Cï¿½digo");
 				modelo.addColumn("Nome");
 				modelo.addColumn("Professor");
 				modelo.addColumn("Semestre");
 				for(int j = 0; j<20; j++){
-					modelo.addRow(new Object[]{"1234"+j,"Bando De Dados" +j,"José",2});
+					modelo.addRow(new Object[]{"1234"+j,"Bando De Dados" +j,"Josï¿½",2});
 					modelo.addRow(new Object[]{"2333"+j,"Programas" +j,"Paulo",3});
 				}
 			}
@@ -236,11 +236,11 @@ public class SpaceProf extends JFrame {
 //		ArrayList<Disciplina> disciplinas = prof.getDisciplinas();
 			//teste
 			ArrayList<Disciplina> disciplinas = new ArrayList<>();
-			disciplinas.add(new Disciplina("123", "Cálculo 1", prof,null, 1));
-			disciplinas.add(new Disciplina("124", "Cálculo 1", prof,null, 1));
+			disciplinas.add(new Disciplina("123", "Cï¿½lculo 1", prof,null, 1));
+			disciplinas.add(new Disciplina("124", "Cï¿½lculo 1", prof,null, 1));
 			disciplinas.add(new Disciplina("125", "Bando de dados", prof,null, 2));
-			disciplinas.add(new Disciplina("126", "Cálculo 2", prof,null, 2));
-			disciplinas.add(new Disciplina("127", "Cálculo 3", prof,null, 3));
+			disciplinas.add(new Disciplina("126", "Cï¿½lculo 2", prof,null, 2));
+			disciplinas.add(new Disciplina("127", "Cï¿½lculo 3", prof,null, 3));
 			disciplinas.add(new Disciplina("128", "Fiscica 3", prof,null, 3));
 			disciplinas.add(new Disciplina("129", "Fisica 2", prof,null, 2));
 			disciplinas.add(new Disciplina("130", "Fisica 1", prof,null, 1));
@@ -329,7 +329,7 @@ public class SpaceProf extends JFrame {
 					modelo.addColumn("Data");
 					modelo.addColumn("Aluno");
 					for(int i = 0; i<20; i++){
-						modelo.addRow(new Object[]{"Olar","12 do 03 de 2004", "Joãozinho"});
+						modelo.addRow(new Object[]{"Olar","12 do 03 de 2004", "Joï¿½ozinho"});
 						modelo.addRow(new Object[]{"Tudo bem","04 do 05 de 1967", "Mariazinha"});
 					}
 			}

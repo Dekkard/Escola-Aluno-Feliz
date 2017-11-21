@@ -3,7 +3,7 @@ package br.com.ClassesInternas;
 import java.util.ArrayList;
 
 public class Disciplina {
-	//Codigo disciplina começa com 615
+	//Codigo disciplina comeca com 615
 	private String codigo;
 	private String nome;
 	private Integer semestre;

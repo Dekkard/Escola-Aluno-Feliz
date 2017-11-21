@@ -6,8 +6,8 @@ import java.util.*;
 
 import br.com.ClassesInternas.Aluno;
 import br.com.ClassesInternas.Curso;
-import br.com.Conexão.BancoDeDados;
-import br.com.Conexão.BancoDeDadosServer;
+import br.com.Conexao.BancoDeDados;
+import br.com.Conexao.BancoDeDadosServer;
 
 public class Servidor {
 
@@ -32,11 +32,11 @@ public class Servidor {
         while (true) {
             // aceita um cliente
             Socket cliente = servidor.accept();
-            System.out.println("Nova conexão, cliente: " +
+            System.out.println("Nova conexï¿½o, cliente: " +
                 cliente.getInetAddress().getHostAddress()
             );
 
-            // adiciona saida do cliente à lista
+            // adiciona saida do cliente ï¿½ lista
             PrintStream ps = new PrintStream(cliente.getOutputStream());
             this.clientes.add(ps);
 
@@ -54,9 +54,11 @@ public class Servidor {
 	    		case 2250:
 	    			System.out.println("2250");
 	    			//TODO talvez retirar esse getCurso se ele for acessar o servidor de novo
+	    			//new Aluno(nome, cpf, telefone, endereco, usuario, senha, curso, disciplinas)
 	    			e.println(BancoDeDadosServer.inserir(new Aluno(s.nextLine(), s.nextLine(), s.nextLine(), s.nextLine(), s.nextLine(), s.nextLine(), BancoDeDados.getCurso(s.nextLine()), null)));
 	    			break;
 	    		case 2251:
+	    			//new Curso(nome, qtdSemestres)
 	    			e.println(BancoDeDadosServer.inserir(new Curso(s.nextLine(), Integer.parseInt(s.nextLine()))));
 	    			break;
 	    		case 3000:
