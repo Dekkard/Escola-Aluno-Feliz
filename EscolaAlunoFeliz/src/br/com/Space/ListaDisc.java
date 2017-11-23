@@ -38,8 +38,9 @@ public class ListaDisc extends JFrame {
 	private JPanel contentPane;
 	private JTable table;
 	private JTextField txtEntrada;
+	
 	/**
-	 * Launch the application.
+	 * É usado para invocar nova janela
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -104,7 +105,7 @@ public class ListaDisc extends JFrame {
 		btnCodigo.setBounds(210, 10, 50, 23);
 //		panel.add(btnCodigo);
 		
-		String[] s = {"Buscar Disciplinas","Por aluno", "Por cï¿½digo"};
+		String[] s = {"Buscar Disciplinas","Por aluno", "Por codigo"};
 		JComboBox comboBox = new JComboBox(s);
 		comboBox.setBounds(10, 3, 147, 33);
 		panel_1.add(comboBox);
@@ -135,7 +136,7 @@ public class ListaDisc extends JFrame {
 					DefaultTableModel modelo = new DefaultTableModel();
 					table = new JTable(modelo);
 					scrollPane.setViewportView(table);
-					modelo.addColumn("Cï¿½digo");
+					modelo.addColumn("Codigo");
 					modelo.addColumn("Nome");
 					modelo.addColumn("Professor");
 					for(Disciplina d:lista){
@@ -154,13 +155,13 @@ public class ListaDisc extends JFrame {
 					DefaultTableModel modelo = new DefaultTableModel();
 					table = new JTable(modelo);
 					scrollPane.setViewportView(table);
-					modelo.addColumn("Cï¿½digo");
+					modelo.addColumn("Codigo");
 					modelo.addColumn("Nome");
 					modelo.addColumn("Professor");
 					modelo.addRow(new Object[]{d.getCodigo(),d.getNome(),d.getProfessor().getNome()});
 				}
 				else
-					JOptionPane.showConfirmDialog(null, "Cï¿½digo incorreto!",null,2);
+					JOptionPane.showConfirmDialog(null, "Codigo incorreto!",null,2);
 			}
 		});
 	}

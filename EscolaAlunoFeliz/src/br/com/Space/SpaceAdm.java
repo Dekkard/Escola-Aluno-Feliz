@@ -64,25 +64,6 @@ public class SpaceAdm extends JFrame {
 	private JTable table;
 	private String usuario;
 	private String senha;
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		UIManager.put("OptionPane.cancelButtonText", "Voltar");
-		UIManager.put("OptionPane.noButtonText", "Excluir");
-		UIManager.put("OptionPane.yesButtonText", "Atualizar");
-				
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					SpaceAdm frame = new SpaceAdm("","");
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
@@ -122,7 +103,7 @@ public class SpaceAdm extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
-		JLabel lblEspaoDoAdministrador = new JLabel("Espa\u00E7o do Administrador");
+		JLabel lblEspaoDoAdministrador = new JLabel("Espaco do Administrador");
 		lblEspaoDoAdministrador.setHorizontalAlignment(SwingConstants.CENTER);
 		lblEspaoDoAdministrador.setFont(new Font("Tahoma", Font.PLAIN, 30));
 		contentPane.add(lblEspaoDoAdministrador, BorderLayout.NORTH);
@@ -182,7 +163,7 @@ public class SpaceAdm extends JFrame {
 		textField_2.setBounds(134, 83, 86, 20);
 		panel_8.add(textField_2);
 		
-		JLabel lblEndereo = new JLabel("Endere\u00E7o");
+		JLabel lblEndereo = new JLabel("Endereco");
 		lblEndereo.setBounds(43, 111, 68, 14);
 		panel_8.add(lblEndereo);
 		
@@ -216,23 +197,23 @@ public class SpaceAdm extends JFrame {
 							textField_3.getText(),
 							textField_1.getText(),
 							textField_1.getText(),
-							BancoDeDados.getCurso((String) comboBox_1.getSelectedItem()),
+							(String) comboBox_1.getSelectedItem(),
 							null
 							);
 					if(BancoDeDados.existeAluno(a.getCpf())){
 						int op = JOptionPane.showConfirmDialog(null, "O CPF ja esta cadastrado. O que deseja fazer?");
 						if (op == 0){
-							BancoDeDados.atualizar(a);
+							JOptionPane.showConfirmDialog(null, BancoDeDados.atualizar(a, usuario, senha),"Resultado da atualizacao",2);
 						}
 						else if(op==1){
-							JOptionPane.showConfirmDialog(null, BancoDeDados.excluir(a),"Resultado da exclusao",2);
+							JOptionPane.showConfirmDialog(null, BancoDeDados.excluir(a,usuario,senha),"Resultado da exclusao",2);
 						}
 					}
 					else
 						JOptionPane.showConfirmDialog(null, BancoDeDados.inserir(a,usuario,senha),"Resultado da insercao",2);
 				}
 				else
-					JOptionPane.showMessageDialog(null, "Curso inexistente!","Erro",0);
+					JOptionPane.showMessageDialog(null, "Curso inexistente ou nao selecionado!","Erro",0);
 			}
 		});
 		btn1k.setBounds(229, 148, 53, 23);
@@ -278,7 +259,7 @@ public class SpaceAdm extends JFrame {
 		textField_8.setBounds(133, 72, 86, 20);
 		panel_9.add(textField_8);
 		
-		JLabel label_5 = new JLabel("Endere\u00E7o");
+		JLabel label_5 = new JLabel("Endereco");
 		label_5.setBounds(42, 100, 68, 14);
 		panel_9.add(label_5);
 		
@@ -296,7 +277,7 @@ public class SpaceAdm extends JFrame {
 		lblValorHora.setBounds(42, 125, 68, 14);
 		panel_9.add(lblValorHora);
 		
-		JLabel lblCdigo = new JLabel("C\u00F3digo");
+		JLabel lblCdigo = new JLabel("Codigo");
 		lblCdigo.setBounds(42, 150, 68, 14);
 		panel_9.add(lblCdigo);
 		
@@ -310,7 +291,7 @@ public class SpaceAdm extends JFrame {
 		textField_12.setBounds(133, 172, 86, 20);
 		panel_9.add(textField_12);
 		
-		JLabel lblFormao = new JLabel("Forma\u00E7\u00E3o");
+		JLabel lblFormao = new JLabel("Formacao");
 		lblFormao.setBounds(42, 175, 68, 14);
 		panel_9.add(lblFormao);
 		
@@ -331,14 +312,14 @@ public class SpaceAdm extends JFrame {
 				if(BancoDeDados.existeProfessor(p.getCodigo())){
 					int op = JOptionPane.showConfirmDialog(null, "O codigo ja esta cadastrado. O que deseja fazer?");
 					if (op == 0){
-						BancoDeDados.atualizar(p);
+						JOptionPane.showConfirmDialog(null, BancoDeDados.atualizar(p,usuario,senha),"Resultado da atualizacao",2);
 					}
 					else if(op==1){
-						JOptionPane.showConfirmDialog(null, BancoDeDados.excluir(p),"Resultado da exclusao",2);
+						JOptionPane.showConfirmDialog(null, BancoDeDados.excluir(p,usuario,senha),"Resultado da exclusao",2);
 					}
 				}
 				else
-					JOptionPane.showConfirmDialog(null, BancoDeDados.inserir(p),"Resultado da insercao",2);
+					JOptionPane.showConfirmDialog(null, BancoDeDados.inserir(p,usuario,senha),"Resultado da insercao",2);
 			}
 		});
 		btnOk.setBounds(229, 166, 53, 23);
@@ -379,15 +360,19 @@ public class SpaceAdm extends JFrame {
 		table = new JTable();
 		scrollPane.setColumnHeaderView(table);
 		
-		JButton btnApagarUmaSolicitao = new JButton("Apagar \r\nsolicita\u00E7\u00E3o");
+		JButton btnApagarUmaSolicitao = new JButton("Apagar solicitacao");
 		btnApagarUmaSolicitao.setFont(new Font("Tahoma", Font.PLAIN, 9));
 		btnApagarUmaSolicitao.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(BancoDeDados.existeSolicitacao(textField_14.getText(), usuario, senha))
+					JOptionPane.showConfirmDialog(null, BancoDeDados.excluir(textField_14.getText(), usuario, senha),"Resultado da exclusao",2);
+				else
+					JOptionPane.showMessageDialog(null, "Solicitacao inexistente!","Erro",0);
 			}
 		});
 		btnApagarUmaSolicitao.setBounds(316, 179, 105, 23);
 		panel_6.add(btnApagarUmaSolicitao);
-		JLabel lblDigiteOCdigo = new JLabel("Digite o c\u00F3digo:");
+		JLabel lblDigiteOCdigo = new JLabel("Digite o codigo:");
 		lblDigiteOCdigo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDigiteOCdigo.setBounds(316, 11, 107, 14);
 		panel_6.add(lblDigiteOCdigo);
@@ -396,7 +381,7 @@ public class SpaceAdm extends JFrame {
 		textField_14.setBounds(316, 27, 107, 14);
 		panel_6.add(textField_14);
 		textField_14.setColumns(10);
-		JLabel lblNewLabel = new JLabel("O que \r\ndeseja");
+		JLabel lblNewLabel = new JLabel("O que deseja");
 		lblNewLabel.setToolTipText("");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setBounds(316, 60, 107, 23);
@@ -404,15 +389,15 @@ public class SpaceAdm extends JFrame {
 		JButton btnNewButton = new JButton("Cadastrar aluno");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(BancoDeDados.existeSolicitacao(textField_14.getText())){
-					Solicitacao s = BancoDeDados.getSolicitacao(textField_14.getText());
+				Solicitacao s = BancoDeDados.getSolicitacao(textField_14.getText(), usuario, senha);
+				if(s!=null){
 					if(BancoDeDados.existeMatricula(s)){
-						JOptionPane.showConfirmDialog(null, BancoDeDados.mudarSituacaoMatricula(s, "Em curso"),"Resultado da matricula",2);
+						JOptionPane.showConfirmDialog(null, BancoDeDados.mudarSituacaoMatricula(s, "Em curso", usuario, senha),"Resultado da matricula",2);
 					}
 				
 					//Matricula nao existe, deve-se criar uma
 					else{
-						JOptionPane.showConfirmDialog(null, BancoDeDados.matricular(s),"Resultado da matricula",2);
+						JOptionPane.showConfirmDialog(null, BancoDeDados.matricular(s,usuario,senha),"Resultado da matricula",2);
 					}
 				}
 				else
@@ -423,7 +408,7 @@ public class SpaceAdm extends JFrame {
 		btnNewButton.setBounds(316, 111, 105, 23);
 		panel_6.add(btnNewButton);
 		
-		JButton btnTrancarMatrcula = new JButton("Trancar Matr\u00EDcula");
+		JButton btnTrancarMatrcula = new JButton("Trancar Matricula");
 		btnTrancarMatrcula.setFont(new Font("Tahoma", Font.PLAIN, 9));
 		btnTrancarMatrcula.setBounds(316, 145, 105, 23);
 		panel_6.add(btnTrancarMatrcula);
@@ -442,7 +427,7 @@ public class SpaceAdm extends JFrame {
 		btnSenha.setBounds(10, 11, 106, 23);
 		panel_7.add(btnSenha);
 		
-		JButton btnInformao = new JButton("Informa\u00E7\u00E3o");
+		JButton btnInformao = new JButton("Informacao");
 		btnInformao.setBounds(10, 45, 106, 23);
 		panel_7.add(btnInformao);
 		
@@ -482,7 +467,7 @@ public class SpaceAdm extends JFrame {
 			}
 		});
 		
-		JButton btnSolicitaes = new JButton("Solicita\u00E7\u00F5es");
+		JButton btnSolicitaes = new JButton("Solicitacoes");
 		btnSolicitaes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				label.setText("Solicitacoes");
@@ -494,14 +479,16 @@ public class SpaceAdm extends JFrame {
 				table = new JTable(modelo);
 				scrollPane.setViewportView(table);
 				
-				ArrayList<Solicitacao> lista = BancoDeDados.getSolicitacoes();
+				ArrayList<Solicitacao> lista = BancoDeDados.getSolicitacoes(usuario,senha);
 				modelo.addColumn("Codigo");
 				modelo.addColumn("Tipo");
 				modelo.addColumn("Data");
 				modelo.addColumn("CPF Aluno");
 				modelo.addColumn("codigo Disciplina");
-				for(Solicitacao s:lista){
-					modelo.addRow(new Object[]{s.getCodigo(),s.getTipo(),s.getData(),s.getAluno().getCpf(),s.getDisciplina().getCodigo()});
+				if(lista!=null){
+					for(Solicitacao s:lista){
+						modelo.addRow(new Object[]{s.getCodigo(),s.getTipo(),s.getData(),s.getCpfAluno(),s.getCodigoDisciplina()});
+					}
 				}
 			}
 		});

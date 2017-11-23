@@ -7,21 +7,21 @@ public class Solicitacao {
 	private String codigo;
 	private String tipo;
 	private String data;
-	private Aluno aluno;
-	private Disciplina disciplina;
+	private String cpfAluno;
+	private String codigoDisciplina;
 	
-	public Solicitacao(String codigo, String tipo, String data, Aluno aluno, Disciplina disciplina) {
+	public Solicitacao(String codigo, String tipo, String data, String cpfAluno, String codigoDisciplina) {
 		this.codigo = codigo;
 		this.tipo = tipo;
 		this.data = data;
-		this.aluno = aluno;
-		this.disciplina = disciplina;
+		this.cpfAluno = cpfAluno;
+		this.codigoDisciplina = codigoDisciplina;
 	}
 
-	public Solicitacao(String tipo, Aluno aluno, Disciplina disciplina) {
+	public Solicitacao(String tipo, String cpfAluno, String codigoDisciplina) {
 		this.tipo = tipo;
-		this.aluno = aluno;
-		this.disciplina = disciplina;
+		this.cpfAluno = cpfAluno;
+		this.codigoDisciplina = codigoDisciplina;
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		Date data=new Date();
 		this.data = sdf.format(data);
@@ -51,20 +51,20 @@ public class Solicitacao {
 		this.data = data;
 	}
 
-	public Aluno getAluno() {
-		return aluno;
+	public String getCpfAluno() {
+		return cpfAluno;
 	}
 
-	public void setAluno(Aluno aluno) {
-		this.aluno = aluno;
+	public void setCpfAluno(String cpfAluno) {
+		this.cpfAluno = cpfAluno;
 	}
 
-	public Disciplina getDisciplina() {
-		return disciplina;
+	public String getCodigoDisciplina() {
+		return codigoDisciplina;
 	}
 
-	public void setDisciplina(Disciplina disciplina) {
-		this.disciplina = disciplina;
+	public void setCodigoDisciplina(String codigoDisciplina) {
+		this.codigoDisciplina = codigoDisciplina;
 	}
 	
 	

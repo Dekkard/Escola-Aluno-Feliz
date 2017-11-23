@@ -5,28 +5,30 @@ import java.util.ArrayList;
 public class Aluno extends Pessoa{
 	private String usuario;
 	private String senha;
-	private Curso curso;
+	private String nomeCurso;
 	private ArrayList<Disciplina> disciplinas;
 	
-	public Aluno(String nome, String cpf, String telefone, String endereco, String usuario, String senha, Curso curso, ArrayList<Disciplina> disciplinas) {
+	public Aluno(String nome, String cpf, String telefone, String endereco, String usuario, String senha, String codigoCurso, ArrayList<Disciplina> disciplinas) {
 		super(nome, cpf, telefone, endereco);
 		this.usuario = usuario;
 		this.senha = senha;
-		this.curso = curso;
+		this.nomeCurso = codigoCurso;
 		this.disciplinas = disciplinas;
 	}
-
-	//TODO retirar
-	public Aluno(String cpf){
-		super(null,cpf,null,null);
-	};
 	
-	public Curso getCurso() {
-		return curso;
+	public Aluno(String nome, String cpf, String telefone, String endereco, String usuario, String senha, String codigoCurso) {
+		super(nome, cpf, telefone, endereco);
+		this.usuario = usuario;
+		this.senha = senha;
+		this.nomeCurso = codigoCurso;
 	}
 
-	public void setCurso(Curso curso) {
-		this.curso = curso;
+	public String getNomeCurso() {
+		return nomeCurso;
+	}
+
+	public void setNomeCurso(String curso) {
+		this.nomeCurso = curso;
 	}
 
 	public ArrayList<Disciplina> getDisciplinas() {

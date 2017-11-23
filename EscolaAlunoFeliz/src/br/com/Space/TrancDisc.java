@@ -37,25 +37,7 @@ public class TrancDisc extends JFrame {
 	private JPanel contentPane;
 	private JTable table;
 	private JTextField textField;
-	/**
-	 * TODO Retirar main
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					TrancDisc frame = new TrancDisc(new Aluno("NomeAluno", "cpf", "telefone", "Endere�o", "usuario", "senha", new Curso("NomeCurso",8), null));
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
+	
 	public TrancDisc(Aluno aluno) {
 		setType(Type.UTILITY);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -111,7 +93,7 @@ public class TrancDisc extends JFrame {
 				Disciplina d = BancoDeDados.getDisciplina(textField.getText());
 				if(d!=null){
 					JOptionPane.showConfirmDialog(null,
-							BancoDeDados.inserir(new Solicitacao("Trancamento",aluno,d)),
+							BancoDeDados.inserir(new Solicitacao("Trancamento",aluno.getCpf(),d.getCodigo())),
 							null,2);
 				}
 				else

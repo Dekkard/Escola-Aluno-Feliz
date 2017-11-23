@@ -59,21 +59,6 @@ public class SpaceAluno extends JFrame {
 	private JPanel contentPane;
 	private JTable table;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					SpaceAluno frame = new SpaceAluno(new Aluno(null));
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
@@ -133,7 +118,7 @@ public class SpaceAluno extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
-		JLabel lblEspaoDoAluno = new JLabel("Espa\u00E7o do Aluno");
+		JLabel lblEspaoDoAluno = new JLabel("Espaco do Aluno");
 		contentPane.add(lblEspaoDoAluno, BorderLayout.NORTH);
 		lblEspaoDoAluno.setFont(new Font("Tahoma", Font.PLAIN, 30));
 		lblEspaoDoAluno.setHorizontalAlignment(SwingConstants.CENTER);
@@ -169,7 +154,7 @@ public class SpaceAluno extends JFrame {
 		btnSenha.setBounds(10, 11, 106, 23);
 		panel_7.add(btnSenha);
 		
-		JButton btnInformao = new JButton("Informa\u00E7\u00E3o");
+		JButton btnInformao = new JButton("Informacao");
 		btnInformao.setBounds(10, 45, 106, 23);
 		panel_7.add(btnInformao);
 		
@@ -190,13 +175,13 @@ public class SpaceAluno extends JFrame {
 				DefaultTableModel modelo = new DefaultTableModel();
 				table = new JTable(modelo);
 				scrollPane_1.setViewportView(table);
-				modelo.addColumn("C�digo");
+				modelo.addColumn("Codigo");
 				modelo.addColumn("Nome");
 				modelo.addColumn("Professor");
 				modelo.addColumn("Semestre");
-				modelo.addColumn("Situa��o");
-				for(int i = aluno.getCurso().getQtdSemestres();	i>0; i--){
-					ArrayList<Disciplina> lista = BancoDeDados.getDisciplinas(aluno.getCurso().getNome(),i);
+				modelo.addColumn("Situacao");
+				for(int i = BancoDeDados.getCurso(aluno.getNomeCurso()).getQtdSemestres();	i>0; i--){
+					ArrayList<Disciplina> lista = BancoDeDados.getDisciplinas(aluno.getNomeCurso(),i);
 					for(Disciplina d:lista){
 						String situacao = BancoDeDados.getSituacao(d.getCodigo(), aluno.getCpf());
 						modelo.addRow(new Object[]{d.getCodigo(),d.getNome(),d.getProfessor().getNome(),d.getSemestre(),situacao});
@@ -219,23 +204,15 @@ public class SpaceAluno extends JFrame {
 				table = new JTable(modelo);
 				scrollPane_1.setViewportView(table);
 				
-				//TODO retirar a parte de teste e descomentar esta parte
-//				ArrayList<Recado> lista = BancoDeDados.getRecados(aluno);
-//				modelo.addColumn("Recado");
-//				modelo.addColumn("Data");
-//				modelo.addColumn("Professor");
-//				for(Recado c:lista){
-//					modelo.addRow(new Object[]{c.getRecado(),c.getData(),c.getProfessor().getNome()});
-//				}
-				
-					///teste
-					modelo.addColumn("Recado");
-					modelo.addColumn("Data");
-					modelo.addColumn("Professor");
-					for(int i = 0; i<20; i++){
-						modelo.addRow(new Object[]{"Olar","12 do 03 de 2004", "Jo�o"});
-						modelo.addRow(new Object[]{"Tudo bem","04 do 05 de 1967", "Maria"});
+				ArrayList<Recado> lista = BancoDeDados.getRecados(aluno);
+				modelo.addColumn("Recado");
+				modelo.addColumn("Data");
+				modelo.addColumn("Professor");
+				if (lista!= null){
+					for(Recado c:lista){
+						modelo.addRow(new Object[]{c.getRecado(),c.getData(),c.getProfessor().getNome()});
 					}
+				}
 			}
 		});
 		GridBagConstraints gbc_btnRecados = new GridBagConstraints();
@@ -255,28 +232,22 @@ public class SpaceAluno extends JFrame {
 			}
 		});
 		
-		JButton btnHistrico = new JButton("Hist\u00F3rico");
+		JButton btnHistrico = new JButton("Historico");
 		btnHistrico.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				lblDisciplina.setText("Hist�rico");
+				lblDisciplina.setText("Historico");
 				DefaultTableModel modelo = new DefaultTableModel();
 				table = new JTable(modelo);
 				scrollPane_1.setViewportView(table);
 				
-				//TODO retirar a parte de teste e descomentar esta parte
-//				ArrayList<Nota> lista = BancoDeDados.getNotas(aluno);
-//				modelo.addColumn("Disciplina");
-//				modelo.addColumn("Nota");
-//				for(Nota n:lista){
-//					modelo.addRow(new Object[]{n.getDisciplina().getNome(),n.getNota()});
-//				}
-					///teste
-					modelo.addColumn("Disciplina");
-					modelo.addColumn("Nota");
-					for(int i = 0; i<20; i++){
-						modelo.addRow(new Object[]{"cs",9.99});
-						modelo.addRow(new Object[]{"modelagem",8.25});
+				ArrayList<Nota> lista = BancoDeDados.getNotas(aluno);
+				modelo.addColumn("Disciplina");
+				modelo.addColumn("Nota");
+				if( lista != null){
+					for(Nota n:lista){
+						modelo.addRow(new Object[]{n.getDisciplina().getNome(),n.getNota()});
 					}
+				}
 			}
 		});
 		GridBagConstraints gbc_btnHistrico = new GridBagConstraints();

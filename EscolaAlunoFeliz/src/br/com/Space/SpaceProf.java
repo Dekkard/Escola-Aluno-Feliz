@@ -42,26 +42,6 @@ public class SpaceProf extends JFrame {
 	private JTextField textField_1;
 	private JTextField textField_2;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					SpaceProf frame = new SpaceProf(new Professor("Prof 1","cpf","tel","endere�o","CodigoProf"));
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 * @param prof 
-	 */
 	public SpaceProf(Professor prof) {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -96,7 +76,7 @@ public class SpaceProf extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
-		JLabel lblEspaoDoProfessor = new JLabel("Espa\u00E7o do Professor");
+		JLabel lblEspaoDoProfessor = new JLabel("Espaco do Professor");
 		lblEspaoDoProfessor.setHorizontalAlignment(SwingConstants.CENTER);
 		lblEspaoDoProfessor.setFont(new Font("Tahoma", Font.PLAIN, 30));
 		contentPane.add(lblEspaoDoProfessor, BorderLayout.NORTH);
@@ -160,7 +140,7 @@ public class SpaceProf extends JFrame {
 		panel_5.setBounds(0, 0, 441, 54);
 //		panel_2.add(panel_5);
 		
-		JLabel lblDigiteOCdigo = new JLabel("C\u00F3digo do recado para apagar:");
+		JLabel lblDigiteOCdigo = new JLabel("Codigo do recado para apagar:");
 		lblDigiteOCdigo.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblDigiteOCdigo.setBounds(180, 2, 158, 14);
 		panel_5.add(lblDigiteOCdigo);
@@ -205,24 +185,15 @@ public class SpaceProf extends JFrame {
 				DefaultTableModel modelo = new DefaultTableModel();
 				table = new JTable(modelo);
 				scrollPane.setViewportView(table);
-				//TODO retirar a parte de teste e descomentar esta parte
-//				ArrayList<Disciplina> lista = BancoDeDados.getDisciplinas(prof);
-//				modelo.addColumn("C�digo");
-//				modelo.addColumn("Nome");
-//				modelo.addColumn("Professor");
-//				modelo.addColumn("Semestre");
-//				for(Disciplina d:lista){
-//					modelo.addRow(new Object[]{d.getCodigo(),d.getNome(),d.getProfessor().getNome(),d.getSemestre()});
-//				}
-				///teste
-				modelo.addColumn("C�digo");
+				ArrayList<Disciplina> lista = BancoDeDados.getDisciplinas(prof);
+				modelo.addColumn("Codigo");
 				modelo.addColumn("Nome");
 				modelo.addColumn("Professor");
 				modelo.addColumn("Semestre");
-				for(int j = 0; j<20; j++){
-					modelo.addRow(new Object[]{"1234"+j,"Bando De Dados" +j,"Jos�",2});
-					modelo.addRow(new Object[]{"2333"+j,"Programas" +j,"Paulo",3});
-				}
+				if(lista!=null)
+					for(Disciplina d:lista){
+						modelo.addRow(new Object[]{d.getCodigo(),d.getNome(),d.getProfessor().getNome(),d.getSemestre()});
+					}
 			}
 		});
 		GridBagConstraints gbc_btnDisciplinas = new GridBagConstraints();
@@ -232,20 +203,8 @@ public class SpaceProf extends JFrame {
 		gbc_btnDisciplinas.gridy = 0;
 		panel.add(btnDisciplinas, gbc_btnDisciplinas);
 		
-		//TODO retirar a parte de teste e descomentar esta parte
-//		ArrayList<Disciplina> disciplinas = prof.getDisciplinas();
-			//teste
-			ArrayList<Disciplina> disciplinas = new ArrayList<>();
-			disciplinas.add(new Disciplina("123", "C�lculo 1", prof,null, 1));
-			disciplinas.add(new Disciplina("124", "C�lculo 1", prof,null, 1));
-			disciplinas.add(new Disciplina("125", "Bando de dados", prof,null, 2));
-			disciplinas.add(new Disciplina("126", "C�lculo 2", prof,null, 2));
-			disciplinas.add(new Disciplina("127", "C�lculo 3", prof,null, 3));
-			disciplinas.add(new Disciplina("128", "Fiscica 3", prof,null, 3));
-			disciplinas.add(new Disciplina("129", "Fisica 2", prof,null, 2));
-			disciplinas.add(new Disciplina("130", "Fisica 1", prof,null, 1));
-			disciplinas.add(new Disciplina("131", "Fisica 3", prof,null, 3));
-		
+		ArrayList<Disciplina> disciplinas = BancoDeDados.getDisciplinas(prof);
+			
 		String[] disc = new String[1+disciplinas.size()];
 		disc[0] = "Disciplinas";
 		int i = 1;
@@ -274,19 +233,12 @@ public class SpaceProf extends JFrame {
 								table = new JTable(modelo);
 								scrollPane.setViewportView(table);
 								
-								//TODO retirar a parte de teste e descomentar esta parte
-//								ArrayList<Nota> lista = BancoDeDados.getNotas(disciplinas);
-//								modelo.addColumn("Disciplina");
-//								modelo.addColumn("Nota");
-//								for(Nota n:lista){
-//									modelo.addRow(new Object[]{n.getDisciplina().getNome(),n.getNota()});
-//								}
-									///teste
-									modelo.addColumn("Disciplina");
-									modelo.addColumn("Nota");
-									for(int j = 0; j<20; j++){
-										modelo.addRow(new Object[]{"cs",9.99});
-										modelo.addRow(new Object[]{"modelagem",8.25});
+								ArrayList<Nota> lista = BancoDeDados.getNotas(disciplinas);
+								modelo.addColumn("Disciplina");
+								modelo.addColumn("Nota");
+								if(lista != null)
+									for(Nota n:lista){
+										modelo.addRow(new Object[]{n.getDisciplina().getNome(),n.getNota()});
 									}
 							}
 						}
@@ -315,22 +267,13 @@ public class SpaceProf extends JFrame {
 				table = new JTable(modelo);
 				scrollPane.setViewportView(table);
 				
-				//TODO retirar a parte de teste e descomentar esta parte
-//				ArrayList<Recado> lista = BancoDeDados.getRecados(prof);
-//				modelo.addColumn("Recado");
-//				modelo.addColumn("Data");
-//				modelo.addColumn("Aluno");
-//				for(Recado c:lista){
-//					modelo.addRow(new Object[]{c.getRecado(),c.getData(),c.getAluno().getNome()});
-//				}
-				
-					///teste
-					modelo.addColumn("Recado");
-					modelo.addColumn("Data");
-					modelo.addColumn("Aluno");
-					for(int i = 0; i<20; i++){
-						modelo.addRow(new Object[]{"Olar","12 do 03 de 2004", "Jo�ozinho"});
-						modelo.addRow(new Object[]{"Tudo bem","04 do 05 de 1967", "Mariazinha"});
+				ArrayList<Recado> lista = BancoDeDados.getRecados(prof);
+				modelo.addColumn("Recado");
+				modelo.addColumn("Data");
+				modelo.addColumn("Aluno");
+				if(lista != null)
+					for(Recado c:lista){
+						modelo.addRow(new Object[]{c.getRecado(),c.getData(),c.getAluno().getNome()});
 					}
 			}
 		});
@@ -344,7 +287,7 @@ public class SpaceProf extends JFrame {
 		JButton btnApagar = new JButton("Apagar");
 		btnApagar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BancoDeDados.excluir(new Recado(textField_2.getText()));
+				BancoDeDados.excluir(new Recado(textField_2.getText()),prof.getUsuario(),prof.getSenha());
 				table = new JTable();
 				scrollPane.setViewportView(table);
 			}

@@ -6,28 +6,34 @@ import java.util.*;
 public class TrataCliente implements Runnable {
 
     private InputStream saidaCliente;
-    private Servidor servidor;
 	private OutputStream entradaCliente;
+	private Servidor servidor;
+	private String endereco;
 
-    public TrataCliente(InputStream saidaCliente, OutputStream entradaCliente, Servidor servidor) {
+    public TrataCliente(InputStream saidaCliente, OutputStream entradaCliente, Servidor servidor, String endereco) {
         this.saidaCliente = saidaCliente;
-        this.servidor = servidor;
         this.entradaCliente = entradaCliente;
+        this.endereco = endereco;
+        this.servidor = servidor;
     }
 
     public void run() {
         Scanner s = new Scanner(this.saidaCliente);
         PrintStream e = new PrintStream(this.entradaCliente);
-        while (s.hasNextLine()) {
-        	System.out.print("nova operacao: ");
-        	servidor.executarSql(s,e);
-        	try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+        try{
+        	while (s.hasNextLine()) {
+        		System.out.print("Cliente "+endereco+" solicitou operacao ");
+        		servidor.executarSql(s, e);
+        		Thread.sleep(1000);
+        	}
         }
-        s.close();
+        catch(NullPointerException e1){
+        	System.out.println(e1.getMessage());
+        } catch (InterruptedException e1) {
+			System.out.println(e1.getMessage());
+		}
+        finally{
+        	s.close();
+        }
     }
 }

@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
 import br.com.ClassesInternas.*;
 
 public class BancoDeDados {
-	
+
 	private static PrintStream saida;
 	private static Scanner entrada;
 
@@ -25,217 +25,202 @@ public class BancoDeDados {
 		BancoDeDados.entrada = entrada;
 	}
 
-	public static String inserir(Aluno a,String usuario, String senha){
-		try{
-			if(BancoDeDadosServer.loginAdm(usuario, senha)){
-				saida.println("2250"); 
+	public static String inserir(Aluno a, String usuario, String senha) {
+		try {
+			if (BancoDeDados.loginAdm(usuario, senha)) {
+				saida.println("2250");
 				saida.println(a.getNome());
 				saida.println(a.getCpf());
 				saida.println(a.getTelefone());
 				saida.println(a.getEndereco());
 				saida.println(a.getUsuario());
 				saida.println(a.getSenha());
-				saida.println(a.getCurso().getNome());
-				while(!entrada.hasNextLine());
+				saida.println(a.getNomeCurso());
+				while (!entrada.hasNextLine())
+					;
 				return entrada.nextLine();
-			}
-			else return "Erro de Login";
-			}
-		catch(NullPointerException e){
+			} else
+				return "Erro de Login";
+		} catch (NullPointerException e) {
 			JOptionPane.showConfirmDialog(null, "Erro na conexao com o servidor", "Erro", 2);
 			System.exit(-1);
 			return "";
 		}
 	}
-	
-	public static String inserir(Curso c){
-		String sql = "insert into curso(nome,qtd_semestres) values (?,?)";
-		Connection con = ConnectionFactory.getConnection();
-		
-		try{
-			PreparedStatement pst = con.prepareStatement(sql);
-			pst.setString(1, c.getNome());
-			pst.setInt(2, c.getQtdSemestres());
-			int res = pst.executeUpdate();
-			if(res > 0){
-				return "Inserido com sucesso.";
-			}else{
-				return "Erro ao inserir.";
-			}
-		}catch(SQLException e){
-			return e.getMessage();
-		}finally {
-			ConnectionFactory.close(con);
+
+	public static String inserir(Curso c, String usuario, String senha){
+		try {
+			if (BancoDeDados.loginAdm(usuario, senha)) {
+//				new Curso(nome, qtdSemestres)
+				saida.println("2251");
+				saida.println(c.getNome());
+				saida.println(c.getQtdSemestres());
+				while (!entrada.hasNextLine());
+				return entrada.nextLine();
+			} else
+				return "Erro de Login";
+		} catch (NullPointerException e) {
+			JOptionPane.showConfirmDialog(null, "Erro na conexao com o servidor", "Erro", 2);
+			System.exit(-1);
+			return "";
 		}
 	}
-	
-	public static String inserir(Disciplina d){
-		String sql = "insert into disciplina(codigo,nome,professor_codigo,curso_nome,semestre) values (?,?,?,?,?)";
-		Connection con = ConnectionFactory.getConnection();
-		
-		try{
-			PreparedStatement pst = con.prepareStatement(sql);
-			pst.setString(1, d.getCodigo());
-			pst.setString(2, d.getNome());
-			pst.setString(3, d.getProfessor().getCodigo());
-			pst.setString(4, d.getCurso().getNome());
-			pst.setInt(5, d.getSemestre());
-			int res = pst.executeUpdate();
-			if(res > 0){
-				return "Inserido com sucesso.";
-			}else{
-				return "Erro ao inserir.";
-			}
-		}catch(SQLException e){
-			return e.getMessage();
-		}finally {
-			ConnectionFactory.close(con);
+
+	public static String inserir(Disciplina d, String usuario, String senha) {
+		try {
+			if (BancoDeDados.loginAdm(usuario, senha)) {
+//				new Disciplina(codigo, nome, professor, curso, semestre)
+				saida.println("2252");
+				saida.println(d.getCodigo());
+				saida.println(d.getNome());
+				saida.println(d.getProfessor().getCodigo());
+				saida.println(d.getCurso().getNome());
+				saida.println(d.getSemestre());
+				while (!entrada.hasNextLine());
+				return entrada.nextLine();
+			} else
+				return "Erro de Login";
+		} catch (NullPointerException e) {
+			JOptionPane.showConfirmDialog(null, "Erro na conexao com o servidor", "Erro", 2);
+			System.exit(-1);
+			return "";
 		}
 	}
-	
-	public static String inserir(Recado r){
-		String sql = "insert into Recado(recado,data,professor_codigo,aluno_cpf) values (?,?,?,?)";
-		Connection con = ConnectionFactory.getConnection();
-		
-		try{
-			PreparedStatement pst = con.prepareStatement(sql);
-			pst.setString(1, r.getRecado());
-			pst.setString(2, r.getData());
-			pst.setString(3, r.getProfessor().getCodigo());
-			pst.setString(4, r.getAluno().getCpf());
-			int res = pst.executeUpdate();
-			if(res > 0){
-				return "Inserido com sucesso.";
-			}else{
-				return "Erro ao inserir.";
-			}
-		}catch(SQLException e){
-			return e.getMessage();
-		}finally {
-			ConnectionFactory.close(con);
+
+	public static String inserir(Recado r, String usuario, String senha) {
+		try {
+			if (BancoDeDados.loginAdm(usuario, senha)) {
+//				new Recado(codigo, recado, data, aluno, professor)
+				saida.println("2253");
+				saida.println(r.getCodigo());
+				saida.println(r.getRecado());
+				saida.println(r.getData());
+				saida.println(r.getAluno().getCpf());
+				saida.println(r.getProfessor().getCodigo());
+				while (!entrada.hasNextLine());
+				return entrada.nextLine();
+			} else
+				return "Erro de Login";
+		} catch (NullPointerException e) {
+			JOptionPane.showConfirmDialog(null, "Erro na conexao com o servidor", "Erro", 2);
+			System.exit(-1);
+			return "";
 		}
 	}
-	
-	public static String inserir(Professor p){
-		String sql = "insert into professor (cpf,nome,telefone,endereco,valor_hora,codigo,formacao,usuario,senha) values (?,?,?,?,?,?,?,?,?)";
-		Connection con = ConnectionFactory.getConnection();
-		
-		try{
-			PreparedStatement pst = con.prepareStatement(sql);
-			pst.setString(1, p.getCpf());
-			pst.setString(2, p.getNome());
-			pst.setString(3, p.getCodigo());
-			pst.setString(4, p.getEndereco());
-			pst.setDouble(5, p.getValorHora());
-			pst.setString(6, p.getCodigo());
-			pst.setString(7, p.getFormacao());
-			pst.setString(8, p.getUsuario());
-			pst.setString(9, p.getSenha());
-			int res = pst.executeUpdate();
-			if(res > 0){
-				return "Inserido com sucesso.";
-			}else{
-				return "Erro ao inserir.";
-			}
-		}catch(SQLException e){
-			return e.getMessage();
-		}finally {
-			ConnectionFactory.close(con);
+
+	public static String inserir(Professor p, String usuario, String senha){
+		try {
+			if (BancoDeDados.loginAdm(usuario, senha)) {
+//    			new Professor(nome, cpf, telefone, endereco, valorHora, codigo, formacao, usuario, senha)
+				saida.println("2254");
+				saida.println(p.getNome());
+				saida.println(p.getCpf());
+				saida.println(p.getTelefone());
+				saida.println(p.getEndereco());
+				saida.println(p.getValorHora());
+				saida.println(p.getCodigo());
+				saida.println(p.getFormacao());
+				saida.println(p.getUsuario());
+				saida.println(p.getSenha());
+				while (!entrada.hasNextLine());
+				return entrada.nextLine();
+			} else
+				return "Erro de Login";
+		} catch (NullPointerException e) {
+			JOptionPane.showConfirmDialog(null, "Erro na conexao com o servidor", "Erro", 2);
+			System.exit(-1);
+			return "";
 		}
 	}
-	
-	public static String inserir(Nota nota){
-		//verificar se esta correto
+
+	public static String inserir(Nota nota) {
+		// verificar se esta correto
 		String sql = "insert into matriculaDisciplina (aluno_cpf,disciplina_codigo,nota) values (?,?,?)";
 		Connection con = ConnectionFactory.getConnection();
-		
-		try{
+
+		try {
 			PreparedStatement pst = con.prepareStatement(sql);
 			pst.setString(1, nota.getAluno().getCpf());
 			pst.setString(2, nota.getDisciplina().getCodigo());
 			pst.setDouble(3, nota.getNota());
 			int res = pst.executeUpdate();
-			if(res > 0){
+			if (res > 0) {
 				return "Inserido com sucesso.";
-			}else{
+			} else {
 				return "Erro ao inserir.";
 			}
-		}catch(SQLException e){
+		} catch (SQLException e) {
 			return e.getMessage();
-		}finally {
+		} finally {
 			ConnectionFactory.close(con);
 		}
 	}
-	
-	public static String inserir(Solicitacao s){
+
+	public static String inserir(Solicitacao s) {
 		String sql = "insert into solicitacao (tipo,data,aluno_cpf,disciplina_codigo) values (?,?,?,?)";
 		Connection con = ConnectionFactory.getConnection();
-		
-		try{
+
+		try {
 			PreparedStatement pst = con.prepareStatement(sql);
 			pst.setString(1, s.getTipo());
 			pst.setString(2, s.getData());
-			pst.setString(3, s.getAluno().getCpf());
-			pst.setString(4, s.getDisciplina().getCodigo());
+			pst.setString(3, s.getCpfAluno());
+			pst.setString(4, s.getCodigoDisciplina());
 			int res = pst.executeUpdate();
-			if(res > 0){
-				return "Foi enviado uma solicitacao ao administrador do sistema para que ele te "+ s.getTipo() +" na disciplina!";
-			}else{
+			if (res > 0) {
+				return "Foi enviado uma solicitacao ao administrador do sistema para que ele te " + s.getTipo()
+						+ " na disciplina!";
+			} else {
 				return "Erro ao criar solicitacao!";
 			}
-		}catch(SQLException e){
+		} catch (SQLException e) {
 			return e.getMessage();
-		}finally {
+		} finally {
 			ConnectionFactory.close(con);
 		}
 	}
-	
-	public static String matricular(Solicitacao s){
-		String sql = "insert into matriculaDisciplina (disciplina_codigo,aluno_cpf,situacao) values (?,?,?)";
-		Connection con = ConnectionFactory.getConnection();
-		
-		try{
-			PreparedStatement pst = con.prepareStatement(sql);
-			pst.setString(1, s.getDisciplina().getCodigo());
-			pst.setString(2, s.getAluno().getCpf());
-			pst.setString(3, "Em curso");
-			int res = pst.executeUpdate();
-			if(res > 0){
-				return "Aluno matriculado com sucesso!";
-			}else{
-				return "Erro ao matricular!";
-			}
-		}catch(SQLException e){
-			return e.getMessage();
-		}finally {
-			ConnectionFactory.close(con);
+
+	public static String matricular(Solicitacao s, String usuario, String senha) {
+		try {
+			if (BancoDeDados.loginAdm(usuario, senha)) {
+//				new Solicitacao(codigo, tipo, data, cpfAluno, codigoDisciplina)
+				saida.println("2261");
+				saida.println(s.getCodigo());
+				saida.println(s.getTipo());
+				saida.println(s.getData());
+				saida.println(s.getCpfAluno());
+				saida.println(s.getCodigoDisciplina());
+				while (!entrada.hasNextLine());
+				return entrada.nextLine();
+			} else
+				return "Erro de Login";
+		} catch (NullPointerException e) {
+			JOptionPane.showConfirmDialog(null, "Erro na conexao com o servidor", "Erro", 2);
+			System.exit(-1);
+			return "";
 		}
 	}
-	
-	//Muda situacao da matricula: Em curso, Trancado, Aprovado
-	public static String mudarSituacaoMatricula(Solicitacao solicitacao, String situacao){
-		//TODO: inserir sql para atualizar (update)
-		//TODO: pesquisar por chave composta
-		String sql = "????? into matriculaDisciplina () were id = ? values (?)";
-		Connection con = ConnectionFactory.getConnection();
-		
-		try{
-			PreparedStatement pst = con.prepareStatement(sql);
-			//pst.setString(1, codigoMatricula);
-			pst.setString(2, situacao);
-			int res = pst.executeUpdate();
-			if(res > 0){
-				return "Situacao da matricula mudada para"+ situacao+ "!";
-			}else{
-				return "Erro ao mudar a situacao da matricula!";
-			}
-		}catch(SQLException e){
-			return e.getMessage();
-		}finally {
-			ConnectionFactory.close(con);
+
+	// Muda situacao da matricula: Em curso, Trancado, Aprovado
+	public static String mudarSituacaoMatricula(Solicitacao solicitacao, String situacao, String usuario, String senha) {
+		try {
+			if (BancoDeDados.loginAdm(usuario, senha)) {
+				saida.println("2264");
+				saida.println(solicitacao.getCodigoDisciplina());
+				saida.println(solicitacao.getCpfAluno());
+				saida.println(situacao);
+				while (!entrada.hasNextLine())
+					;
+				return entrada.nextLine();
+			} else
+				return "Erro de Login";
+		} catch (NullPointerException e) {
+			JOptionPane.showConfirmDialog(null, "Erro na conexao com o servidor", "Erro", 2);
+			System.exit(-1);
+			return "";
 		}
 	}
-	
+
 	public static Boolean existeAluno(String cpfAluno) {
 		String sql = "select * from aluno where cpf=?";
 		Connection con = ConnectionFactory.getConnection();
@@ -243,7 +228,7 @@ public class BancoDeDados {
 			PreparedStatement pst = con.prepareStatement(sql);
 			pst.setString(1, cpfAluno);
 			ResultSet rs = pst.executeQuery();
-			if (rs.next()) 
+			if (rs.next())
 				return true;
 		} catch (SQLException e) {
 			System.exit(-1);
@@ -252,15 +237,15 @@ public class BancoDeDados {
 		}
 		return false;
 	}
-	
-	public static Boolean existeProfessor(String codigoProfessor){
+
+	public static Boolean existeProfessor(String codigoProfessor) {
 		String sql = "select * from professor where codigo=?";
 		Connection con = ConnectionFactory.getConnection();
 		try {
 			PreparedStatement pst = con.prepareStatement(sql);
 			pst.setString(1, codigoProfessor);
 			ResultSet rs = pst.executeQuery();
-			if (rs.next()) 
+			if (rs.next())
 				return true;
 		} catch (SQLException e) {
 			System.exit(-1);
@@ -269,15 +254,15 @@ public class BancoDeDados {
 		}
 		return false;
 	}
-	
-	public static Boolean existeCurso(String nomeCurso){
+
+	public static Boolean existeCurso(String nomeCurso) {
 		String sql = "select * from curso where nome=?";
 		Connection con = ConnectionFactory.getConnection();
 		try {
 			PreparedStatement pst = con.prepareStatement(sql);
 			pst.setString(1, nomeCurso);
 			ResultSet rs = pst.executeQuery();
-			if (rs.next()) 
+			if (rs.next())
 				return true;
 		} catch (SQLException e) {
 			System.exit(-1);
@@ -287,32 +272,34 @@ public class BancoDeDados {
 		return false;
 	}
 
-	public static boolean existeSolicitacao(String codigo) {
-		String sql = "select * from solicitacao where codigo=?";
-		Connection con = ConnectionFactory.getConnection();
+	public static boolean existeSolicitacao(String codigo, String usuario, String senha) {
 		try {
-			PreparedStatement pst = con.prepareStatement(sql);
-			pst.setInt(1, Integer.parseInt(codigo));
-			ResultSet rs = pst.executeQuery();
-			if (rs.next()) 
-				return true;
-		} catch (SQLException e) {
+			if (BancoDeDados.loginAdm(usuario, senha)) {
+				saida.println("2264");
+				saida.println(codigo);
+				while (!entrada.hasNextLine())
+					;
+				if (entrada.nextLine().equals("true"))
+					return true;
+			} else
+				JOptionPane.showConfirmDialog(null, "Erro de login", "Erro", 2);
+		} catch (NullPointerException e) {
+			JOptionPane.showConfirmDialog(null, "Erro na conexao com o servidor", "Erro", 2);
 			System.exit(-1);
-		} finally {
-			ConnectionFactory.close(con);
 		}
+
 		return false;
 	}
-	
+
 	public static boolean existeMatricula(Solicitacao s) {
 		String sql = "select * from matriculaDisciplina where disciplina_codigo = ? AND aluno_cpf = ?";
 		Connection con = ConnectionFactory.getConnection();
 		try {
 			PreparedStatement pst = con.prepareStatement(sql);
-			pst.setString(1, s.getDisciplina().getCodigo());
-			pst.setString(2, s.getAluno().getCpf());
+			pst.setString(1, s.getCodigoDisciplina());
+			pst.setString(2, s.getCpfAluno());
 			ResultSet rs = pst.executeQuery();
-			if (rs.next()) 
+			if (rs.next())
 				return true;
 		} catch (SQLException e) {
 			System.exit(-1);
@@ -321,63 +308,135 @@ public class BancoDeDados {
 		}
 		return false;
 	}
-	
-	public static void atualizar(Aluno a) {
-		
-		JOptionPane.showConfirmDialog(null, "Usuario atualizado.\nO usuario e a senha foram mudados para o padrao(nome da pessoa)!", "Usuario e senha modificados", 3);
-	}
-	
-	public static void atualizar(Professor p) {
-		
-		JOptionPane.showConfirmDialog(null, "Usuario atualizado.\nO usuario e a senha foram mudados para o padrao(nome da pessoa)!", "Usuario e senha modificados", 3);
-	}
 
-	public static String excluir(Aluno a) {
-		String sql = "delete from aluno where cpf =?";
-		Connection con = ConnectionFactory.getConnection();
+	public static String atualizar(Aluno a, String usuario, String senha) {
 		try {
-			PreparedStatement pst = con.prepareStatement(sql);
-			pst.setString(1, a.getCpf());
-			ResultSet rs = pst.executeQuery();
-			if (rs.next()) 
-				return "Excluido com sucesso!";
-		} catch (SQLException e) {
+			if (BancoDeDados.loginAdm(usuario, senha)) {
+				saida.println("2255");
+				saida.println(a.getNome());
+				saida.println(a.getCpf());
+				saida.println(a.getTelefone());
+				saida.println(a.getEndereco());
+				saida.println(a.getUsuario());
+				saida.println(a.getSenha());
+				saida.println(a.getNomeCurso());
+				while (!entrada.hasNextLine())
+					;
+				return entrada.nextLine();
+			} else
+				return "Erro de Login";
+		} catch (NullPointerException e) {
+			JOptionPane.showConfirmDialog(null, "Erro na conexao com o servidor", "Erro", 2);
 			System.exit(-1);
-		} finally {
-			ConnectionFactory.close(con);
+			return "";
 		}
-		return "Falha na exclusao!";
 	}
 
-	public static String excluir(Professor p) {
-		return "Excluido com sucesso!";
+	public static String atualizar(Professor p, String usuario, String senha) {
+		try {
+			if (BancoDeDados.loginAdm(usuario, senha)) {
+				saida.println("2257");
+//				new Professor(nome, cpf, telefone, endereco, valorHora, codigo, formacao, usuario, senha)
+				saida.println(p.getNome());
+				saida.println(p.getCpf());
+				saida.println(p.getTelefone());
+				saida.println(p.getEndereco());
+				saida.println(p.getValorHora());
+				saida.println(p.getCodigo());
+				saida.println(p.getFormacao());
+				saida.println(p.getUsuario());
+				saida.println(p.getSenha());
+				while (!entrada.hasNextLine())
+					;
+				return entrada.nextLine();
+			} else
+				return "Erro de Login";
+		} catch (NullPointerException e) {
+			JOptionPane.showConfirmDialog(null, "Erro na conexao com o servidor", "Erro", 2);
+			System.exit(-1);
+			return "";
+		}
 	}
 
-	public static void excluir(Recado recado) {
-		// TODO fazer o metodo
-		
+	public static String excluir(Aluno a, String usuario, String senha) {
+		try {
+			if (BancoDeDados.loginAdm(usuario, senha)) {
+				saida.println("2256");
+				saida.println(a.getCpf());
+				while (!entrada.hasNextLine())
+					;
+				return entrada.nextLine();
+			} else
+				return "Erro de Login";
+		} catch (NullPointerException e) {
+			JOptionPane.showConfirmDialog(null, "Erro na conexao com o servidor", "Erro", 2);
+			System.exit(-1);
+			return "";
+		}
+	}
+
+	public static String excluir(Professor p, String usuario, String senha) {
+		try {
+			if (BancoDeDados.loginAdm(usuario, senha)) {
+				saida.println("2258");
+				saida.println(p.getCodigo());
+				while (!entrada.hasNextLine())
+					;
+				return entrada.nextLine();
+			} else
+				return "Erro de Login";
+		} catch (NullPointerException e) {
+			JOptionPane.showConfirmDialog(null, "Erro na conexao com o servidor", "Erro", 2);
+			System.exit(-1);
+			return "";
+		}
+	}
+
+	public static String excluir(Recado recado, String usuario, String senha) {
+		try {
+			if (BancoDeDados.loginAdm(usuario, senha)) {
+				saida.println("2258");
+				saida.println(recado.getCodigo());
+				while (!entrada.hasNextLine());
+				return entrada.nextLine();
+			} else
+				return "Erro de Login";
+		} catch (NullPointerException e) {
+			JOptionPane.showConfirmDialog(null, "Erro na conexao com o servidor", "Erro", 2);
+			System.exit(-1);
+			return "";
+		}
+	}
+	
+	public static String excluir(String codigoSolicitacao, String usuario, String senha) {
+		try {
+			if (BancoDeDados.loginAdm(usuario, senha)) {
+				saida.println("2263");
+				saida.println(codigoSolicitacao);
+				while (!entrada.hasNextLine());
+				return entrada.nextLine();
+			} else
+				return "Erro de Login";
+		} catch (NullPointerException e) {
+			JOptionPane.showConfirmDialog(null, "Erro na conexao com o servidor", "Erro", 2);
+			System.exit(-1);
+			return "";
+		}
 	}
 
 	public static Disciplina getDisciplina(String codigoDisciplina) {
 		String sql = "select * from disciplina where codigo = ? ";
-		System.out.println("getDisciplinaaa");
 		Connection con = ConnectionFactory.getConnection();
 		try {
 			PreparedStatement pst = con.prepareStatement(sql);
 			pst.setString(1, codigoDisciplina);
 			ResultSet rs = pst.executeQuery();
-			if(rs.next()){
-				System.out.println("getDisciplina entrou");
-				Disciplina d = new Disciplina(
-						rs.getString(1),
-						rs.getString(2),
-						BancoDeDados.getProfessor(rs.getString(3)),
-						BancoDeDados.getCurso(rs.getString(4)),
-						rs.getInt(5)
-						);
+			if (rs.next()) {
+				Disciplina d = new Disciplina(rs.getString(1), rs.getString(2),
+						BancoDeDados.getProfessor(rs.getString(3)), BancoDeDados.getCurso(rs.getString(4)),
+						rs.getInt(5));
 				return d;
-			}
-			else
+			} else
 				return null;
 		} catch (SQLException e) {
 			return null;
@@ -385,8 +444,8 @@ public class BancoDeDados {
 			ConnectionFactory.close(con);
 		}
 	}
-	
-	public static ArrayList<Disciplina> getDisciplinas(Aluno a){
+
+	public static ArrayList<Disciplina> getDisciplinas(Aluno a) {
 		ArrayList<Disciplina> disciplinas = new ArrayList<>();
 		String sql = "select * from Disciplina inner join matriculaDisciplina on disciplina.codigo = matriculaDisciplina.disciplina_codigo where matriculaDisciplina.aluno_cpf = ? ";
 		Connection con = ConnectionFactory.getConnection();
@@ -394,16 +453,12 @@ public class BancoDeDados {
 			PreparedStatement pst = con.prepareStatement(sql);
 			pst.setString(1, a.getCpf());
 			ResultSet rs = pst.executeQuery();
-			while (rs.next()){
-				Disciplina d = new Disciplina(
-						rs.getString(1),
-						rs.getString(2),
-						BancoDeDados.getProfessor(rs.getString(3)),
-						BancoDeDados.getCurso(rs.getString(4)),
-						rs.getInt(5)
-						);
+			while (rs.next()) {
+				Disciplina d = new Disciplina(rs.getString(1), rs.getString(2),
+						BancoDeDados.getProfessor(rs.getString(3)), BancoDeDados.getCurso(rs.getString(4)),
+						rs.getInt(5));
 				disciplinas.add(d);
-				}
+			}
 		} catch (SQLException e) {
 			return null;
 		} finally {
@@ -411,10 +466,10 @@ public class BancoDeDados {
 		}
 		return disciplinas;
 	}
-	
+
 	public static ArrayList<Disciplina> getDisciplinas(Professor prof) {
-		// TODO fazer o metodo
-		return null;
+		ArrayList<Disciplina> ad = new ArrayList<>();
+		return ad;
 	}
 
 	public static ArrayList<Disciplina> getDisciplinas(String nomeCurso, int semestre) {
@@ -426,17 +481,13 @@ public class BancoDeDados {
 			pst.setString(1, nomeCurso);
 			pst.setInt(2, semestre);
 			ResultSet rs = pst.executeQuery();
-			while (rs.next()){
-				//TODO terminar os gets
-				Disciplina d = new Disciplina(
-						rs.getString(1),
-						rs.getString(2),
-						BancoDeDados.getProfessor(rs.getString(3)),
-						BancoDeDados.getCurso(rs.getString(4)),
-						rs.getInt(5)
-						);
+			while (rs.next()) {
+				// TODO terminar os gets
+				Disciplina d = new Disciplina(rs.getString(1), rs.getString(2),
+						BancoDeDados.getProfessor(rs.getString(3)), BancoDeDados.getCurso(rs.getString(4)),
+						rs.getInt(5));
 				disciplinas.add(d);
-				}
+			}
 		} catch (SQLException e) {
 			System.exit(-1);
 		} finally {
@@ -445,6 +496,7 @@ public class BancoDeDados {
 		return disciplinas;
 	}
 
+	//TODO nao usado mais
 	public static Professor getProfessor(String codigo) {
 		String sql = "select * from professor where codigo = ? ";
 		Connection con = ConnectionFactory.getConnection();
@@ -452,21 +504,11 @@ public class BancoDeDados {
 			PreparedStatement pst = con.prepareStatement(sql);
 			pst.setString(1, codigo);
 			ResultSet rs = pst.executeQuery();
-			if(rs.next()){
-				Professor p = new Professor(
-					rs.getString(2),
-					rs.getString(1),
-					rs.getString(4),
-					rs.getString(3),
-					rs.getDouble(5),
-					rs.getString(6),
-					rs.getString(7),
-					rs.getString(8),
-					rs.getString(9)
-					);
+			if (rs.next()) {
+				Professor p = new Professor(rs.getString(2), rs.getString(1), rs.getString(4), rs.getString(3),
+						rs.getDouble(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9));
 				return p;
-			}
-			else
+			} else
 				return null;
 		} catch (SQLException e) {
 			return null;
@@ -475,7 +517,7 @@ public class BancoDeDados {
 		}
 	}
 
-	
+	//TODO nao usado mais
 	public static Aluno getAluno(String cpf) {
 		String sql = "select * from aluno where cpf = ? ";
 		Connection con = ConnectionFactory.getConnection();
@@ -483,20 +525,11 @@ public class BancoDeDados {
 			PreparedStatement pst = con.prepareStatement(sql);
 			pst.setString(1, cpf);
 			ResultSet rs = pst.executeQuery();
-			if(rs.next()){
-				Aluno a = new Aluno(
-					rs.getString(2),
-					rs.getString(1),
-					rs.getString(4),
-					rs.getString(3),
-					rs.getString(6),
-					rs.getString(7),
-					BancoDeDados.getCurso(rs.getString(5)),
-					BancoDeDados.getDisciplinas(new Aluno(cpf))
-					);
+			if (rs.next()) {
+				Aluno a = new Aluno(rs.getString(2), rs.getString(1), rs.getString(4), rs.getString(3), rs.getString(6),
+						rs.getString(7), rs.getString(5));
 				return a;
-			}
-			else
+			} else
 				return null;
 		} catch (SQLException e) {
 			return null;
@@ -505,6 +538,7 @@ public class BancoDeDados {
 		}
 	}
 
+	//TODO nao usado mais
 	public static Curso getCurso(String nomeCurso) {
 		String sql = "select * from curso where nome = ? ";
 		Connection con = ConnectionFactory.getConnection();
@@ -512,14 +546,10 @@ public class BancoDeDados {
 			PreparedStatement pst = con.prepareStatement(sql);
 			pst.setString(1, nomeCurso);
 			ResultSet rs = pst.executeQuery();
-			if(rs.next()){
-				Curso c = new Curso(
-					rs.getString(1),
-					rs.getInt(2)
-					);
+			if (rs.next()) {
+				Curso c = new Curso(rs.getString(1), rs.getInt(2));
 				return c;
-			}
-			else
+			} else
 				return null;
 		} catch (SQLException e) {
 			return null;
@@ -527,19 +557,16 @@ public class BancoDeDados {
 			ConnectionFactory.close(con);
 		}
 	}
-	
+
 	public static ArrayList<Curso> getCursos() {
-		ArrayList<Curso> ac = new ArrayList<>(); 
+		ArrayList<Curso> ac = new ArrayList<>();
 		String sql = "select * from curso";
 		Connection con = ConnectionFactory.getConnection();
 		try {
 			PreparedStatement pst = con.prepareStatement(sql);
 			ResultSet rs = pst.executeQuery();
-			while(rs.next()){
-				ac.add(new Curso(
-						rs.getString(1),
-						rs.getInt(2)
-						));
+			while (rs.next()) {
+				ac.add(new Curso(rs.getString(1), rs.getInt(2)));
 			}
 			return ac;
 		} catch (SQLException e) {
@@ -549,7 +576,7 @@ public class BancoDeDados {
 		}
 		return ac;
 	}
-	
+
 	public static ArrayList<Recado> getRecados(Aluno aluno) {
 		// TODO fazer o metodo
 		return null;
@@ -572,42 +599,46 @@ public class BancoDeDados {
 			for (Nota nota : d.getNotas()) {
 				notas.add(nota);
 			}
-			
+
 		}
-		return null;
+		return notas;
 	}
-	
-	public static ArrayList<Solicitacao> getSolicitacoes() {
-		// TODO criar metodo
-		return null;
-	}
-	
-	public static Solicitacao getSolicitacao(String codigo) {
-		String sql = "select * from solicitacao where codigo = ? ";
-		Connection con = ConnectionFactory.getConnection();
+
+	public static ArrayList<Solicitacao> getSolicitacoes(String usuario, String senha) {
+		ArrayList<Solicitacao> ss = new ArrayList<>();
 		try {
-			PreparedStatement pst = con.prepareStatement(sql);
-			pst.setInt(1, Integer.parseInt(codigo));
-			ResultSet rs = pst.executeQuery();
-			if(rs.next()){
-				Solicitacao s = new Solicitacao(
-					rs.getInt(1)+"",
-					rs.getString(2),
-					rs.getString(3),
-					getAluno(rs.getString(5)),
-					getDisciplina(rs.getString(4))					
-					);
-				return s;
-			}
-			else
-				return null;
-		} catch (SQLException e) {
+			if (BancoDeDados.loginAdm(usuario, senha)) {
+				saida.println("2260");
+				while (!entrada.hasNextLine());
+				Integer repeticoes = Integer.parseInt(entrada.nextLine());
+				for(int i = 0; i < repeticoes; i++){
+//						new Solicitacao(codigo, tipo, data, cpfAluno, codigoDisciplina)
+					ss.add( new Solicitacao(entrada.nextLine(),entrada.nextLine(),entrada.nextLine(),entrada.nextLine(),entrada.nextLine()));	
+				}
+			} 
+		} catch (NullPointerException e) {
+			JOptionPane.showConfirmDialog(null, "Erro na conexao com o servidor", "Erro", 2);
+			System.exit(-1);
 			return null;
-		} finally {
-			ConnectionFactory.close(con);
 		}
+		return ss;
 	}
-	
+
+	public static Solicitacao getSolicitacao(String codigo, String usuario, String senha) {
+		try {
+			if (BancoDeDados.loginAdm(usuario, senha)) {
+				saida.println("2263");
+				while (!entrada.hasNextLine());
+				return new Solicitacao(entrada.nextLine(),entrada.nextLine(),entrada.nextLine(),entrada.nextLine(),entrada.nextLine());
+			}
+		} catch (NullPointerException e) {
+			JOptionPane.showConfirmDialog(null, "Erro na conexao com o servidor", "Erro", 2);
+			System.exit(-1);
+			return null;
+		}
+		return null;
+	}
+
 	public static String getSituacao(String codigoDisciplina, String cpfAluno) {
 		String sql = "select situacao from matriculadisciplina where disciplina_codigo = ? AND aluno_cpf = ?";
 		Connection con = ConnectionFactory.getConnection();
@@ -616,10 +647,9 @@ public class BancoDeDados {
 			pst.setString(1, codigoDisciplina);
 			pst.setString(2, cpfAluno);
 			ResultSet rs = pst.executeQuery();
-			if(rs.next()){
+			if (rs.next()) {
 				return rs.getString(1);
-			}
-			else
+			} else
 				return null;
 		} catch (SQLException e) {
 			return null;
@@ -629,74 +659,60 @@ public class BancoDeDados {
 	}
 
 	public static boolean loginAdm(String usuario, String senha) {
-		try{
-		saida.println("3000"); 
-		saida.println(usuario);
-		saida.println(senha);
-		while(!entrada.hasNextLine());
-		if(entrada.nextLine().equals("true"))
-			return true;
-		else
-			return false;
-		}
-		catch(NullPointerException e){
-			JOptionPane.showConfirmDialog(null, "Erro na conexao com o servidor", "Erro", 2);
-			System.exit(-1);
-			return false;
-		}
-	}
-	
-	
-	public static Professor loginProfessor(String usuario, String senha) {
-		try{
-			saida.println("3001"); 
+		try {
+			saida.println("3000");
 			saida.println(usuario);
 			saida.println(senha);
-			while(!entrada.hasNextLine());
-			if(entrada.nextLine().equals("true")){
-				//new Professor(nome, cpf, telefone, endereco, valorHora, codigo, formacao, usuario, senha);
-				return new Professor(
-						entrada.nextLine(),
-						entrada.nextLine(),
-						entrada.nextLine(),
-						entrada.nextLine(),
-						Double.parseDouble(entrada.nextLine()),
-						entrada.nextLine(),
-						entrada.nextLine(),
-						entrada.nextLine(),
-						entrada.nextLine()
-						);
-			}
+			while (!entrada.hasNextLine())
+				;
+			if (entrada.nextLine().equals("true"))
+				return true;
 			else
-				return null;
+				return false;
+		} catch (NullPointerException e) {
+			JOptionPane.showConfirmDialog(null, "Erro na conexao com o servidor", "Erro", 2);
+			System.exit(-1);
+			return false;
 		}
-		catch(NullPointerException e){
+	}
+
+	public static Professor loginProfessor(String usuario, String senha) {
+		try {
+			saida.println("3001");
+			saida.println(usuario);
+			saida.println(senha);
+			while (!entrada.hasNextLine())
+				;
+			if (entrada.nextLine().equals("true")) {
+				// new Professor(nome, cpf, telefone, endereco, valorHora,
+				// codigo, formacao, usuario, senha);
+				return new Professor(entrada.nextLine(), entrada.nextLine(), entrada.nextLine(), entrada.nextLine(),
+						Double.parseDouble(entrada.nextLine()), entrada.nextLine(), entrada.nextLine(),
+						entrada.nextLine(), entrada.nextLine());
+			} else
+				return null;
+		} catch (NullPointerException e) {
 			JOptionPane.showConfirmDialog(null, "Erro na conexao com o servidor", "Erro", 2);
 			System.exit(-1);
 			return null;
 		}
 	}
-	
 
 	public static Aluno loginAluno(String usuario, String senha) {
-		String sql = "select senha,cpf from aluno where usuario = ? ";
-		Connection con = ConnectionFactory.getConnection();
 		try {
-			PreparedStatement pst = con.prepareStatement(sql);
-			pst.setString(1, usuario);
-			ResultSet rs = pst.executeQuery();
-			if(rs.next()){
-				if(senha.equals(rs.getString(1)))
-					return getAluno(rs.getString(2));
-				else
-					return null;
-			}
-			else
+			saida.println("3002");
+			saida.println(usuario);
+			saida.println(senha);
+			while (!entrada.hasNextLine());
+			if (entrada.nextLine().equals("true")) {
+//				new Aluno(nome, cpf, telefone, endereco, usuario, senha, codigoCurso)
+				return new Aluno (entrada.nextLine(), entrada.nextLine(), entrada.nextLine(), entrada.nextLine(), entrada.nextLine(), entrada.nextLine(), entrada.nextLine());
+			} else
 				return null;
-		} catch (SQLException e) {
+		} catch (NullPointerException e) {
+			JOptionPane.showConfirmDialog(null, "Erro na conexao com o servidor", "Erro", 2);
+			System.exit(-1);
 			return null;
-		} finally {
-			ConnectionFactory.close(con);
 		}
 	}
 }

@@ -20,10 +20,10 @@ public class Professor extends Pessoa {
 		this.senha = senha;
 	}
 	
-	public Professor(String nome, String cpf, String telefone, String endereco, String codigo) {
-		super(nome, cpf, telefone, endereco);
-		this.codigo = codigo;
-	}
+//	public Professor(String nome, String cpf, String telefone, String endereco, String codigo) {
+//		super(nome, cpf, telefone, endereco);
+//		this.codigo = codigo;
+//	}
 
 	public ArrayList<Disciplina> getDisciplinas() {
 		return disciplinas;

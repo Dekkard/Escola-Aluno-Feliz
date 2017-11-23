@@ -107,7 +107,7 @@ public class LoginAdm extends JFrame {
 					dispose();
 				}
 				else
-					JOptionPane.showConfirmDialog(null, "Usu�rio ou Senha incorretos!", "N�o foi poss�vel fazer login", 2);
+					JOptionPane.showConfirmDialog(null, "Usuario ou Senha incorretos!", "Nao foi possivel fazer login", 2);
 			}
 		});
 		button.setBounds(67, 181, 89, 23);

@@ -37,25 +37,7 @@ public class CadDisc extends JFrame {
 	private JPanel contentPane;
 	private JTable table;
 	private JTextField textField;
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CadDisc frame = new CadDisc(new Aluno("NomeAluno", "cpf", "telefone", "Endere�o", "usuario", "senha", new Curso("NomeCurso",8), null));
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
+	
 	public CadDisc(Aluno aluno) {
 		setType(Type.UTILITY);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -91,22 +73,23 @@ public class CadDisc extends JFrame {
 		table = new JTable(modelo);
 		scrollPane.setColumnHeaderView(table);
 		
-		String[] sem = new String[1+aluno.getCurso().getQtdSemestres()];
+		Integer tam = BancoDeDados.getCurso(aluno.getNomeCurso()).getQtdSemestres();
+		String[] sem = new String[1+tam];
 		sem[0] = "";
-		for(int i = 1; i<=aluno.getCurso().getQtdSemestres(); i++){
-			sem[i] = "" + (i) +"� Semestre";
+		for(int i = 1; i<=tam; i++){
+			sem[i] = "" + (i) +"o Semestre";
 		}
 		JComboBox comboBox = new JComboBox(sem);
 		comboBox.setSelectedIndex(0);
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				for(int i = 1; i<=aluno.getCurso().getQtdSemestres(); i++){
+				for(int i = 1; i<=tam; i++){
 					if(comboBox.getSelectedItem().equals(sem[i])){
 						DefaultTableModel modelo = new DefaultTableModel();
 						table = new JTable(modelo);
 						scrollPane.setViewportView(table);
-						ArrayList<Disciplina> lista = BancoDeDados.getDisciplinas(aluno.getCurso().getNome(),i);
-						modelo.addColumn("C�digo");
+						ArrayList<Disciplina> lista = BancoDeDados.getDisciplinas(aluno.getNomeCurso(),i);
+						modelo.addColumn("Codigo");
 						modelo.addColumn("Nome");
 						modelo.addColumn("Professor");
 						modelo.addColumn("Semestre");
@@ -120,7 +103,7 @@ public class CadDisc extends JFrame {
 		comboBox.setBounds(357, 13, 67, 20);
 		panel_1.add(comboBox);
 		
-		JLabel lblDigiteOCdigo = new JLabel("Digite o c\u00F3digo da disciplina em que deseja se cadastrar:");
+		JLabel lblDigiteOCdigo = new JLabel("Digite o codigo da disciplina em que deseja se cadastrar:");
 		lblDigiteOCdigo.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		lblDigiteOCdigo.setBounds(10, 234, 286, 14);
 		contentPane.add(lblDigiteOCdigo);
@@ -136,11 +119,11 @@ public class CadDisc extends JFrame {
 				Disciplina d = BancoDeDados.getDisciplina(textField.getText());
 				if(d!=null){
 					JOptionPane.showConfirmDialog(null,
-							BancoDeDados.inserir(new Solicitacao("Cadastro",aluno,d)),
+							BancoDeDados.inserir(new Solicitacao("Cadastro",aluno.getCpf(),d.getCodigo())),
 							null,2);
 				}
 				else
-					JOptionPane.showConfirmDialog(null, "C�digo incorreto!",null,2);
+					JOptionPane.showConfirmDialog(null, "Codigo incorreto!",null,2);
 			}
 		});
 		btnNewButton.setBounds(372, 230, 52, 23);
