@@ -72,8 +72,8 @@ public class Servidor {
     			break;
     		case 2253:
     			System.out.println("2253");
-//	    			new Recado(codigo, recado, data, aluno, professor)
-    			e.println(BancoDeDadosServer.inserir(new Recado(s.nextLine(), s.nextLine(), s.nextLine(),  BancoDeDadosServer.getAluno(s.nextLine()), BancoDeDadosServer.getProfessor(s.nextLine()) )));
+//	    			new Recado(codigo, recado, data, cpfAluno, codigoProfessor)
+    			e.println(BancoDeDadosServer.inserir(new Recado(s.nextLine(), s.nextLine(), s.nextLine(), s.nextLine(), s.nextLine())));
     			break;
     		case 2254:
     			System.out.println("2254");
@@ -128,9 +128,12 @@ public class Servidor {
     		case 2263:
     			System.out.println("2263");
     			String[] aas = BancoDeDadosServer.getSolicitacao(s.nextLine());
-    			for (String string : aas) {
-    				e.println(string);
-				}
+    			if (aas != null){
+	    			for (String string : aas) {
+	    				e.println(string);
+					}
+    			}
+    			else e.println("false");
     			break;
     		case 2264:
     			System.out.println("2264");
@@ -139,6 +142,34 @@ public class Servidor {
     		case 2265:
     			System.out.println("2265");
     			e.println(BancoDeDadosServer.existeSolicitacao(s.nextLine()).toString());
+    			break;
+    		case 2266:
+    			System.out.println("2266");
+    			e.println(BancoDeDadosServer.existeCurso(s.nextLine()).toString());
+    			break;
+    		case 2267:
+    			System.out.println("2267");
+    			e.println(BancoDeDadosServer.existeAluno(s.nextLine()).toString());
+    			break;
+    		case 2268:
+    			System.out.println("2268");
+    			e.println(BancoDeDadosServer.existeProfessor(s.nextLine()).toString());
+    			break;
+    		case 2269:
+    			System.out.println("2269");
+    			e.println(BancoDeDadosServer.existeMatricula(s.nextLine(), s.nextLine() ).toString());
+    			break;
+    		case 2270:
+    			System.out.println("2270");
+    			ArrayList<String[]> arrayrec =BancoDeDadosServer.getRecadosAluno(s.nextLine());
+    			if(arrayrec != null){
+    				e.println(arrayrec.size());
+    				for (String[] rec : arrayrec) {
+		    			for (String string : rec)
+		    				e.println(string);
+					}
+    			}
+    			else e.println("false");
     			break;
     		case 3000:
     			System.out.println("3000");
@@ -162,6 +193,27 @@ public class Servidor {
 					}
     			else e.println("false");
     			break;
+    		case 3003:
+    			System.out.println("3003");
+    			e.println(BancoDeDadosServer.loginProfessor(s.nextLine(), s.nextLine()).toString());
+    			break;
+    		case 3004:
+    			System.out.println("3004");
+    			e.println(BancoDeDadosServer.loginAluno(s.nextLine(), s.nextLine()).toString());
+    			break;
+    		case 3005:
+    			System.out.println("3005");
+    			e.println(BancoDeDadosServer.professorTrocaSenha(s.nextLine(), s.nextLine()));
+    			break;
+    		case 3006:
+    			System.out.println("3006");
+    			e.println(BancoDeDadosServer.alunoTrocaSenha(s.nextLine(), s.nextLine()));
+    			break;
+    		case 3007:
+    			System.out.println("3007");
+    			e.println(BancoDeDadosServer.admTrocaSenha(s.nextLine(), s.nextLine()));
+    			break;
     	}
+    	notifyAll();
     }
 }

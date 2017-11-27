@@ -19,6 +19,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
@@ -64,6 +65,8 @@ public class SpaceAdm extends JFrame {
 	private JTable table;
 	private String usuario;
 	private String senha;
+	private JPasswordField passwordField;
+	private JPasswordField passwordField_1;
 
 	/**
 	 * Create the frame.
@@ -189,7 +192,7 @@ public class SpaceAdm extends JFrame {
 		JButton btn1k = new JButton("Ok");
 		btn1k.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(BancoDeDados.existeCurso((String) comboBox_1.getSelectedItem())){
+				if(BancoDeDados.existeCurso((String) comboBox_1.getSelectedItem(), usuario, senha)){
 					Aluno a = new Aluno(
 							textField_1.getText(),
 							textField.getText(),
@@ -200,7 +203,7 @@ public class SpaceAdm extends JFrame {
 							(String) comboBox_1.getSelectedItem(),
 							null
 							);
-					if(BancoDeDados.existeAluno(a.getCpf())){
+					if(BancoDeDados.existeAluno(a.getCpf(), usuario, senha)){
 						int op = JOptionPane.showConfirmDialog(null, "O CPF ja esta cadastrado. O que deseja fazer?");
 						if (op == 0){
 							JOptionPane.showConfirmDialog(null, BancoDeDados.atualizar(a, usuario, senha),"Resultado da atualizacao",2);
@@ -309,7 +312,7 @@ public class SpaceAdm extends JFrame {
 						textField_6.getText(),
 						textField_6.getText()
 						);
-				if(BancoDeDados.existeProfessor(p.getCodigo())){
+				if(BancoDeDados.existeProfessor(p.getCodigo(), usuario, senha)){
 					int op = JOptionPane.showConfirmDialog(null, "O codigo ja esta cadastrado. O que deseja fazer?");
 					if (op == 0){
 						JOptionPane.showConfirmDialog(null, BancoDeDados.atualizar(p,usuario,senha),"Resultado da atualizacao",2);
@@ -391,7 +394,7 @@ public class SpaceAdm extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				Solicitacao s = BancoDeDados.getSolicitacao(textField_14.getText(), usuario, senha);
 				if(s!=null){
-					if(BancoDeDados.existeMatricula(s)){
+					if(BancoDeDados.existeMatricula(s, usuario, senha)){
 						JOptionPane.showConfirmDialog(null, BancoDeDados.mudarSituacaoMatricula(s, "Em curso", usuario, senha),"Resultado da matricula",2);
 					}
 				
@@ -409,6 +412,23 @@ public class SpaceAdm extends JFrame {
 		panel_6.add(btnNewButton);
 		
 		JButton btnTrancarMatrcula = new JButton("Trancar Matricula");
+		btnTrancarMatrcula.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Solicitacao s = BancoDeDados.getSolicitacao(textField_14.getText(), usuario, senha);
+				if(s!=null){
+					if(BancoDeDados.existeMatricula(s, usuario, senha)){
+						JOptionPane.showConfirmDialog(null, BancoDeDados.mudarSituacaoMatricula(s, "Trancado", usuario, senha),"Resultado do trancamento",2);
+					}
+				
+					//Matricula nao existe
+					else{
+						JOptionPane.showConfirmDialog(null, "Matricula inexistente", "Resultado do trancamento",2);
+					}
+				}
+				else
+					JOptionPane.showMessageDialog(null, "Solicitacao inexistente!","Erro",0);
+			}
+		});
 		btnTrancarMatrcula.setFont(new Font("Tahoma", Font.PLAIN, 9));
 		btnTrancarMatrcula.setBounds(316, 145, 105, 23);
 		panel_6.add(btnTrancarMatrcula);
@@ -423,13 +443,57 @@ public class SpaceAdm extends JFrame {
 //		panel_2.add(panel_7);
 		panel_7.setLayout(null);
 		
+		JPanel panel_10 = new JPanel();
+		
 		JButton btnSenha = new JButton("Senha");
+		btnSenha.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				panel_7.repaint();
+				panel_7.add(panel_10);
+			}
+		});
 		btnSenha.setBounds(10, 11, 106, 23);
 		panel_7.add(btnSenha);
 		
-		JButton btnInformao = new JButton("Informacao");
-		btnInformao.setBounds(10, 45, 106, 23);
-		panel_7.add(btnInformao);
+		
+//		JPanel panel_10 = new JPanel();
+		panel_10.setBounds(126, 11, 279, 169);
+//		panel_7.add(panel_10);
+		panel_10.setLayout(null);
+		
+		
+		JLabel lblSenhaNova = new JLabel("Senha Nova");
+		lblSenhaNova.setHorizontalAlignment(SwingConstants.CENTER);
+		lblSenhaNova.setBounds(24, 45, 102, 14);
+		panel_10.add(lblSenhaNova);
+
+		JLabel lblConfirmarSenha = new JLabel("Confirmar Senha");
+		lblConfirmarSenha.setHorizontalAlignment(SwingConstants.CENTER);
+		lblConfirmarSenha.setBounds(24, 68, 102, 14);
+		panel_10.add(lblConfirmarSenha);
+		
+		passwordField = new JPasswordField();
+		passwordField.setBounds(136, 42, 121, 20);
+		panel_10.add(passwordField);
+
+		passwordField_1 = new JPasswordField();
+		passwordField_1.setBounds(136, 65, 121, 20);
+		panel_10.add(passwordField_1);
+
+		JButton btnTrocarSenha = new JButton("Trocar Senha");
+		btnTrocarSenha.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (passwordField.getText().equals(passwordField_1.getText())) {
+					JOptionPane.showConfirmDialog(null, BancoDeDados.admTrocaSenha(passwordField.getText(),usuario, senha),
+							"Resultado", 2);
+				} else {
+					JOptionPane.showConfirmDialog(null, "A senha digitada deve ser igual!",
+							"Não foi possível trocar a senha", 2);
+				}
+			}
+		});
+		btnTrocarSenha.setBounds(99, 93, 105, 23);
+		panel_10.add(btnTrocarSenha);
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));

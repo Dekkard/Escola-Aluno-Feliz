@@ -1,6 +1,7 @@
 package br.com.Space;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -16,7 +17,9 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
@@ -41,6 +44,8 @@ public class SpaceProf extends JFrame {
 	private JTable table;
 	private JTextField textField_1;
 	private JTextField textField_2;
+	private JPasswordField passwordField;
+	private JPasswordField passwordField_1;
 
 	public SpaceProf(Professor prof) {
 		setResizable(false);
@@ -160,24 +165,67 @@ public class SpaceProf extends JFrame {
 		panel_5.add(btnEscreverNovo);
 		
 		JPanel panel_7 = new JPanel();
-		panel_7.setBounds(10, 11, 427, 193);
+		panel_7.setBounds(10, 0, 417, 54);
 //		panel_2.add(panel_7);
+		panel_7.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_7.setLayout(null);
 		
+		JPanel panel_9 = new JPanel();
+		
 		JButton btnSenha = new JButton("Senha");
-		btnSenha.setBounds(10, 11, 106, 23);
+		btnSenha.setBounds(10, 20, 106, 23);
 		panel_7.add(btnSenha);
-		
-		JButton btnInformao = new JButton("Informa\u00E7\u00E3o");
-		btnInformao.setBounds(10, 45, 106, 23);
-		panel_7.add(btnInformao);
+		btnSenha.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panel_1.repaint();
+				panel_1.add(panel_9);
+			}
+		});
+		panel_9.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		panel_9.setBounds(12, 96, 407, 137);
+		panel_9.setLayout(null);
 
+		JLabel lblSenhaNova = new JLabel("Senha Nova");
+		lblSenhaNova.setHorizontalAlignment(SwingConstants.CENTER);
+		lblSenhaNova.setBounds(85, 33, 102, 14);
+		panel_9.add(lblSenhaNova);
+
+		JLabel lblConfirmarSenha = new JLabel("Confirmar Senha");
+		lblConfirmarSenha.setHorizontalAlignment(SwingConstants.CENTER);
+		lblConfirmarSenha.setBounds(85, 56, 102, 14);
+		panel_9.add(lblConfirmarSenha);
+
+		passwordField = new JPasswordField();
+		passwordField.setBounds(197, 30, 121, 20);
+		panel_9.add(passwordField);
+
+		passwordField_1 = new JPasswordField();
+		passwordField_1.setBounds(197, 53, 121, 20);
+		panel_9.add(passwordField_1);
+
+		JButton btnTrocarSenha = new JButton("Trocar Senha");
+		btnTrocarSenha.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (passwordField.getText().equals(passwordField_1.getText())) {
+					JOptionPane.showConfirmDialog(null, BancoDeDados.professorTrocaSenha(passwordField.getText(), prof.getUsuario(), prof.getSenha()),
+							"Resultado", 2);
+				} else {
+					JOptionPane.showConfirmDialog(null, "A senha digitada deve ser igual!",
+							"Não foi possível trocar a senha", 2);
+				}
+			}
+		});
 		
-		
+		btnTrocarSenha.setBounds(160, 81, 105, 23);
+		panel_9.add(btnTrocarSenha);
+
 		JButton btnDisciplinas = new JButton("Disciplinas");
 		btnDisciplinas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				label.setText("Disciplina");
+				panel_1.remove(panel_9);
+				panel_1.repaint();
+				panel_1.add(scrollPane);
 				panel_2.removeAll();
 				panel_2.repaint();
 				panel_2.add(panel_3);
@@ -217,6 +265,9 @@ public class SpaceProf extends JFrame {
 		btnNotas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				label.setText("Notas");
+				panel_1.remove(panel_9);
+				panel_1.repaint();
+				panel_1.add(scrollPane);
 				panel_2.removeAll();
 				panel_2.repaint();
 				panel_2.add(panel_4);
@@ -259,6 +310,9 @@ public class SpaceProf extends JFrame {
 		btnRecados.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				label.setText("Recados");
+				panel_1.remove(panel_9);
+				panel_1.repaint();
+				panel_1.add(scrollPane);
 				panel_2.removeAll();
 				panel_2.repaint();
 				panel_2.add(panel_5);
@@ -270,10 +324,10 @@ public class SpaceProf extends JFrame {
 				ArrayList<Recado> lista = BancoDeDados.getRecados(prof);
 				modelo.addColumn("Recado");
 				modelo.addColumn("Data");
-				modelo.addColumn("Aluno");
+				modelo.addColumn("CpfAluno");
 				if(lista != null)
 					for(Recado c:lista){
-						modelo.addRow(new Object[]{c.getRecado(),c.getData(),c.getAluno().getNome()});
+						modelo.addRow(new Object[]{c.getRecado(),c.getData(),c.getCpfAluno()});
 					}
 			}
 		});
@@ -299,6 +353,8 @@ public class SpaceProf extends JFrame {
 		btnConta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				label.setText("Conta");
+				panel_1.remove(scrollPane);
+				panel_1.repaint();
 				panel_2.removeAll();
 				panel_2.repaint();
 				panel_2.add(panel_7);

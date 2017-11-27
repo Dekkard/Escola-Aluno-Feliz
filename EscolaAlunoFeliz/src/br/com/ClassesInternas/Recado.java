@@ -1,22 +1,35 @@
 package br.com.ClassesInternas;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Recado {
 	private String codigo;
 	private String recado;
 	private String data;
-	private Aluno aluno;
-	private Professor professor;
+	private String cpfAluno;
+	private String codigoProfessor;
 	
-	public Recado(String codigo) {
+	public Recado(String codigo, String recado, String cpfAluno, String codigoProfessor) {
 		this.codigo = codigo;
+		this.recado = recado;
+		this.cpfAluno = cpfAluno;
+		this.codigoProfessor = codigoProfessor;
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		Date data=new Date();
+		this.data = sdf.format(data);
 	}
 
-	public Recado(String codigo, String recado, String data, Aluno aluno, Professor professor) {
+	public Recado(String codigo, String recado, String data, String cpfAluno, String codigoProfessor) {
 		this.codigo = codigo;
 		this.recado = recado;
 		this.data = data;
-		this.aluno = aluno;
-		this.professor = professor;
+		this.cpfAluno = cpfAluno;
+		this.codigoProfessor = codigoProfessor;
+	}
+
+	public Recado(String codigo) {
+		this.codigo = codigo;
 	}
 
 	public String getCodigo() {
@@ -40,19 +53,19 @@ public class Recado {
 		this.data = data;
 	}
 
-	public Aluno getAluno() {
-		return aluno;
+	public String getCpfAluno() {
+		return cpfAluno;
 	}
 
-	public void setAluno(Aluno aluno) {
-		this.aluno = aluno;
+	public void setCpfAluno(String cpfAluno) {
+		this.cpfAluno = cpfAluno;
 	}
 
-	public Professor getProfessor() {
-		return professor;
+	public String getCodigoProfessor() {
+		return codigoProfessor;
 	}
 
-	public void setProfessor(Professor professor) {
-		this.professor = professor;
+	public void setCodigoProfessor(String codigoProfessor) {
+		this.codigoProfessor = codigoProfessor;
 	}
 }

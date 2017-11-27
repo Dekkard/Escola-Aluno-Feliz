@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -17,6 +18,7 @@ import br.com.ClassesInternas.*;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -58,6 +60,8 @@ public class SpaceAluno extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
+	private JPasswordField passwordField;
+	private JPasswordField passwordField_1;
 
 
 	/**
@@ -150,13 +154,56 @@ public class SpaceAluno extends JFrame {
 //		panel.add(panel_7);
 		panel_7.setLayout(null);
 		
+		JPanel panel_3 = new JPanel();
+		
 		JButton btnSenha = new JButton("Senha");
+		btnSenha.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				panel_7.repaint();
+				panel_7.add(panel_3);
+			}
+		});
 		btnSenha.setBounds(10, 11, 106, 23);
 		panel_7.add(btnSenha);
 		
-		JButton btnInformao = new JButton("Informacao");
-		btnInformao.setBounds(10, 45, 106, 23);
-		panel_7.add(btnInformao);
+//		JPanel panel_3 = new JPanel();
+		panel_3.setBounds(126, 11, 279, 169);
+//		panel_7.add(panel_3);
+		panel_3.setLayout(null);
+		
+		
+		JLabel lblSenhaNova = new JLabel("Senha Nova");
+		lblSenhaNova.setHorizontalAlignment(SwingConstants.CENTER);
+		lblSenhaNova.setBounds(24, 45, 102, 14);
+		panel_3.add(lblSenhaNova);
+
+		JLabel lblConfirmarSenha = new JLabel("Confirmar Senha");
+		lblConfirmarSenha.setHorizontalAlignment(SwingConstants.CENTER);
+		lblConfirmarSenha.setBounds(24, 68, 102, 14);
+		panel_3.add(lblConfirmarSenha);
+		
+		passwordField = new JPasswordField();
+		passwordField.setBounds(136, 42, 121, 20);
+		panel_3.add(passwordField);
+
+		passwordField_1 = new JPasswordField();
+		passwordField_1.setBounds(136, 65, 121, 20);
+		panel_3.add(passwordField_1);
+
+		JButton btnTrocarSenha = new JButton("Trocar Senha");
+		btnTrocarSenha.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (passwordField.getText().equals(passwordField_1.getText())) {
+					JOptionPane.showConfirmDialog(null, BancoDeDados.alunoTrocaSenha(passwordField.getText(), aluno.getUsuario(), aluno.getSenha()),
+							"Resultado", 2);
+				} else {
+					JOptionPane.showConfirmDialog(null, "A senha digitada deve ser igual!",
+							"Não foi possível trocar a senha", 2);
+				}
+			}
+		});
+		btnTrocarSenha.setBounds(99, 93, 105, 23);
+		panel_3.add(btnTrocarSenha);
 		
 		JPanel panel_2 = new JPanel();
 		scrollPane.setRowHeaderView(panel_2);
@@ -210,7 +257,7 @@ public class SpaceAluno extends JFrame {
 				modelo.addColumn("Professor");
 				if (lista!= null){
 					for(Recado c:lista){
-						modelo.addRow(new Object[]{c.getRecado(),c.getData(),c.getProfessor().getNome()});
+						modelo.addRow(new Object[]{c.getRecado(),c.getData(),BancoDeDados.getProfessor(c.getCodigoProfessor()).getNome()});
 					}
 				}
 			}

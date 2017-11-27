@@ -95,8 +95,8 @@ public class BancoDeDados {
 				saida.println(r.getCodigo());
 				saida.println(r.getRecado());
 				saida.println(r.getData());
-				saida.println(r.getAluno().getCpf());
-				saida.println(r.getProfessor().getCodigo());
+				saida.println(r.getCpfAluno());
+				saida.println(r.getCodigoProfessor());
 				while (!entrada.hasNextLine());
 				return entrada.nextLine();
 			} else
@@ -221,61 +221,67 @@ public class BancoDeDados {
 		}
 	}
 
-	public static Boolean existeAluno(String cpfAluno) {
-		String sql = "select * from aluno where cpf=?";
-		Connection con = ConnectionFactory.getConnection();
-		try {
-			PreparedStatement pst = con.prepareStatement(sql);
-			pst.setString(1, cpfAluno);
-			ResultSet rs = pst.executeQuery();
-			if (rs.next())
-				return true;
-		} catch (SQLException e) {
-			System.exit(-1);
-		} finally {
-			ConnectionFactory.close(con);
-		}
-		return false;
-	}
-
-	public static Boolean existeProfessor(String codigoProfessor) {
-		String sql = "select * from professor where codigo=?";
-		Connection con = ConnectionFactory.getConnection();
-		try {
-			PreparedStatement pst = con.prepareStatement(sql);
-			pst.setString(1, codigoProfessor);
-			ResultSet rs = pst.executeQuery();
-			if (rs.next())
-				return true;
-		} catch (SQLException e) {
-			System.exit(-1);
-		} finally {
-			ConnectionFactory.close(con);
-		}
-		return false;
-	}
-
-	public static Boolean existeCurso(String nomeCurso) {
-		String sql = "select * from curso where nome=?";
-		Connection con = ConnectionFactory.getConnection();
-		try {
-			PreparedStatement pst = con.prepareStatement(sql);
-			pst.setString(1, nomeCurso);
-			ResultSet rs = pst.executeQuery();
-			if (rs.next())
-				return true;
-		} catch (SQLException e) {
-			System.exit(-1);
-		} finally {
-			ConnectionFactory.close(con);
-		}
-		return false;
-	}
-
-	public static boolean existeSolicitacao(String codigo, String usuario, String senha) {
+	public static Boolean existeAluno(String cpfAluno, String usuario, String senha) {
 		try {
 			if (BancoDeDados.loginAdm(usuario, senha)) {
-				saida.println("2264");
+				saida.println("2267");
+				saida.println(cpfAluno);
+				while (!entrada.hasNextLine())
+					;
+				if (entrada.nextLine().equals("true"))
+					return true;
+			} else
+				JOptionPane.showConfirmDialog(null, "Erro de login", "Erro", 2);
+		} catch (NullPointerException e) {
+			JOptionPane.showConfirmDialog(null, "Erro na conexao com o servidor", "Erro", 2);
+			System.exit(-1);
+		}
+
+		return false;
+	}
+
+	public static Boolean existeProfessor(String codigoProfessor, String usuario, String senha) {
+		try {
+			if (BancoDeDados.loginAdm(usuario, senha)) {
+				saida.println("2268");
+				saida.println(codigoProfessor);
+				while (!entrada.hasNextLine())
+					;
+				if (entrada.nextLine().equals("true"))
+					return true;
+			} else
+				JOptionPane.showConfirmDialog(null, "Erro de login", "Erro", 2);
+		} catch (NullPointerException e) {
+			JOptionPane.showConfirmDialog(null, "Erro na conexao com o servidor", "Erro", 2);
+			System.exit(-1);
+		}
+
+		return false;
+	}
+
+	public static Boolean existeCurso(String nomeCurso, String usuario, String senha) {
+		try {
+			if (BancoDeDados.loginAdm(usuario, senha)) {
+				saida.println("2266");
+				saida.println(nomeCurso);
+				while (!entrada.hasNextLine())
+					;
+				if (entrada.nextLine().equals("true"))
+					return true;
+			} else
+				JOptionPane.showConfirmDialog(null, "Erro de login", "Erro", 2);
+		} catch (NullPointerException e) {
+			JOptionPane.showConfirmDialog(null, "Erro na conexao com o servidor", "Erro", 2);
+			System.exit(-1);
+		}
+
+		return false;
+	}
+
+	public static Boolean existeSolicitacao(String codigo, String usuario, String senha) {
+		try {
+			if (BancoDeDados.loginAdm(usuario, senha)) {
+				saida.println("2265");
 				saida.println(codigo);
 				while (!entrada.hasNextLine())
 					;
@@ -291,21 +297,23 @@ public class BancoDeDados {
 		return false;
 	}
 
-	public static boolean existeMatricula(Solicitacao s) {
-		String sql = "select * from matriculaDisciplina where disciplina_codigo = ? AND aluno_cpf = ?";
-		Connection con = ConnectionFactory.getConnection();
+	public static Boolean existeMatricula(Solicitacao s, String usuario, String senha) {
 		try {
-			PreparedStatement pst = con.prepareStatement(sql);
-			pst.setString(1, s.getCodigoDisciplina());
-			pst.setString(2, s.getCpfAluno());
-			ResultSet rs = pst.executeQuery();
-			if (rs.next())
-				return true;
-		} catch (SQLException e) {
+			if (BancoDeDados.loginAdm(usuario, senha)) {
+				saida.println("2269");
+				saida.println(s.getCodigoDisciplina());
+				saida.println(s.getCpfAluno());
+				while (!entrada.hasNextLine())
+					;
+				if (entrada.nextLine().equals("true"))
+					return true;
+			} else
+				JOptionPane.showConfirmDialog(null, "Erro de login", "Erro", 2);
+		} catch (NullPointerException e) {
+			JOptionPane.showConfirmDialog(null, "Erro na conexao com o servidor", "Erro", 2);
 			System.exit(-1);
-		} finally {
-			ConnectionFactory.close(con);
 		}
+
 		return false;
 	}
 
@@ -411,7 +419,7 @@ public class BancoDeDados {
 	public static String excluir(String codigoSolicitacao, String usuario, String senha) {
 		try {
 			if (BancoDeDados.loginAdm(usuario, senha)) {
-				saida.println("2263");
+				saida.println("2262");
 				saida.println(codigoSolicitacao);
 				while (!entrada.hasNextLine());
 				return entrada.nextLine();
@@ -496,7 +504,7 @@ public class BancoDeDados {
 		return disciplinas;
 	}
 
-	//TODO nao usado mais
+	//Nao precisa de senha
 	public static Professor getProfessor(String codigo) {
 		String sql = "select * from professor where codigo = ? ";
 		Connection con = ConnectionFactory.getConnection();
@@ -578,8 +586,27 @@ public class BancoDeDados {
 	}
 
 	public static ArrayList<Recado> getRecados(Aluno aluno) {
-		// TODO fazer o metodo
-		return null;
+		ArrayList<Recado> recados = new ArrayList<>();
+		try {
+			if (BancoDeDados.existeAluno(aluno.getUsuario(), aluno.getSenha())) {
+				saida.println("2270");
+				saida.println(aluno.getCpf());
+				while (!entrada.hasNextLine());
+				if(entrada.nextLine().equals("true")){
+					System.out.println("BancoideDados.getRecados");
+					Integer repeticoes = Integer.parseInt(entrada.nextLine());
+					for(int i = 0; i < repeticoes; i++){
+//							new Recado(codigo, recado, data, aluno, codigoProfessor)
+						recados.add( new Recado(entrada.nextLine(),entrada.nextLine(),entrada.nextLine(),entrada.nextLine(),entrada.nextLine()));	
+					}
+				}
+			} 
+		} catch (NullPointerException e) {
+			JOptionPane.showConfirmDialog(null, "Erro na conexao com o servidor", "Erro", 2);
+			System.exit(-1);
+			return null;
+		}
+		return recados;
 	}
 
 	public static ArrayList<Recado> getRecados(Professor prof) {
@@ -610,10 +637,12 @@ public class BancoDeDados {
 			if (BancoDeDados.loginAdm(usuario, senha)) {
 				saida.println("2260");
 				while (!entrada.hasNextLine());
-				Integer repeticoes = Integer.parseInt(entrada.nextLine());
-				for(int i = 0; i < repeticoes; i++){
-//						new Solicitacao(codigo, tipo, data, cpfAluno, codigoDisciplina)
-					ss.add( new Solicitacao(entrada.nextLine(),entrada.nextLine(),entrada.nextLine(),entrada.nextLine(),entrada.nextLine()));	
+				if(entrada.nextLine().equals("true")){
+					Integer repeticoes = Integer.parseInt(entrada.nextLine());
+					for(int i = 0; i < repeticoes; i++){
+	//						new Solicitacao(codigo, tipo, data, cpfAluno, codigoDisciplina)
+						ss.add( new Solicitacao(entrada.nextLine(),entrada.nextLine(),entrada.nextLine(),entrada.nextLine(),entrada.nextLine()));	
+					}
 				}
 			} 
 		} catch (NullPointerException e) {
@@ -628,8 +657,12 @@ public class BancoDeDados {
 		try {
 			if (BancoDeDados.loginAdm(usuario, senha)) {
 				saida.println("2263");
+				saida.println(codigo);
 				while (!entrada.hasNextLine());
-				return new Solicitacao(entrada.nextLine(),entrada.nextLine(),entrada.nextLine(),entrada.nextLine(),entrada.nextLine());
+				if (entrada.nextLine().equals("true")) {
+					//new Solicitacao(codigo, tipo, data, cpfAluno, codigoDisciplina)
+					return new Solicitacao(entrada.nextLine(),entrada.nextLine(),entrada.nextLine(),entrada.nextLine(),entrada.nextLine());
+				}
 			}
 		} catch (NullPointerException e) {
 			JOptionPane.showConfirmDialog(null, "Erro na conexao com o servidor", "Erro", 2);
@@ -715,4 +748,91 @@ public class BancoDeDados {
 			return null;
 		}
 	}
+	
+	public static Boolean existeProfessor(String usuario, String senha) {
+		try {
+			saida.println("3003");
+			saida.println(usuario);
+			saida.println(senha);
+			while (!entrada.hasNextLine());
+			if (entrada.nextLine().equals("true"))
+				return true;
+			else
+				return false;
+		} catch (NullPointerException e) {
+			JOptionPane.showConfirmDialog(null, "Erro na conexao com o servidor", "Erro", 2);
+			System.exit(-1);
+			return false;
+		}
+	}
+	
+	public static Boolean existeAluno(String usuario, String senha) {
+		try {
+			saida.println("3004");
+			saida.println(usuario);
+			saida.println(senha);
+			while (!entrada.hasNextLine())
+				;
+			if (entrada.nextLine().equals("true"))
+				return true;
+			else
+				return false;
+		} catch (NullPointerException e) {
+			JOptionPane.showConfirmDialog(null, "Erro na conexao com o servidor", "Erro", 2);
+			System.exit(-1);
+			return false;
+		}
+	}
+	
+	public static String professorTrocaSenha(String password, String usuario, String senha) {
+		try {
+			if (BancoDeDados.existeProfessor(usuario, senha)) {
+				saida.println("3005");
+				saida.println(password);
+				saida.println(usuario);
+				while (!entrada.hasNextLine());
+				return entrada.nextLine();
+			} else
+				return "Erro de Login";
+		} catch (NullPointerException e) {
+			JOptionPane.showConfirmDialog(null, "Erro na conexao com o servidor", "Erro", 2);
+			System.exit(-1);
+			return "";
+		}
+	}
+
+	public static String alunoTrocaSenha(String password, String usuario, String senha) {
+		try {
+			if (BancoDeDados.existeAluno(usuario, senha)) {
+				saida.println("3006");
+				saida.println(password);
+				saida.println(usuario);
+				while (!entrada.hasNextLine());
+				return entrada.nextLine();
+			} else
+				return "Erro de Login";
+		} catch (NullPointerException e) {
+			JOptionPane.showConfirmDialog(null, "Erro na conexao com o servidor", "Erro", 2);
+			System.exit(-1);
+			return "";
+		}
+	}
+
+	public static String admTrocaSenha(String password, String usuario, String senha) {
+		try {
+			if (BancoDeDados.loginAdm(usuario, senha)) {
+				saida.println("3007");
+				saida.println(password);
+				saida.println(usuario);
+				while (!entrada.hasNextLine());
+				return entrada.nextLine();
+			} else
+				return "Erro de Login";
+		} catch (NullPointerException e) {
+			JOptionPane.showConfirmDialog(null, "Erro na conexao com o servidor", "Erro", 2);
+			System.exit(-1);
+			return "";
+		}
+	}
+
 }

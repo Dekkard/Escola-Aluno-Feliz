@@ -94,7 +94,7 @@ public class LoginProf extends JFrame {
 		label.setBounds(34, 144, 63, 14);
 		panel.add(label);
 		
-		JLabel label_1 = new JLabel("Usu\u00E1rio");
+		JLabel label_1 = new JLabel("Usuario");
 		label_1.setBounds(34, 113, 63, 14);
 		panel.add(label_1);
 		

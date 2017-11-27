@@ -104,8 +104,8 @@ public class BancoDeDadosServer {
 			PreparedStatement pst = con.prepareStatement(sql);
 			pst.setString(1, r.getRecado());
 			pst.setString(2, r.getData());
-			pst.setString(3, r.getProfessor().getCodigo());
-			pst.setString(4, r.getAluno().getCpf());
+			pst.setString(3, r.getCodigoProfessor());
+			pst.setString(4, r.getCpfAluno());
 			int res = pst.executeUpdate();
 			if(res > 0){
 				return "Inserido com sucesso.";
@@ -248,7 +248,7 @@ public class BancoDeDadosServer {
 	}
 	
 	/**
-	 * 
+	 * codigo = 2267
 	 */
 	public static Boolean existeAluno(String cpfAluno) {
 		String sql = "select * from aluno where cpf=?";
@@ -268,7 +268,7 @@ public class BancoDeDadosServer {
 	}
 	
 	/**
-	 * 
+	 * codigo = 2268
 	 */
 	public static Boolean existeProfessor(String codigoProfessor){
 		String sql = "select * from professor where codigo=?";
@@ -288,7 +288,7 @@ public class BancoDeDadosServer {
 	}
 	
 	/**
-	 * 
+	 * codigo = 2266
 	 */
 	public static Boolean existeCurso(String nomeCurso){
 		String sql = "select * from curso where nome=?";
@@ -328,15 +328,15 @@ public class BancoDeDadosServer {
 	}
 	
 	/**
-	 * 
+	 * codigo = 2269
 	 */	
-	public static Boolean existeMatricula(Solicitacao s) {
+	public static Boolean existeMatricula(String CodigoDisciplina, String CpfAluno) {
 		String sql = "select * from matriculaDisciplina where disciplina_codigo = ? AND aluno_cpf = ?";
 		Connection con = ConnectionFactory.getConnection();
 		try {
 			PreparedStatement pst = con.prepareStatement(sql);
-			pst.setString(1, s.getCodigoDisciplina());
-			pst.setString(2, s.getCpfAluno());
+			pst.setString(1,CodigoDisciplina);
+			pst.setString(2,CpfAluno);
 			ResultSet rs = pst.executeQuery();
 			if (rs.next()) 
 				return true;
@@ -482,7 +482,8 @@ public class BancoDeDadosServer {
 		Connection con = ConnectionFactory.getConnection();
 		try {
 			PreparedStatement pst = con.prepareStatement(sql);
-			pst.setString(1, codigoSolicitacao);
+			System.out.println(codigoSolicitacao);
+			pst.setInt(1, Integer.parseInt(codigoSolicitacao));
 			int res = pst.executeUpdate();
 			if(res > 0){
 				return "Excluido com sucesso.";
@@ -710,17 +711,41 @@ public class BancoDeDadosServer {
 	}
 
 	/**
-	 * 
+	 * codigo = 2270
 	 */
-	public static ArrayList<Recado> getRecados(Aluno aluno) {
-		// TODO fazer o m�todo
+	public static ArrayList<String[]> getRecadosAluno(String cpfAluno) {
+		String sql = "select * from recado where aluno_cpf = ? ";
+		Connection con = ConnectionFactory.getConnection();
+		try {
+			PreparedStatement pst = con.prepareStatement(sql);
+			pst.setString(1, cpfAluno);
+			ResultSet rs = pst.executeQuery();
+			ArrayList<String[]> arrays = new ArrayList<String[]>();
+			if(rs.next()){
+				while(rs.next()){
+					String[] s = {
+						"true",
+						rs.getInt(1)+"",
+						rs.getString(2),
+						rs.getString(3),
+						rs.getString(5),
+						rs.getString(4)					
+					};
+					arrays.add(s);
+				}
+				return arrays;
+			}
+		} catch (SQLException e) {
+		} finally {
+			ConnectionFactory.close(con);
+		}
 		return null;
 	}
 
 	/**
 	 * 
 	 */
-	public static ArrayList<Recado> getRecados(Professor prof) {
+	public static ArrayList<Recado> getRecadosProfessor(String codigoProf) {
 		// TODO Fazer m�todo
 		return null;
 	}
@@ -762,6 +787,7 @@ public class BancoDeDadosServer {
 				do{
 	//				new Solicitacao(codigo, tipo, data, cpfAluno, codigoDisciplina)
 					String[] s = {
+							"true",
 							rs.getInt(1)+"",
 							rs.getString(2),
 							rs.getString(3),
@@ -793,6 +819,7 @@ public class BancoDeDadosServer {
 			ResultSet rs = pst.executeQuery();
 			if(rs.next()){
 				String[] s = {
+					"true",
 					rs.getInt(1)+"",
 					rs.getString(2),
 					rs.getString(3),
@@ -861,6 +888,7 @@ public class BancoDeDadosServer {
 
 	/**
 	 * usado apenas internamente
+	 * codigo = 3003
 	 */
 	public static Boolean loginProfessor(String usuario, String senha) {
 		String sql = "select senha from professor where usuario = ? ";
@@ -922,7 +950,8 @@ public class BancoDeDadosServer {
 	
 
 	/**
-	 * usado apenas internamente
+	 * usado internamente
+	 * codigo = 3004
 	 */
 	public static Boolean loginAluno(String usuario, String senha) {
 		String sql = "select senha from aluno where usuario = ? ";
@@ -974,6 +1003,78 @@ public class BancoDeDadosServer {
 		catch (SQLException e) {
 			return null;
 		} finally {
+			ConnectionFactory.close(con);
+		}
+	}
+	
+	/**
+	 * codigo 3005
+	 */
+	public static String professorTrocaSenha(String password, String usuario) {
+		String sql = "update professor set senha = ? where usuario = ?";
+		Connection con = ConnectionFactory.getConnection();
+
+		try{
+			PreparedStatement pst = con.prepareStatement(sql);
+			pst.setString(1, password);
+			pst.setString(2, usuario);
+			int res = pst.executeUpdate();
+			if(res > 0){
+				return "Atualizado com sucesso. Por favor, relogue!";
+			}else{
+				return "Erro ao atualizar.";
+			}
+		}catch(SQLException e){
+			return e.getMessage();
+		}finally {
+			ConnectionFactory.close(con);
+		}
+	}
+
+	/**
+	 * codigo 3006
+	 */
+	public static String alunoTrocaSenha(String password, String usuario) {
+		String sql = "update aluno set senha = ? where usuario = ?";
+		Connection con = ConnectionFactory.getConnection();
+
+		try{
+			PreparedStatement pst = con.prepareStatement(sql);
+			pst.setString(1, password);
+			pst.setString(2, usuario);
+			int res = pst.executeUpdate();
+			if(res > 0){
+				return "Atualizado com sucesso. Por favor, relogue!";
+			}else{
+				return "Erro ao atualizar.";
+			}
+		}catch(SQLException e){
+			return e.getMessage();
+		}finally {
+			ConnectionFactory.close(con);
+		}
+	}
+	
+	/**
+	 * codigo 3007
+	 */
+	public static String admTrocaSenha(String password, String usuario) {
+		String sql = "update administrador set senha = ? where usuario = ?";
+		Connection con = ConnectionFactory.getConnection();
+
+		try{
+			PreparedStatement pst = con.prepareStatement(sql);
+			pst.setString(1, password);
+			pst.setString(2, usuario);
+			int res = pst.executeUpdate();
+			if(res > 0){
+				return "Atualizado com sucesso. Por favor, relogue!";
+			}else{
+				return "Erro ao atualizar.";
+			}
+		}catch(SQLException e){
+			return e.getMessage();
+		}finally {
 			ConnectionFactory.close(con);
 		}
 	}
